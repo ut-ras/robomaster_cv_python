@@ -10,13 +10,14 @@ import time
 #begin initialization
 def run_forever():
 	RealSense = dp.RealSense()
+	RealSense.initialize_real_sense()
 	detector = od.object_detector()
 	detector.initialize_object_detections()
 	com.initialize_communication()
 	#list of all bounding boxes ever
 	armor_plate_list = []
 	boundingbox_list = []
-	intrinsics = dp.get_intrinsics()
+	intrinsics = RealSense.get_intrinsics()
 	object = objectlog.objectlog()
 	no_data_pos = {
 		'x_pos':np.float32(0),
@@ -40,7 +41,7 @@ def run_forever():
 		RealSense.get_color_depth_image()
 		detector.run_object_detections(RealSense, boundingbox_list)
 		armor_plate_list.extend(boundingbox_list)
-
+		end_time = time.time()
 		if(len(boundingbox_list)==0):
 			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
 			boundingbox_list.clear()
@@ -56,15 +57,14 @@ def run_forever():
 		print("Position values",pos)
 		print("Velocity values", vel)
 		print("Acceleration", acc)
-		print("total time for system to run", end_time - start_time)
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		
 		boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
-		# cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-		# cv2.imshow('RealSense', color_image)
-		# cv2.waitKey(1)
+		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+		cv2.imshow('RealSense', RealSense.get_color_image())
+		cv2.waitKey(1)
 
 
 

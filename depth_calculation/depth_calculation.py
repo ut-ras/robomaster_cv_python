@@ -85,10 +85,10 @@ class RealSense:
 
 #index into depth image using coordinates from bounding box
 #helper function for set_all_bounding_box_depth_values()
-    def get_depth_value_from_bounding_box(self, RealSense, bounding_box):
+    def get_depth_value_from_bounding_box(self, bounding_box):
         #return a float by indexing into the numpy array using the coordinates given by the bounding box
-        x_center = bounding_box.get_x_center()
-        y_center = bounding_box.get_y_center()
+        x1, x2 = bounding_box.get_x_value()
+        y1, y2 = bounding_box.get_y_value()
 
         color_frame = self.__color_frame__
         depth_frame = self.__depth_frame__
@@ -101,19 +101,28 @@ class RealSense:
         depth_scale = profile.get_device().first_depth_sensor().get_depth_scale()
         # fov = rs.rs2_fov(color_intrinsics)
 
-        depth_value = rs.rs2_project_color_pixel_to_depth_pixel(
+        corner_one = rs.rs2_project_color_pixel_to_depth_pixel(
         depth_frame.get_data(), depth_scale,
         0.1, 15,
-        depth_intrinsics, color_intrinsics, depth_to_color_extrin, color_to_depth_extrin, (x_center, y_center))
+        depth_intrinsics, color_intrinsics, depth_to_color_extrin, color_to_depth_extrin, (x1, y1))
 
+        corner_two = rs.rs2_project_color_pixel_to_depth_pixel(
+        depth_frame.get_data(), depth_scale,
+        0.1, 15,
+        depth_intrinsics, color_intrinsics, depth_to_color_extrin, color_to_depth_extrin, (x2, y2))
 
+        x1 = int(corner_one[0])
+        y1 = int(corner_one[1])
+
+        x2 = int(corner_two[0])
+        y2 = int(corner_two[1])
         #TODO
         #Why is this array sometimes empty?
         #Either ignore NaNs or catch edge cases for when NaNs occur
-        # depth_box = self.__depth_image__[y1:y2, x1:x2]
+        depth_box = self.__depth_image__[y1:y2, x1:x2]
 
         #not using nanmean as nan is not returned for integer data types
-        # depth_value = np.mean(depth_box[np.nonzero(depth_box)])
+        depth_value = np.mean(depth_box[np.nonzero(depth_box)])
 
         #To convert to meters, also casts depth value to np.float32
         depth_value = depth_value/np.float32(1000)
