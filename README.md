@@ -1,6 +1,6 @@
 # LIDAR
 
-![Programming Meme](meme.jpg?raw=true)
+![Programming Meme](Meme.jpg?raw=true)
 
 Repo for lidar implementation 
 
