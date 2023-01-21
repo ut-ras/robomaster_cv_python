@@ -3,20 +3,6 @@
 # Assumes repository is in base directory
 cd ~/VEXU_GHOST
 
-# Get processor architecture to determine if we should build simulator or not (not on robot hardware)
-# arch=$(uname -p)
-
-# Build ignores simulator packages on embedded devices
-# if [ "$arch" == 'x86_64' ];
-# then 
-#     colcon build
-# fi
-
-# if [ "$arch" == 'aarch64' ];
-# then 
-#     colcon build --packages-select ghost_ros
-# fi
-
 # Build simulator packages depending on what is passed for FULLBUILD
 if [ "$1" == "EMBEDBUILD" ];
 then 
