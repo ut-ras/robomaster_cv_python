@@ -31,6 +31,10 @@ RUN sudo apt-get update -y && \
 
 COPY . /root/VEXU_GHOST
 
+RUN apt-get install -y dos2unix && \
+    find /root/VEXU_GHOST -type f -exec dos2unix {} + && \
+    chmod -R +x /root/VEXU_GHOST
+
 RUN mkdir /root/VEXU_GHOST/ghost_sim/rviz && \
     /root/VEXU_GHOST/scripts/install_dependencies.sh
 
