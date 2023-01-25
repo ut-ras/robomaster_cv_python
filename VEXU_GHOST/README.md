@@ -27,6 +27,7 @@
 ## Troubleshooting
 * Running `xeyes` (and having some eyes follow your mouse around the scene) is a good way to check basic x11 forwarding is working.
 * If get "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!" when trying to ssh into the container, you may need to remove the known_host files in your local .ssh directory. Note that this should only happen if you change up your container and you should take caution when doing this especially if you ssh into other devices. Do some research first.
+* If you get the error "fatal: mot a git repository", navigate to the VEXU_GHOST folder and run "git init" and then "git submodule add https://github.com/MaxxWilson/amrl_shared_lib.git ghost_estimation/src/shared". This error happens when git initializes in a funny manner.
 
 ## Interesting Links & Explanations
 * Here is an explanation of our VNC setup that may help you work through issues <https://jasonmurray.org/posts/2021/x11vnc/>
