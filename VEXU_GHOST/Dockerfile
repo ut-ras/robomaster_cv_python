@@ -38,6 +38,8 @@ RUN apt-get install -y dos2unix && \
 RUN mkdir /root/VEXU_GHOST/ghost_sim/rviz && \
     /root/VEXU_GHOST/scripts/install_dependencies.sh
 
+RUN /root/VEXU_GHOST/scripts/setup_paths.sh
+
 RUN source /ros_entrypoint.sh && \
     /root/VEXU_GHOST/scripts/build.sh
 
