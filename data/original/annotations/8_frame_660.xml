@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>eadb7914-8_frame_660.png</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>848</width>
+<height>480</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Blue Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>185</xmin>
+<ymin>147</ymin>
+<xmax>190</xmax>
+<ymax>161</ymax>
+</bndbox>
+</object>
+<object>
+<name>Blue Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>240</xmin>
+<ymin>148</ymin>
+<xmax>245</xmax>
+<ymax>163</ymax>
+</bndbox>
+</object>
+<object>
+<name>Blue Plate</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>185</xmin>
+<ymin>139</ymin>
+<xmax>246</xmax>
+<ymax>170</ymax>
+</bndbox>
+</object>
+</annotation>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>fcd91ad3-4_frame_1985.png</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>848</width>
+<height>480</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Blue Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>577</xmin>
+<ymin>145</ymin>
+<xmax>585</xmax>
+<ymax>169</ymax>
+</bndbox>
+</object>
+<object>
+<name>Blue Plate</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>577</xmin>
+<ymin>131</ymin>
+<xmax>614</xmax>
+<ymax>175</ymax>
+</bndbox>
+</object>
+<object>
+<name>Red Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>658</xmin>
+<ymin>124</ymin>
+<xmax>662</xmax>
+<ymax>134</ymax>
+</bndbox>
+</object>
+<object>
+<name>Red Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>681</xmin>
+<ymin>124</ymin>
+<xmax>685</xmax>
+<ymax>135</ymax>
+</bndbox>
+</object>
+<object>
+<name>Red Plate</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>658</xmin>
+<ymin>118</ymin>
+<xmax>685</xmax>
+<ymax>138</ymax>
+</bndbox>
+</object>
+</annotation>

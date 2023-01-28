@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>21258eb0-3_frame_938.png</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>848</width>
+<height>480</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Red Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>46</xmin>
+<ymin>70</ymin>
+<xmax>63</xmax>
+<ymax>86</ymax>
+</bndbox>
+</object>
+<object>
+<name>Red Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>96</xmin>
+<ymin>66</ymin>
+<xmax>107</xmax>
+<ymax>81</ymax>
+</bndbox>
+</object>
+<object>
+<name>Red Plate</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>48</xmin>
+<ymin>58</ymin>
+<xmax>106</xmax>
+<ymax>94</ymax>
+</bndbox>
+</object>
+</annotation>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>33c6e6bd-3_frame_1839.png</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>848</width>
+<height>480</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Red Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>346</xmin>
+<ymin>144</ymin>
+<xmax>352</xmax>
+<ymax>159</ymax>
+</bndbox>
+</object>
+<object>
+<name>Red Plate</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>346</xmin>
+<ymin>135</ymin>
+<xmax>381</xmax>
+<ymax>165</ymax>
+</bndbox>
+</object>
+<object>
+<name>Blue Light</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>789</xmin>
+<ymin>199</ymin>
+<xmax>800</xmax>
+<ymax>229</ymax>
+</bndbox>
+</object>
+<object>
+<name>Blue Plate</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>798</xmin>
+<ymin>181</ymin>
+<xmax>847</xmax>
+<ymax>247</ymax>
+</bndbox>
+</object>
+</annotation>
