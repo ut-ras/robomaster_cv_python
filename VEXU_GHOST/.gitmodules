@@ -1,3 +1,6 @@
 [submodule "ghost_estimation/src/shared"]
 	path = ghost_estimation/src/shared
 	url = https://github.com/MaxxWilson/amrl_shared_lib.git
+[submodule "amrl_shared_lib"]
+	path = amrl_shared_lib
+	url = https://github.com/MaxxWilson/amrl_shared_lib.git
