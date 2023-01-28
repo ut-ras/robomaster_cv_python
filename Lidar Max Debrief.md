@@ -24,6 +24,7 @@ For example, consider a node that publishes a message of type std_msgs::String o
 <br>
 c
 Copy code
+
 ```
 #include <ros/ros.h>
 #include <std_msgs/String.h>
@@ -48,6 +49,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 ```
+
 <br>
 On the other hand, to subscribe to a topic, a node must use the ros::NodeHandle::subscribe() function, which takes the name of the topic and the message type as arguments and returns a subscriber object. Once the node has a subscriber object, it can use the ros::Subscriber::subscribe() function to specify a callback function that will be called each time a message is received on the topic.
 <br>
@@ -55,6 +57,7 @@ For example, consider a node that subscribes to the "chat" topic and prints the 
 <br>
 c
 Copy code
+
 ```
 #include <ros/ros.h>
 #include <std_msgs/String.h>
@@ -74,6 +77,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 ```
+
 <p>
 It's important to note that in order for nodes to be able to communicate with each other, they must be running in the same ROS master. Additionally, nodes must also have the appropriate message type defined in order to be able to publish or subscribe to a topic.
 </p>
