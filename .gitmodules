@@ -1,0 +1,3 @@
+[submodule "robomasters-object-detection"]
+	path = robomasters-object-detection
+	url = https://github.com/ThinkBuildMake/robomasters-object-detection.git
