@@ -94,3 +94,10 @@ Odometery data is used to generate a bunch of particles. The particles are then 
 
 <br>
 
+# Links Max Shared
+https://amrl.cs.utexas.edu/interactive-particle-filters/
+https://amrl.cs.utexas.edu/CS393R-F21/schedule.html
+https://docs.google.com/presentation/d/1_Xf2ofKbhGXplpgpBbtXO4tp-05S5YHRNsiEoyEn4t0/edit#slide=id.g97eebe71ab_0_99
+https://docs.google.com/presentation/d/1dSeiL4YbJ0yVgzvhlraW60Nufs04HkocrBpfwZl-RnQ/edit#slide=id.gf25d405d51_0_0
+http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html
+https://github.com/ut-amrl/amrl_maps
