@@ -86,4 +86,8 @@ It's important to note that in order for nodes to be able to communicate with ea
 
 <p>
 We need to tune the LIDAR system for the particular field after the A&M scrim.
+
+Odometery data is used to generate a bunch of particles. The particles are then updated based on the LIDAR data. The particles are then resampled based on their weight. The particles with the highest weight are used to estimate the robot's position and orientation. This estimate is then used for controlling the robot's movement and for planning its path.
  </p>
+
+ <>
