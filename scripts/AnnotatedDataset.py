@@ -1,5 +1,6 @@
-from pathlib import Path
+from __future__ import annotations
 
+from pathlib import Path
 import numpy as np
 import torch
 import glob
@@ -16,17 +17,24 @@ CLASS_TO_ID = {"Red Light": 0,
                "Blue Light": 1,
                "Blue Plate": 2,
                "Red Plate": 3}
+ID_TO_CLASS = {v: k for k, v in CLASS_TO_ID.items()}
 
 
 class BoundingBox:
-    def __init__(self, class_name, xmin=None, ymin=None, xmax=None, ymax=None, center_x=None, center_y=None, width=None,
+    def __init__(self, class_name=None, class_id=None, xmin=None, ymin=None, xmax=None, ymax=None, center_x=None,
+                 center_y=None, width=None,
                  height=None):
-        self.class_name = class_name
-        assert class_name in CLASS_TO_ID, "Invalid class name"
-        self.class_id = CLASS_TO_ID[class_name]
+        if class_name is not None:
+            self.class_name = class_name
+            assert class_name in CLASS_TO_ID, "Invalid class name"
+            self.class_id = CLASS_TO_ID[class_name]
+        elif class_id is not None:
+            self.class_id = class_id
+            self.class_name = ID_TO_CLASS[class_id]
 
         self.is_corner_style = bool(xmin is not None and ymin is not None and xmax is not None and ymax is not None)
-        self.is_yolo_style = bool(center_x is not None and center_y is not None and width is not None and height is not None)
+        self.is_yolo_style = bool(
+            center_x is not None and center_y is not None and width is not None and height is not None)
 
         assert self.is_yolo_style or (xmax >= xmin and ymax >= ymin), "Invalid corner format"
         assert self.is_corner_style or (width >= 0 and height >= 0), "Invalid yolo style format"
@@ -63,6 +71,40 @@ class BoundingBox:
         Returns ((xmin, ymin), (xmax, ymax))
         """
         return (self.xmin, self.ymin), (self.xmax, self.ymax)
+
+    def convert_corner_numpy(self) -> np.ndarray:
+        """
+        Returns np.array([xmin, ymin, xmax, ymax, class_id])
+        """
+        return np.array(list((self.xmin, self.ymin, self.xmax, self.ymax, self.class_id)))
+
+    def swap_color(self) -> None:
+        """
+        Swap labels from red to blue or vice versa
+        """
+        if self.class_name == "Red Light":
+            self.class_name = "Blue Light"
+        elif self.class_name == "Red Plate":
+            self.class_name = "Blue Plate"
+        elif self.class_name == "Blue Light":
+            self.class_name = "Red Light"
+        elif self.class_name == "Blue Plate":
+            self.class_name = "Red Plate"
+        else:
+            raise Exception(f"Unhandled class name: {self.class_name}")
+        self.class_id = CLASS_TO_ID[self.class_name]
+
+    @staticmethod
+    def bboxes_to_numpy(bboxes: List[BoundingBox]):
+        return np.stack([bbox.convert_corner_numpy() for bbox in bboxes], axis=0)
+
+    @staticmethod
+    def numpy_to_bboxes(bboxes_np: np.ndarray):
+        bboxes = []
+        for bbox_np in bboxes_np:
+            bboxes.append(BoundingBox(class_id=bbox_np[4], xmin=bbox_np[0], ymin=bbox_np[1], xmax=bbox_np[2],
+                                      ymax=bbox_np[3]))
+        return bboxes
 
 
 def get_elements_by_tag(xml_path: Path, parent: ET.Element, tag: str, bound_number: int, bound: str = None) -> List[
@@ -103,7 +145,10 @@ def get_bbox(xml_filename: Path, bounding_boxes: ET.Element, class_name: str) ->
     return BoundingBox(class_name=class_name, xmin=xmin, ymin=ymin, xmax=xmax, ymax=ymax)
 
 
-def image_annot_visualize(image: Image, labels: List[BoundingBox]):
+def draw_bboxes_on_image(image: Image, labels: List[BoundingBox]):
+    """
+    Returns np.ndarray in format ready for plt.imshow() (Different format than cv2)
+    """
     BGR_color_dict = {"Red Light": (0, 0, 255), "Blue Light": (255, 0, 0), "Blue Plate": (255, 238, 131),
                       "Red Plate": (42, 76, 234)}
 
@@ -112,11 +157,8 @@ def image_annot_visualize(image: Image, labels: List[BoundingBox]):
 
     for bbox in labels:
         bbox_coords = bbox.convert_corner()
-        cv2.rectangle(image, bbox_coords[0], bbox_coords[1], BGR_color_dict[bbox.class_name], 2)
-
-    fig, ax = plt.subplots()
-    plt.imshow(image[:, :, ::-1])
-    plt.show()
+        cv2.rectangle(image, bbox_coords[0], bbox_coords[1], BGR_color_dict[bbox.class_name], 3)
+    return image[:, :, ::-1]
 
 
 class AnnotatedDataset(Dataset):
@@ -209,4 +251,9 @@ if __name__ == '__main__':
     for i, sample in enumerate(ds):
         if i > 5:
             break
-        image_annot_visualize(sample['image'], sample['labels'])
+
+        image = draw_bboxes_on_image(sample['image'], sample['labels'])
+
+        fig, ax = plt.subplots()
+        plt.imshow(image[:, :, ::-1])
+        plt.show()
