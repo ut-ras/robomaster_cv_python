@@ -1,7 +1,7 @@
 # Current
 
 ### Lidar Research
-#### Aaditya, Leo, Samik, Tanay, Will
+#### Aaditya, Leo, Samik, Tanay, Will, Hasif
 Objective: We have a lot to learn
 See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
 
