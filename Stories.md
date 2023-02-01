@@ -3,7 +3,7 @@
 ### Lidar Research
 #### Aaditya, Leo, Samik, Tanay, Will
 Objective: We have a lot to learn
-Here is the (notes)[Lidar Max Debrief.md] from our chat with Maxx. Understand it and be able to explain it
+See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
 
 ### Depth Learning Project 
 Objective: Learn how ROS subscribers and publishers work by making one for depth calculations
