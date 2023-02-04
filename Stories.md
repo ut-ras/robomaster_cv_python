@@ -24,6 +24,11 @@ Objective: Have our field in the simulation
 We need to add our robomasters field into the simulation
 An example of how the simulation wants the world can be found at `VEXU_GHOST/ghost_sim/urdf/spin_up.world` (it is in meters)
 
+### Setting up URDF
+Objective: We will be creating the Unified Robot Description Format (URDF) file for a simple differential drive robot to give you hands-on experience on working with URDF. We will also setup the robot state publisher and visualize our model in RVIZ. Lastly, we will be adding some kinematic properties to our robot URDF to prepare it for simulation purposes. These steps are necessary to represent all the sensor, hardware, and robot transforms of your robot for use in navigation.
+Link:
+https://navigation.ros.org/setup_guides/urdf/setup_urdf.html
+
 ### Mecanum in Sim
 Objective: Get _roughly_ our robot in the simulation with mecanum wheels
 This is top priority and whill be necessary for all our tuning. Maxx put some stuff about this in discord so read over that and look into the plugin he found. Implement it or find a better solution.
