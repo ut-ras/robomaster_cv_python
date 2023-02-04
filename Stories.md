@@ -9,7 +9,7 @@ See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay atte
 Objective: Learn how ROS subscribers and publishers work by making one for depth calculations
 There is a LIDAR publisher out there that spits out angles and distances; this is a learning project to figure out how ros works.
  * Subscribe to the published and publish the distance to whats right in front of you.
- * Show what you did to team (most imporant)
+ * Show what you did to team and depth (most imporant)
 Here is how to run a demo subscriber and publisher that are already installed via the docker file or can be installed pretty easily:
 https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#try-some-examples
 
