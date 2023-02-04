@@ -24,6 +24,9 @@
 5. Open a new terminal and run `sudo -i` to launch a root session and navigate to `/root/VEXU_GHOST/scripts`. Run `bash launch_sim.sh` and the rviz simulation should start up!
     * You may need to change from world frame to base link in the dropdown in the upper left-hand corner for the simulation to work properly. Ideally, the world frame will be created in the future.
 
+## Development Environment
+It's a pain in the ass to write code on the container and move it to back onto your local machine – especially without an IDE on the container. I never want to subjugate you to that, so we'll use a very handy VScode (sorry IntelliJ people) extension called [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). Add the extension, then click the green "><" in the lower left corner of VScode and select "Attach to Running Container..." then select the container your using. Simple as that. Now on your machine, you can edit code in the container and it will update in real-time! Basically, we just use the container for running the simulation and nothing else – write code locally.
+
 ## Troubleshooting
 * Running `xeyes` (and having some eyes follow your mouse around the scene) is a good way to check basic x11 forwarding is working.
 * If get "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!" when trying to ssh into the container, you may need to remove the known_host files in your local .ssh directory. Note that this should only happen if you change up your container and you should take caution when doing this especially if you ssh into other devices. Do some research first.
