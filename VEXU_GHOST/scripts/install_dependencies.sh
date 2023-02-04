@@ -4,6 +4,11 @@ sudo apt-get install -y ros-foxy-joint-state-publisher ros-foxy-joint-state-publ
 sudo apt-get install -y python3-pip libgtest-dev libgoogle-glog-dev
 sudo apt-get install -y ros-foxy-rplidar-ros  ros-foxy-realsense2*
 
+cd ~/VEXU_GHOST
+git init
+git submodule add https://github.com/MaxxWilson/amrl_shared_lib.git ghost_estimation/src/shared
+git submodule update --init --force
+
 echo "Building yaml-cpp from source in ~/ghost_deps"
 cd ~/
 mkdir ghost_deps && cd ghost_deps
@@ -16,6 +21,3 @@ cd build
 cmake -DYAML_BUILD_SHARED_LIBS=ON ..
 make -j
 sudo make install
-
-cd ~/VEXU_GHOST
-git submodule update --init --force
