@@ -1,11 +1,12 @@
 # Current
 
 ### Lidar Research
-#### Aaditya, Leo, Samik, Tanay, Will, Hasif
+#### Aaditya, Samik, Tanay, Will, Hasif
 Objective: We have a lot to learn
 See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
 
 ### Depth Learning Project 
+#### Leo
 Objective: Learn how ROS subscribers and publishers work by making one for depth calculations
 There is a LIDAR publisher out there that spits out angles and distances; this is a learning project to figure out how ros works.
  * Subscribe to the published and publish the distance to whats right in front of you.
@@ -25,6 +26,7 @@ We need to add our robomasters field into the simulation
 An example of how the simulation wants the world can be found at `VEXU_GHOST/ghost_sim/urdf/spin_up.world` (it is in meters)
 
 ### Setting up URDF
+#### Samik, Tanay
 Objective: We will be creating the Unified Robot Description Format (URDF) file for a simple differential drive robot to give you hands-on experience on working with URDF. We will also setup the robot state publisher and visualize our model in RVIZ. Lastly, we will be adding some kinematic properties to our robot URDF to prepare it for simulation purposes. These steps are necessary to represent all the sensor, hardware, and robot transforms of your robot for use in navigation.
 Link:
 https://navigation.ros.org/setup_guides/urdf/setup_urdf.html
