@@ -58,15 +58,24 @@ try:
         depth_colormap_dim = depth_colormap.shape
         color_colormap_dim = color_image.shape
 
-        print(depth_image[color_colormap_dim[0]//2][color_colormap_dim[1]//2])
+        depth = "Depth: " + str(depth_image[color_colormap_dim[0]//2][color_colormap_dim[1]//2]/10) + "cm"
         color_image = cv2.circle(color_image, [color_colormap_dim[1]//2, color_colormap_dim[0]//2], 5, (255, 0, 0), 2)
+        color_image = cv2.putText(color_image, depth, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
+        # # If depth and color resolutions are different, resize color image to match depth image for display
+        # if depth_colormap_dim != color_colormap_dim:
+        #     resized_color_image = cv2.resize(color_image, dsize=(depth_colormap_dim[1], depth_colormap_dim[0]), interpolation=cv2.INTER_AREA)
+        #     images = np.hstack((resized_color_image, depth_colormap))
+        # else:
+        #     images = np.hstack((color_image, depth_colormap))
 
         # If depth and color resolutions are different, resize color image to match depth image for display
+        
         if depth_colormap_dim != color_colormap_dim:
             resized_color_image = cv2.resize(color_image, dsize=(depth_colormap_dim[1], depth_colormap_dim[0]), interpolation=cv2.INTER_AREA)
-            images = np.hstack((resized_color_image, depth_colormap))
+            images = resized_color_image
         else:
-            images = np.hstack((color_image, depth_colormap))
+            images = color_image
 
         # Show images
         
