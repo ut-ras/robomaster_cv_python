@@ -1,3 +1,7 @@
+import os
+import sys
+from pathlib import Path
+
 import numpy as np
 import torch
 import torchvision.transforms as T
@@ -8,6 +12,7 @@ from torch.utils.data import DataLoader
 import re
 from AnnotatedDataset import AnnotatedDataset, CLASS_TO_ID, draw_bboxes_on_image
 from ImageTransformations import *
+from tqdm import tqdm
 
 #################
 # Visualization #
@@ -57,6 +62,7 @@ if __name__ == '__main__':
     #  Define paths
     ORIGINAL_DATA_PATH = '../data/original'
     OUTPUT_PATH = '../data/output'
+    EPOCHS = 10
 
     # Transforms for data augmentation
     transform_list = [ChangeColorTemperature(), ColorJitter(brightness=0.4, contrast=0.4, saturation=0.3, hue=0.07), RandomScale(scale=0.1), RandomRotate(angle=10), RandomShear(shear_factor=0.2), RandomTranslate(translate=0.1), RandomHorizontalFlip(p=0.5)]
@@ -65,16 +71,39 @@ if __name__ == '__main__':
     ##############################
     # Visualizing the transforms #
     ##############################
-    original_ds = AnnotatedDataset(original_path=ORIGINAL_DATA_PATH, transform=None)
+    # original_ds = AnnotatedDataset(original_path=ORIGINAL_DATA_PATH, transform=None)
+    #
+    # for i, sample in enumerate(original_ds):
+    #     if i > 10:
+    #         break
+    #
+    #     transformed_samples = []
+    #     for _ in range(20):
+    #         transformed_sample = transforms([sample])
+    #         transformed_samples.append(transformed_sample[0])
+    #
+    #     display_samples(samples=transformed_samples, orig_sample=sample, with_orig=True, figsize=(20, 10), max_in_row=4)
+    #     plt.show()
 
-    for i, sample in enumerate(original_ds):
-        if i > 10:
-            break
+    ###########################
+    # Transforming the images #
+    ###########################
+    original_ds = AnnotatedDataset(original_path=ORIGINAL_DATA_PATH, transform=transforms)
+    image_output_path = Path(f'{OUTPUT_PATH}/images/')
+    label_output_path = Path(f'{OUTPUT_PATH}/labels/')
+    image_output_path.mkdir(exist_ok=True, parents=True)
+    label_output_path.mkdir(exist_ok=True, parents=True)
 
-        transformed_samples = []
-        for _ in range(20):
-            transformed_sample = transforms([sample])
-            transformed_samples.append(transformed_sample[0])
+    # Print table to convert from new file idx to old file names
+    print("\n".join([f"{idx} \t {path.stem}" for idx, path in enumerate(original_ds.annot_paths)]), file=open(f"{OUTPUT_PATH}/references.txt", "w"))
 
-        display_samples(samples=transformed_samples, orig_sample=sample, with_orig=True, figsize=(20, 10), max_in_row=4)
-        plt.show()
+    for epoch in tqdm(range(EPOCHS), desc="Epoch No."):
+        for i, sample in tqdm(enumerate(original_ds), desc="Sample No.", leave=False, total=len(original_ds)):
+            file_stem = f'{epoch}_{i}'
+
+            # Write image
+            sample['image'].save(image_output_path / f'{file_stem}.png')
+            # Write label
+            label_strings = [bbox.convert_yolo() for bbox in sample['labels']]
+            print("\n".join(label_strings), file=open(label_output_path / f"{file_stem}.txt", 'w'))
+

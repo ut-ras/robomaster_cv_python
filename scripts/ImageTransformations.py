@@ -187,7 +187,7 @@ class RandomHorizontalFlip:
             box_w = abs(bboxes[:, 0] - bboxes[:, 2])
             bboxes[:, 0] -= box_w
             bboxes[:, 2] += box_w
-            labels = BoundingBox.numpy_to_bboxes(bboxes)
+            labels = BoundingBox.numpy_to_bboxes(bboxes, image_dims=(image.shape[1], image.shape[0]))
             image = cv2_to_pil(image)
         else:
             image = sample['image']
@@ -247,7 +247,7 @@ class RandomScale(object):
         img = canvas
         bboxes = clip_box(bboxes, [0, 0, 1 + img_shape[1], img_shape[0]], 0.25)
 
-        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes)}
+        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes, image_dims=(img.shape[1], img.shape[0]))}
 
 class RandomTranslate(object):
     """Randomly Translates the image
@@ -324,7 +324,7 @@ class RandomTranslate(object):
 
         bboxes = clip_box(bboxes, [0, 0, img_shape[1], img_shape[0]], 0.25)
 
-        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes)}
+        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes, image_dims=(img.shape[1], img.shape[0]))}
 
 
 class RandomRotate(object):
@@ -395,7 +395,7 @@ class RandomRotate(object):
 
         bboxes = clip_box(bboxes, [0, 0, w, h], 0.25)
 
-        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes)}
+        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes, image_dims=(img.shape[1], img.shape[0]))}
 
 
 class RandomShear(object):
@@ -464,7 +464,7 @@ class RandomShear(object):
 
         bboxes[:, :4] = (bboxes[:, :4].astype(np.float) / [scale_factor_x, 1, scale_factor_x, 1]).astype(np.int)
 
-        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes)}
+        return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes, image_dims=(img.shape[1], img.shape[0]))}
 
 
 def _horizontal_flip(img, bboxes):

@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 import cv2
 from typing import List, Tuple
 import matplotlib.pyplot as plt
+import traceback
 
 # Dictionary that maps class names to IDs
 CLASS_TO_ID = {"Red Light": 0,
@@ -21,9 +22,10 @@ ID_TO_CLASS = {v: k for k, v in CLASS_TO_ID.items()}
 
 
 class BoundingBox:
-    def __init__(self, class_name=None, class_id=None, xmin=None, ymin=None, xmax=None, ymax=None, center_x=None,
-                 center_y=None, width=None,
-                 height=None):
+    def __init__(self, image_w, image_h, class_name=None, class_id=None, xmin=None, ymin=None, xmax=None, ymax=None, center_x=None, center_y=None, width=None, height=None):
+        self.image_w = image_w
+        self.image_h = image_h
+
         if class_name is not None:
             self.class_name = class_name
             assert class_name in CLASS_TO_ID, "Invalid class name"
@@ -33,10 +35,10 @@ class BoundingBox:
             self.class_name = ID_TO_CLASS[class_id]
 
         self.is_corner_style = bool(xmin is not None and ymin is not None and xmax is not None and ymax is not None)
-        self.is_yolo_style = bool(
+        self.is_center_style = bool(
             center_x is not None and center_y is not None and width is not None and height is not None)
 
-        assert self.is_yolo_style or (xmax >= xmin and ymax >= ymin), "Invalid corner format"
+        assert self.is_center_style or (xmax >= xmin and ymax >= ymin), "Invalid corner format"
         assert self.is_corner_style or (width >= 0 and height >= 0), "Invalid yolo style format"
 
         if self.is_corner_style:
@@ -48,7 +50,7 @@ class BoundingBox:
             self.center_y = (ymin + ymax) / 2
             self.width = xmax - xmin
             self.height = ymax - ymin
-        elif self.is_yolo_style:
+        elif self.is_center_style:
             self.center_x = center_x
             self.center_y = center_y
             self.width = width
@@ -58,13 +60,14 @@ class BoundingBox:
             self.xmax = center_x + width / 2
             self.ymax = center_y + height / 2
         else:
-            raise Exception("Neither corner format nor yolo style format was provided")
+            raise Exception("Neither corner format nor center style format was provided")
 
-    def convert_yolo(self) -> Tuple[float, float, float, float]:
+    def convert_yolo(self) -> str:
         """
-        Returns (center_x, center_y, width, height)
+        Returns (class_id, center_x, center_y, width, height) as string
         """
-        return self.center_x, self.center_y, self.width, self.height
+        assert self.class_id == int(self.class_id), "class_id must be integer"
+        return f"{self.class_id} {self.center_x / self.image_w} {self.center_y / self.image_h} {self.width / self.image_w} {self.height / self.image_h}"
 
     def convert_corner(self) -> Tuple[Tuple[float, float], Tuple[float, float]]:
         """
@@ -99,11 +102,11 @@ class BoundingBox:
         return np.stack([bbox.convert_corner_numpy() for bbox in bboxes], axis=0)
 
     @staticmethod
-    def numpy_to_bboxes(bboxes_np: np.ndarray):
+    def numpy_to_bboxes(bboxes_np: np.ndarray, image_dims: Tuple[int, int]):
         bboxes = []
         for bbox_np in bboxes_np:
             bboxes.append(BoundingBox(class_id=bbox_np[4], xmin=bbox_np[0], ymin=bbox_np[1], xmax=bbox_np[2],
-                                      ymax=bbox_np[3]))
+                                      ymax=bbox_np[3], image_w=image_dims[0], image_h=image_dims[1]))
         return bboxes
 
 
@@ -131,7 +134,7 @@ def get_elements_by_tag(xml_path: Path, parent: ET.Element, tag: str, bound_numb
     return elements
 
 
-def get_bbox(xml_filename: Path, bounding_boxes: ET.Element, class_name: str) -> BoundingBox:
+def get_bbox(xml_filename: Path, bounding_boxes: ET.Element, class_name: str, image_dim=None) -> BoundingBox:
     xmin = get_elements_by_tag(xml_filename, bounding_boxes, "xmin", 1, "==")
     ymin = get_elements_by_tag(xml_filename, bounding_boxes, "ymin", 1, "==")
     xmax = get_elements_by_tag(xml_filename, bounding_boxes, "xmax", 1, "==")
@@ -142,7 +145,22 @@ def get_bbox(xml_filename: Path, bounding_boxes: ET.Element, class_name: str) ->
     ymin = int(ymin[0].text)
     xmax = int(xmax[0].text)
     ymax = int(ymax[0].text)
-    return BoundingBox(class_name=class_name, xmin=xmin, ymin=ymin, xmax=xmax, ymax=ymax)
+
+    # Get dimensions of image according to annotations
+    root = ET.parse(xml_filename).getroot()
+    xml_dimensions_elem = get_elements_by_tag(xml_filename, root, "size", 1, "==")[0]
+    xml_w = int(get_elements_by_tag(xml_filename, xml_dimensions_elem, "width", 1, "==")[0].text)
+    xml_h = int(get_elements_by_tag(xml_filename, xml_dimensions_elem, "height", 1, "==")[0].text)
+
+    if image_dim is None:
+        image_w = xml_w
+        image_h = xml_h
+    else:
+        image_w, image_h = tuple(image_dim)
+        assert image_w == xml_w, "XML and image dimensions mismatch (w)"
+        assert image_h == xml_h, "XML and image dimensions mismatch (h)"
+
+    return BoundingBox(class_name=class_name, xmin=xmin, ymin=ymin, xmax=xmax, ymax=ymax, image_w=image_w, image_h=image_h)
 
 
 def draw_bboxes_on_image(image: Image, labels: List[BoundingBox]):
@@ -231,7 +249,7 @@ class AnnotatedDataset(Dataset):
         for object in objects:
             name = get_elements_by_tag(annot_path, object, "name", 1, "==")[0].text
             bounding_box_xml = get_elements_by_tag(annot_path, object, "bndbox", 1, "==")[0]
-            bbox = get_bbox(annot_path, bounding_box_xml, name)
+            bbox = get_bbox(annot_path, bounding_box_xml, name, image.size)
             labels.append(bbox)
         labels = sorted(labels, key=lambda x: x.class_id)
 
@@ -240,7 +258,13 @@ class AnnotatedDataset(Dataset):
 
         # Apply transforms
         if self.transform:
-            sample = self.transform(sample)
+            success = False
+            while not success:
+                try:
+                    sample = self.transform([sample])[0]
+                    success = True
+                except:
+                    traceback.print_exc()
 
         return sample
 
