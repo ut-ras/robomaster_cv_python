@@ -15,7 +15,7 @@ Here is how to run a demo subscriber and publisher that are already installed vi
 https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#try-some-examples
 
 ### Run the Sim
-### Aditya
+#### Aditya
 Objective: Be able to use the simulation
 Learn the ins and outs of the simulation.
  * How do I tell robot where to go. Whats it doing on the backend. As much of that jazz as you can.
