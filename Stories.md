@@ -1,7 +1,7 @@
 # Current
 
 ### Lidar Research
-#### Aaditya, Samik, Tanay, Will, Hasif
+#### Samik, Tanay, Will, Hasif
 Objective: We have a lot to learn
 See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
 
@@ -15,6 +15,7 @@ Here is how to run a demo subscriber and publisher that are already installed vi
 https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#try-some-examples
 
 ### Run the Sim
+### Aditya
 Objective: Be able to use the simulation
 Learn the ins and outs of the simulation.
  * How do I tell robot where to go. Whats it doing on the backend. As much of that jazz as you can.
