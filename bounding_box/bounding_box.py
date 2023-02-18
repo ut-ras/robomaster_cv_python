@@ -45,4 +45,7 @@ class BoundingBox:
 	def get_time(self):
 		return self.__time__
 	
+	def print_time(self):
+		print(self.__time__)
+	
 	
