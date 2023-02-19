@@ -12,7 +12,6 @@ class armorplate:
     def __init__(self, boundingbox, id: int):
         """
         Initializes the armor plate
-
         Rundown of the fields of the object:
         position, holds the position of the bounding box in a x, y, z system (camera relative)
         velocity, last velocity of the target
@@ -23,13 +22,14 @@ class armorplate:
         
         """
         self.position = boundingbox.position
-        self.velocity = 0
+        self.velocity = 0 
         self.acceleration = 0
-        self.boundingbox = boundingbox
+        self.boundingbox = boundingbox # bounding box object
         self.id = id
         self.activity = True
         self.timeout = 0
         self.nextPosition = [0,0,0]
+        self.lastTime = 0
 
     def updateVA(self, velocity: float, acceleration: float) -> int:
         self.velocity = velocity
@@ -37,6 +37,24 @@ class armorplate:
         return 0;
 
     # use position, velocity, and delta time to predict where armor plate will be
-    # this method is subject to change depending on how PVA is implemented
-    def predictPosition(self, delta_t):
+    # this method is subject to change depending on how PVA is implemented (currently assumed to be world positions)
+    def predictPosition(self, currentTime):
+        delta_t = currentTime - lastTime
+        delta_t = delta_t / 1000
         self.nextPosition = self.position + (self.velocity * delta_t) + (self.acceleration * np.exp(delta_t, 2) / 2) # kinematics :D
+        lastTime = currentTime
+
+    def getNextPosition(self):
+        return self.nextPosition
+
+    def getBoundingBox(self) -> boundingbox:
+        return self.boundingbox
+
+    def getHistory(self):
+        self.lastTime
+
+    def writeToHistory(self, historyFile):
+        # historyFile = open("pathhere",'a') # TODO: insert proper text file path for writing
+        historyFile.write(self.id + " " + self.position + " " self.activity + " " )
+        historyFile.write(self.lastTime + ", ") # insert writing stuff here
+        # historyFile.close()
