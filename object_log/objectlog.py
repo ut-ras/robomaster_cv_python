@@ -95,7 +95,8 @@ class objectlog:
         if shortest_dist > margin_of_err:
             # need to assign a new plate
             return -1
-        return shortest_plate
+        return shortest_plate # this returns an index, but this could change to 
+    # an actual refernce to the plate ¯\_(ツ)_/¯
 
 
     """
