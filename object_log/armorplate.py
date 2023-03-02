@@ -1,4 +1,5 @@
 import numpy as np
+import bounding_box as bb
 
 class armorplate:
     """
@@ -27,14 +28,16 @@ class armorplate:
         self.boundingbox = boundingbox # bounding box object
         self.id = id
         self.activity = True
-        self.timeout = 0
+        self.timeBuffer = 0
         self.nextPosition = [0,0,0]
         self.lastTime = 0
+        self.history = None
+        self.timestamp_history = None # Hasif told me to make this
 
     def updateVA(self, velocity: float, acceleration: float) -> int:
         self.velocity = velocity
         self.acceleration = acceleration
-        return 0;
+        return 0
 
     # use position, velocity, and delta time to predict where armor plate will be
     # this method is subject to change depending on how PVA is implemented (currently assumed to be world positions)
@@ -47,11 +50,19 @@ class armorplate:
     def getNextPosition(self):
         return self.nextPosition
 
-    def getBoundingBox(self) -> boundingbox:
+    def getBoundingBox(self) -> bb.BoundingBox:
         return self.boundingbox
 
-    def getHistory(self):
+    def getLastTime(self):
         self.lastTime
+    
+    # given an armorplate we have associated in objectlog, 
+    # add to a list of associated armor plates
+    def addArmorPlate(self, new_plate):
+        #add to data structure
+        return
+
+
 
     def writeToHistory(self, historyFile):
         # historyFile = open("pathhere",'a') # TODO: insert proper text file path for writing

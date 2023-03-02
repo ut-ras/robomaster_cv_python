@@ -1,5 +1,7 @@
 import armorplate
 import numpy as np
+import bounding_box
+
 class objectlog:
     
 
@@ -26,13 +28,43 @@ class objectlog:
         else:
             for i in boxList:
                 i.predictPosition(currentTime)
-            # TODO: run pseudo greedy algorithm here 
-                # call assign_plate
-                # make a new armor plate, compare it with other armor plates
-                # assign_plate will return -1 if the bounding box doesn't update 
-                # and -2 if something is null (error-checking)
+                new_armor = armorplate(boxList[i], self.idAssign)
+
+                # greedy stuff done here \/
+                assoc = self.assign_plate(new_armor, self.plates) #index of matching plate
+                if assoc_plate == -1:
+                    #new plate, not seen before
+                    if len(self.plates) < 9:
+                        # add new plate and we have space
+                        self.plates.append(new_armor)
+                    else:
+                        #idk, no space to add plate
+                        print("need space?")
+
+                elif assoc_plate == -2:
+                    #panic, something is null
+                    print("panic")
+                    
+                else:
+                    # associate new plate with plates[assoc]
+                    # add new plate to list of associated plates of plates[assoc]
+                    assoc_plate = self.plates[assoc]
+                    assoc_plate.addArmorPlate(new_armor)
+                    assoc_plate.timeBuffer = 0
+
+            # bump up timer buffers and remove dead plates 
+            kill_threshold = -1 #need to replace with an actual val
+            for i in range(len(self.plates)):
+                p = self.plates[i]
+                if p.timeBuffer != 0:
+                    # hasn't been seen, update count
+                    p.timeBuffer += 1
+                    if p.timeBuffer == kill_threshold:
+                        #kill plate
+                        self.kill_plate(i)
             return
-        # bump up timer buffers 
+
+
             
         
     # Input from prediction/errorchecking?
@@ -55,7 +87,7 @@ class objectlog:
         margin_of_err = 5 # this is some random number, we need to finetune this later
 
         for i in range(len(plates)):
-            dist = get_distance(self, newPlate, plates[i])
+            dist = self.get_distance(self, newPlate, plates[i])
             if dist < shortest_dist:
                 shortest_plate = i
                 shortest_dist = dist
