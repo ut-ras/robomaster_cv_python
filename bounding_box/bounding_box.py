@@ -16,6 +16,8 @@ class BoundingBox:
 		self.__y_center__ = y
 	
 	def set_depth(self, depth):
+		assert(depth != 0)
+		assert(depth < 12)
 		self.__depth_value__ = depth
 	
 	def set_height(self, height):
