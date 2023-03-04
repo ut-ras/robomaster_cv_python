@@ -49,7 +49,8 @@ RUN echo "sudo service ssh start" >> ~/.bashrc && \
     echo "export TERM=xterm" >> ~/.bashrc && \
     echo "export ROS_DISTRO=foxy" >> ~/.bashrc && \
     echo "source /ros_entrypoint.sh" >> ~/.bashrc && \
-    echo "xauth add \$(runuser -l $USERNAME -c \"xauth list \$DISPLAY\") || echo 'xauth not set; restart terminal to run simulation'" >> ~/.bashrc
+    echo "xauth add \$(runuser -l $USERNAME -c \"xauth list \$DISPLAY\") || echo 'xauth not set; restart terminal to run simulation'" >> ~/.bashrc && \
+    echo "source /root/VEXU_GHOST/install/setup.bash" >> ~/.bashrc
 
 RUN sudo useradd -m -p $(openssl passwd -1 "$PASSWORD") $USERNAME && \
     usermod -aG sudo $USERNAME && \
