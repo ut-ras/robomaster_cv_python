@@ -2,6 +2,13 @@ import armorplate
 import numpy as np
 import bounding_box
 
+#TODO figure out correct values for this
+#these are the constants used to calculate if a predicted position is out of bounds
+#these should be updated with the actal values
+MAX_X = 20
+MAX_Y = 20
+MAX_Z = 20
+
 class objectlog:
     
 
@@ -10,7 +17,7 @@ class objectlog:
         self.idAssign = 0
         self.timeStamp = timestamp
         
-        # TODO: instantiate file to write to
+        #Python automatically creates the file with this name if it does not exist
         self.objectLogOuput = open("ObjectLog.txt",'w')
 
 
@@ -19,14 +26,27 @@ class objectlog:
     # the plates unless the closest distance is greater than some margin of error
     def boxesInput(self, boxList, timestamp, currentTime):
         self.timeStamp = timestamp
+
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
             for i in boxList:
+
+                #error check the bounding box parameters
+                if((boxList[i].get_x_value() < 0) or (boxList[i].get_y_value() < 0) or (boxList[i].get_depth() < 0) or (boxList[i].get_height() < 0) or (boxList[i].get_width() < 0)):
+                    #bounding box is invalid
+                    return -1
+
                 newPlate = armorplate(i, self.idAssign)
                 self.plates.append(newPlate)
                 self.idAssign += 1 
         else:
             for i in boxList:
+
+                #error check the bounding box parameters
+                if((boxList[i].get_x_value() < 0) or (boxList[i].get_y_value() < 0) or (boxList[i].get_depth() < 0) or (boxList[i].get_height() < 0) or (boxList[i].get_width() < 0)):
+                    #bounding box is invalid
+                    return -1
+
                 i.predictPosition(currentTime)
                 new_armor = armorplate(boxList[i], self.idAssign)
 
@@ -86,6 +106,13 @@ class objectlog:
 
         margin_of_err = 5 # this is some random number, we need to finetune this later
 
+        #TODO check if margain + newPlate.getNextPosition is out of viewing range and if it is, kill the plate and return
+        #This check may need to be moved to a different place.
+        if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)):
+            #Which plate needs to be killed?
+            #self.kill_plate()
+            return -1
+
         for i in range(len(plates)):
             dist = self.get_distance(self, newPlate, plates[i])
             if dist < shortest_dist:
@@ -122,5 +149,5 @@ class objectlog:
 
     #logs and removes a single plate
     def kill_plate(self, index):
-        self.plates[index].writeToHistory(self.objectLogOuput)
+        self.plates[index].writeToHistory(self.objectLogOutput)
         self.plates.remove(index)
