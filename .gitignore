@@ -15,3 +15,7 @@ ghost_pros/src/ghost_estimation/**
 ghost_pros/src/ghost_serial/**
 ghost_pros/src/ghost_ros/**
 *.DS_Store
+
+VEXU_GHOST/build/**
+VEXU_GHOST/install/**
+VEXU_GHOST/log/**
