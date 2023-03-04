@@ -7,19 +7,19 @@
 ## Helpful Commands
 * `docker build . -t <image-name>` : create image
 * `docker run -it -p 22:22 --name <container-name> <image-name>` : create container
+* `docker run -it -p 22:22 --mount type=bind,source=$(pwd),target=<container-path> --name <container-name> <image-name>` : create container
 * `docker container start <container-name>` : start container
 * `docker exec -it <container-name> bash` : access container's terminal
 * `ssh -L 5900:localhost:5900 <username>@$(ipconfig getifaddr en0) "x11vnc -create -nopw -listen 127.0.0.1 -localhost"` : start vnc server
 * `startxfce4` : start GUI
+* `bash ~/VEXU_GHOST/scripts/init_container.sh` : initialize container
 * `bash ~/VEXU_GHOST/scripts/launch_sim.sh` : launch simulation
-
-  --mount type=bind,source="$(pwd)"/VEXU_GHOST,target=/root/VEXU_GHOST
-
-  docker run -it -p 22:22 --mount type=bind,source="$(pwd)",target=/root/VEXU_GHOST --name LIDAR2 ros2-foxy2
 
 ## Setup Steps
 1. Build the Dockerfile by navigating to this directory and running the command `docker build . -t ros2-foxy`.
-2. Create a container from the image using `docker run -it -p 22:22 --name LIDAR ros2-foxy`. You're now running bash in the container. Type `exit` to stop. Note that `-p 22:22` maps the container's port 22 to your local port 22; only one container at a time can be bound to your local port 22.
+2. Create a container from the image using `docker run -it -p 22:22 --mount type=bind,source=$(pwd),target=/root/VEXU_GHOST --name LIDAR ros2-foxy` (this must also be run from this directory). You're now running bash in the container. Navigate to the `/root/VEXU_GHOST/scripts` folder and run `init_container.sh`. Type `exit` to leave the container.
+    * Note that `-p 22:22` maps the container's port 22 to your local port 22; only one container at a time can be bound to your local port 22.
+    * `init_container.sh` isn't run from the Dockerfile because it requires the VEXU_GHOST module to run which is mounted at container creation. This installs all the dependencies, builds the project, and adds some lines to the `.bashrc`.
     * The docker file will create a user for you that defaults to the username `lidar` with password `password`. To change these defaults, add `--build-arg USERNAME=<your-username>` and/or `--build-arg PASSWORD=<your-password>` to the `docker build` line.
 3. Start the container via the docker GUI or by running `docker container start LIDAR` and then _on your local machine_ run the command `ssh -L 5900:localhost:5900 lidar@$(ipconfig getifaddr en0) "x11vnc -create -nopw -listen 127.0.0.1 -localhost"` to establish a vnc server in the container and pipe it to localhost:5900. Unless you changed it during the previous step, the password is "password".
     * If you changed your username in step 2, change "lidar" to your username.
@@ -29,7 +29,12 @@
     * You may need to change from world frame to base link in the dropdown in the upper left-hand corner for the simulation to work properly. Ideally, the world frame will be created in the future.
 
 ## Development Environment
-It's a pain in the ass to write code on the container and move it to back onto your local machine – especially without an IDE on the container. I never want to subjugate you to that, so we'll use a very handy VScode (sorry IntelliJ people) extension called [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). Add the extension, then click the green "><" in the lower left corner of VScode and select "Attach to Running Container..." then select the container your using. Simple as that. Now on your machine, you can edit code in the container and it will update in real-time! Basically, we just use the container for running the simulation and nothing else – write code locally.
+It's a pain in the ass to write code on the container and move it back onto your local machine – especially without an IDE on the container. You should never be subjugated to that, so we'll use Bind Mounts and/or Dev Container to write code on your IDE of choice on your machine (i.e. not the container). We just use the container for running the simulation and nothing else – write code locally.
+### Bind Mount
+When you use the flag `--mount type=bind,source=$(pwd),target=/root/VEXU_GHOST` in step 2, you're telling Docker to use this directory (`VEXU_GHOST`) as `/root/VEXU_GHOST` in the container. They're bound together (hence bind mount). Any changes you make in the container will appear in your `VEXU_GHOST` and vice versa. This makes pushing and editing code much easier than inside the terminal.
+### Dev Containers
+Dev Containers is a VScode extension used in addition to a bind mount that offers some benefits and drawbacks. Drawback #1: only works for VScode users. Drawback #2: when you edit code in a container with Dev Containers, VEXU_GHOST won't be synced to git so your changes won't appear in source control; everything you do will still be editing the underlying `VEXU_GHOST` folder on your machine, you'll just need to open you're machine's `VEXU_GHOST` to see the difference with our branch. Benefit #1: access to all of your container's filesystem (helpful in some cases). Benefit #2: it execs into the container's terminal automatically when you open a new VScode terminal (no need to use `docker exec`).
+First, add the extension [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). Then click the green "><" in the lower left corner of VScode and select "Attach to Running Container..." then select the container your using. Simple as that.
 
 ## Troubleshooting
 * Running `xeyes` (and having some eyes follow your mouse around the scene) is a good way to check basic x11 forwarding is working.
