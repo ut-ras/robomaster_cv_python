@@ -26,6 +26,7 @@ Link to discord message:
 https://discord.com/channels/785324407606083625/1053837858970017843/1069326413007691816
 Link to plugin:
 https://github.com/qaz9517532846/gazebo_mecanum_plugins/tree/ros2-foxy
+https://discord.com/channels/785324407606083625/991190938670080060/1081712090496118824 (robot dimensions)
 
 # Old
 
