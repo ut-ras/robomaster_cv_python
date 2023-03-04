@@ -41,10 +41,6 @@ def initialize_real_sense():
     # Start streaming
     pipeline.start(config)
 
-if __name__ == "__main__":
-    initialize_real_sense()
-    get_depth_at_pixel(0)
-
 def get_depth_at_pixel(bounding_box):
     try:
         while True:
@@ -64,3 +60,7 @@ def get_depth_at_pixel(bounding_box):
     finally:
     # Stop streaming
         pipeline.stop()
+
+if __name__ == "__main__":
+    initialize_real_sense()
+    get_depth_at_pixel(0)
