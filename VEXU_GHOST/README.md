@@ -13,6 +13,10 @@
 * `startxfce4` : start GUI
 * `bash ~/VEXU_GHOST/scripts/launch_sim.sh` : launch simulation
 
+  --mount type=bind,source="$(pwd)"/VEXU_GHOST,target=/root/VEXU_GHOST
+
+  docker run -it -p 22:22 --mount type=bind,source="$(pwd)",target=/root/VEXU_GHOST --name LIDAR2 ros2-foxy2
+
 ## Setup Steps
 1. Build the Dockerfile by navigating to this directory and running the command `docker build . -t ros2-foxy`.
 2. Create a container from the image using `docker run -it -p 22:22 --name LIDAR ros2-foxy`. You're now running bash in the container. Type `exit` to stop. Note that `-p 22:22` maps the container's port 22 to your local port 22; only one container at a time can be bound to your local port 22.
