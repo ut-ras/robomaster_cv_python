@@ -113,6 +113,12 @@ def generate_launch_description():
         parameters=[ghost_ros_base_dir + "/config/ghost_estimator_config.yaml"]
     )
 
+    depth_node = Node(
+        package='depth',
+        executable='depth_calculations',
+        name='depth_calculations'
+    )
+
     state_machine_node = Node(
         package='ghost_ros',
         executable='robot_state_machine_node',
@@ -131,6 +137,7 @@ def generate_launch_description():
         rviz_node,
         joy_launch_description,
         estimator_node,
+        depth_node,
         state_machine_node,
         OpaqueFunction(function = launch_setup)
     ])
