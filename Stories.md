@@ -6,7 +6,7 @@ Objective: We have a lot to learn
 See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
 
 ### Run the Sim
-#### Aditya
+#### Aditya, Leo
 Objective: Be able to use the simulation
 Learn the ins and outs of the simulation.
  * How do I tell robot where to go. Whats it doing on the backend. As much of that jazz as you can.
@@ -19,7 +19,7 @@ We need to add our robomasters field into the simulation
 An example of how the simulation wants the world can be found at `VEXU_GHOST/ghost_sim/urdf/spin_up.world` (it is in meters)
 
 ### Mecanum in Sim
-#### Leo
+#### Leo, Tanay
 Objective: Get _roughly_ our robot in the simulation with mecanum wheels
 This is top priority and whill be necessary for all our tuning. Maxx put some stuff about this in discord so read over that and look into the plugin he found. Implement it or find a better solution.
 Link to discord message:
