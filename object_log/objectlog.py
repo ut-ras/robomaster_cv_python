@@ -10,7 +10,6 @@ MAX_Y = 20
 MAX_Z = 20
 
 class objectlog:
-    
 
     def __init__(self, timestamp):
         self.plates = []
@@ -64,6 +63,10 @@ class objectlog:
                 elif assoc_plate == -2:
                     #panic, something is null
                     print("panic")
+
+                elif assoc_plate == -3:
+                    #out of range in x,y, or z
+                    print("out of range")
                     
                 else:
                     # associate new plate with plates[assoc]
@@ -106,12 +109,9 @@ class objectlog:
 
         margin_of_err = 5 # this is some random number, we need to finetune this later
 
-        #TODO check if margain + newPlate.getNextPosition is out of viewing range and if it is, kill the plate and return
-        #This check may need to be moved to a different place.
-        if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)):
-            #Which plate needs to be killed?
-            #self.kill_plate()
-            return -1
+        if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)):       
+            #if it is out of range, return early
+            return -3
 
         for i in range(len(plates)):
             dist = self.get_distance(self, newPlate, plates[i])

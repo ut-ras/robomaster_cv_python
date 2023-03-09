@@ -33,6 +33,8 @@ class armorplate:
         self.lastTime = 0
         self.history = None
         self.timestamp_history = None # Hasif told me to make this
+        self.assoc_plates = None 
+        self.max_assoc_plates = 5
 
     def updateVA(self, velocity: float, acceleration: float) -> int:
         self.velocity = velocity
@@ -60,6 +62,9 @@ class armorplate:
     # add to a list of associated armor plates
     def addArmorPlate(self, new_plate):
         #add to data structure
+        if len(self.assoc_plates) == self.max_assoc_plates:
+            self.assoc_plates.pop()
+        self.assoc_plates.insert(0,new_plate)
         return
 
 
