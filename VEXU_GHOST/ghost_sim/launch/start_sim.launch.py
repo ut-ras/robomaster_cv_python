@@ -30,7 +30,8 @@ def launch_setup(context, *args, **kwargs):
         filename = "ghost1_sim_voltage.urdf"
 
     # Load URDF and process to text
-    urdf_path = os.path.join(ghost_sim_share_dir, "urdf", filename)
+    # urdf_path = os.path.join(ghost_sim_share_dir, "urdf", filename)
+    urdf_path = os.path.join(ghost_sim_share_dir, "urdf_robomasters", filename)
     doc = xacro.process(urdf_path)
     
     spawn_entity_args = ("-x 0.0 -y 0.0 -z 1.0 -R 0.0 -P 0.0 -Y 0.0 -entity ghost1 -topic robot_description").split()
