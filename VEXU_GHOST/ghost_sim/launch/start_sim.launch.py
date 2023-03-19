@@ -24,17 +24,17 @@ def launch_setup(context, *args, **kwargs):
         # For now default to true
         enable_pid = True
 
-    if(bool(enable_pid)):
-        filename = "ghost1_sim_pid.urdf"
-    else:
-        filename = "ghost1_sim_voltage.urdf"
+    # if(bool(enable_pid)):
+    #     filename = "ghost1_sim_pid.urdf"
+    # else:
+    #     filename = "ghost1_sim_voltage.urdf"
 
     # Load URDF and process to text
     # urdf_path = os.path.join(ghost_sim_share_dir, "urdf", filename)
-    urdf_path = os.path.join(ghost_sim_share_dir, "urdf_robomasters", filename)
+    urdf_path = os.path.join(ghost_sim_share_dir, "urdf_robomasters", "sentry_base.urdf")
     doc = xacro.process(urdf_path)
     
-    spawn_entity_args = ("-x 0.0 -y 0.0 -z 1.0 -R 0.0 -P 0.0 -Y 0.0 -entity ghost1 -topic robot_description").split()
+    spawn_entity_args = ("-x 0.0 -y 0.0 -z 1.0 -R 0.0 -P 0.0 -Y 0.0 -entity sentry -topic robot_description").split()
 
     # Node to spawn robot model in Gazebo
     gazebo_ros = Node(

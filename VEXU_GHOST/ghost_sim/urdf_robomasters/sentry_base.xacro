@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<robot name="ghost1" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="sentry" xmlns:xacro="http://ros.org/wiki/xacro">
 
     <xacro:include filename="$(find ghost_sim)/urdf/macros/actuator_macros.xacro"/>
     <xacro:include filename="$(find ghost_sim)/urdf/macros/sensor_macros.xacro"/>
     
     <!-- Import Primary Robot URDF -->
-    <xacro:include filename="$(find ghost_description)/urdf/ghost1.xacro"/>
+    <xacro:include filename="$(find ghost_description)/urdf_robomasters/sentry.xacro"/>
 
     <!-- Add Sensors -->
     <xacro:lidar_macro link_name="lidar_link" topic_name="scan"></xacro:lidar_macro>

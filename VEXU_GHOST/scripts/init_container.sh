@@ -11,6 +11,5 @@ source /ros_entrypoint.sh
 bash /root/VEXU_GHOST/scripts/build.sh
 
 echo "source /ros_entrypoint.sh" >> ~/.bashrc
-echo "source /root/VEXU_GHOST/install/setup.bash" >> ~/.bashrc
-
-rm -r .git
+echo "SETUP=/root/VEXU_GHOST/install/setup.bash" >> ~/.bashrc
+echo "test -f \$SETUP && source \$SETUP" >> ~/.bashrc
