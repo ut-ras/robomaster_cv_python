@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd ~/VEXU_GHOST
 
 # Process URDFs from Xacro and add to Share

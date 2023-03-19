@@ -1,3 +1,5 @@
+#!/bin/bash
+
 apt-get install -y dos2unix
 find /root/VEXU_GHOST -type f -exec dos2unix {} +
 
