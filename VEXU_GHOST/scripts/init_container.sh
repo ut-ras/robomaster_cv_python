@@ -5,8 +5,6 @@ cd ~/VEXU_GHOST
 
 mkdir /root/VEXU_GHOST/ghost_sim/rviz
 
-git submodule update --init --force
-
 bash /root/VEXU_GHOST/scripts/install_dependencies.sh
 bash /root/VEXU_GHOST/scripts/setup_paths.sh
 source /ros_entrypoint.sh

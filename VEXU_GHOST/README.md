@@ -5,6 +5,7 @@
 * VNC Viewer (this installation was tested with [real vnc](https://www.realvnc.com/en/connect/download/viewer/), but any should do)
 
 ## Helpful Commands
+* `git submodule update --init --force` : initialize submodules
 * `docker build . -t <image-name>` : create image
 * `docker run -it -p 22:22 --name <container-name> <image-name>` : create container
 * `docker run -it -p 22:22 --mount type=bind,source=$(pwd),target=<container-path> --name <container-name> <image-name>` : create container
@@ -16,7 +17,8 @@
 * `bash ~/VEXU_GHOST/scripts/launch_sim.sh` : launch simulation
 
 ## Setup Steps
-1. Build the Dockerfile by navigating to this directory and running the command `docker build . -t ros2-foxy`.
+0. Init the .gitmodules by running `git submodule update --init --force`. The directory `VEXU_GHOST/ghost_estimation/src/shared` should have stuff in it after force initing the submodules.
+1. Build the Dockerfile by navigating to this directory (`/robomaster_CV/VEXU_GHOST`) and running the command `docker build . -t ros2-foxy`.
 2. Create a container from the image using `docker run -it -p 22:22 --mount type=bind,source=$(pwd),target=/root/VEXU_GHOST --name LIDAR ros2-foxy` (this must also be run from this directory). You're now running bash in the container. Navigate to the `/root/VEXU_GHOST/scripts` folder and run `init_container.sh`. Type `exit` to leave the container.
     * Note that `-p 22:22` maps the container's port 22 to your local port 22; only one container at a time can be bound to your local port 22.
     * `init_container.sh` isn't run from the Dockerfile because it requires the VEXU_GHOST module to run which is mounted at container creation. This installs all the dependencies, builds the project, and adds some lines to the `.bashrc`.
