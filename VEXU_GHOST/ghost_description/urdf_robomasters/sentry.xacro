@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="sentry" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find ghost_description)/urdf/swerve_macros.xacro"/>
+    <xacro:include filename="$(find ghost_description)/urdf_robomasters/mecanum_macros.xacro"/>
 
     <xacro:property name="dist_to_wheel" value="0.2286"/> <!-- 9" center to wheel modules-->
     <xacro:property name="r_wheel" value="0.034925"/> <!-- 1.375" wheel radius-->
@@ -9,25 +9,40 @@
     <xacro:property name="com_radius" value="0.02"/>
     <xacro:property name="d2r" value="${3.14159/180}"/>
 
+    <xacro:property name="mecanum_diameter" value="0.1525"/>
+    <xacro:property name="mecanum_width" value="0.04"/>
+    <xacro:property name="y_dist_to_wheel" value="0.183"/>
+    <xacro:property name="x_dist_to_wheel" value="0.170"/>
+
+    <material name="see-through-silver">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+    </material>
+
     <link name="base_link">
         <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-            <box size="0.0127 0.29 0.0254"/>
-        </geometry>
-            <material name="silver">
-                <color rgba="0.9 0.9 0.9 1.0"/>
-            </material>
+            <origin xyz="0 0 0.1"/>
+            <geometry>
+                <box size="0.47244 0.47244 0.2"/>
+            </geometry>
+            <material name="see-through-silver"/>
         </visual>
 
-        <!--Inertia estimated for solid cylinder of radius 9" and height 3" with mass 7kg-->
+        <collision>
+            <origin xyz="0 0 0.15"/>
+            <geometry>
+                <box size="0.47244 0.47244 0.1"/>
+            </geometry>
+        </collision>
+
+        <!--Inertia estimated for box of mass 10kg rotating about center with above dimensions-->
+        <!-- https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors -->
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <mass value="10"/>
             <inertia
-                ixx="0.094839" ixy="0.0" ixz="0.0"
-                iyy="0.094839" iyz="0.0"
-                izz="0.182903"/>
+                ixx="0.240843" ixy="0.0" ixz="0.0"
+                iyy="0.240843" iyz="0.0"
+                izz="0.371997"/>
         </inertial>
 
         <gazebo>
@@ -35,133 +50,41 @@
         </gazebo>
     </link>
 
-    <link name="base_footprint">
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.00001"/>
-            <inertia
-                ixx="0.00001" ixy="0.0" ixz="0.0"
-                iyy="0.00001" iyz="0.0"
-                izz="0.00001"/>
-        </inertial>
-    </link>
-
-    <joint name="base_footprint_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="base_footprint"/>
-        <origin xyz="0 0 -0.052585" rpy="0 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <link name="front_bar">
+    <link name="turret">
         <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-            <box size="0.0127 0.35 0.0254"/>
-        </geometry>
-            <material name="silver">
-                <color rgba="0.9 0.9 0.9 1.0"/>
-            </material>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.1"/>
+            </geometry>
+            <material name="see-through-silver"/>
         </visual>
-    </link>    
 
-    <joint name="front_bar_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="front_bar"/>
-        <origin xyz="0.175 0 0" rpy="0 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
+        <collision>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.1"/>
+            </geometry>
+        </collision>
 
-    <link name="left_bar">
         <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-            <box size="0.0127 0.35 0.0254"/>
-        </geometry>
-            <material name="silver">
-                <color rgba="0.9 0.9 0.9 1.0"/>
-            </material>
+            <origin xyz="0 0 0.1"/>
+            <geometry>
+                <box size="0.25 0.25 0.1"/>
+            </geometry>
+            <material name="see-through-silver"/>
         </visual>
     </link>
 
-    <joint name="left_bar_joint" type="fixed">
+    <joint name="base_turret_joint" type="fixed">
         <parent link="base_link"/>
-        <child link="left_bar"/>
-        <origin xyz="-0.05 0.125 0" rpy="0 0 -1.0471"/>
-        <axis xyz="0 0 1"/>
+        <child link="turret"/>
+        <origin xyz="0 0 0.25654"/>
     </joint>
 
-    <link name="right_bar">
-        <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-            <box size="0.0127 0.35 0.0254"/>
-        </geometry>
-            <material name="silver">
-                <color rgba="0.9 0.9 0.9 1.0"/>
-            </material>
-    </visual>
-    </link>
-
-    <joint name="right_bar_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="right_bar"/>
-        <origin xyz="-0.05 -0.125 0" rpy="0 0 1.0471"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <!-- Steering Modules -->
-    <xacro:steering_macro id="left"></xacro:steering_macro>
-    <xacro:steering_macro id="right"></xacro:steering_macro>
-    <xacro:steering_macro id="back"></xacro:steering_macro>
-
-    <!-- Wheel Modules -->
-    <xacro:wheel_macro id="left" r_wheel="${r_wheel}" width_wheel="${width_wheel}" collision_factor="8"></xacro:wheel_macro>
-    <xacro:wheel_macro id="right" r_wheel="${r_wheel}" width_wheel="${width_wheel}" collision_factor="8"></xacro:wheel_macro>
-    <xacro:wheel_macro id="back" r_wheel="${r_wheel}" width_wheel="${width_wheel}" collision_factor="8"></xacro:wheel_macro>
-
-    <!-- Joints -->
-    <joint name="steering_left" type="continuous">
-        <parent link="base_link"/>
-        <child link="mod_left"/>
-        <origin xyz="0.126365 0.180975 0.0812" rpy="0 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <joint name="steering_right" type="continuous">
-        <parent link="base_link"/>
-        <child link="mod_right"/>
-        <origin xyz="0.126365 -0.180975 0.0812" rpy="0 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <joint name="steering_back" type="continuous">
-        <parent link="base_link"/>
-        <child link="mod_back"/>
-        <origin xyz="-0.187 0.0 0.0812" rpy="0 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <joint name="driveshaft_left" type="continuous">
-        <parent link="mod_left"/>
-        <child link="wheel_left"/>
-        <origin xyz="0 0 -0.09886" rpy="${90*d2r} 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <joint name="driveshaft_right" type="continuous">
-        <parent link="mod_right"/>
-        <child link="wheel_right"/>
-        <origin xyz="0 0 -0.09886" rpy="${90*d2r} 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
-
-    <joint name="driveshaft_back" type="continuous">
-        <parent link="mod_back"/>
-        <child link="wheel_back"/>
-        <origin xyz="0 0 -0.09886" rpy="${90*d2r} 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
+    <xacro:mecanum_macro name="front_left_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="${x_dist_to_wheel}" y_pos="${y_dist_to_wheel}"/>
+    <xacro:mecanum_macro name="front_right_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="${x_dist_to_wheel}" y_pos="-${y_dist_to_wheel}"/>
+    <xacro:mecanum_macro name="back_left_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="-${x_dist_to_wheel}" y_pos="${y_dist_to_wheel}"/>
+    <xacro:mecanum_macro name="back_right_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="-${x_dist_to_wheel}" y_pos="-${y_dist_to_wheel}"/>
 
     <!-- Sensors -->
     <link name="lidar_link">
@@ -182,34 +105,6 @@
     <joint name="lidar_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
-        <origin xyz="-0.19015 0 0.2145" rpy="0 0 0"/>
+        <origin xyz="0.098 0 0.22" rpy="0 0 0"/>
     </joint>
-
-    <!-- <link name="camera_base_link">
-        <inertial>
-            <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
-            <mass value="0.125"/>
-            <inertia ixx="0.001"  ixy="0.001"  ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
-        </inertial>
-    </link>
-
-    <joint name="camera_base_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="camera_base_link"/>
-        <origin xyz="${dist_to_wheel/2} 0 0.33" rpy="0 0 0"/>
-    </joint>
-
-    <link name="camera_view_link">
-        <inertial>
-            <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
-            <mass value="0.125"/>
-            <inertia ixx="0.001"  ixy="0.001"  ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
-        </inertial>
-    </link>
-
-    <joint name="camera_view_joint" type="fixed">
-        <parent link="camera_base_link"/>
-        <child link="camera_view_link"/>
-        <origin xyz="0 0 0" rpy="0 0.7853975 0"/>
-    </joint> -->
 </robot>
