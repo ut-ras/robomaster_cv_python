@@ -24,11 +24,15 @@ class objectlog:
     #Input is a bunch of bounding boxes, we need to associate each one with a previous bounding box
     # the plates unless the closest distance is greater than some margin of error
     def boxesInput(self, boxList, timestamp, currentTime):
-        self.timeStamp = timestamp
+
+        self.timeStamp = timestamp #what is this used for
 
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
-            for i in boxList:
+            for i in range(len(boxList)):
+                #check size of bounding box, if too small pass this iteration
+                if not self.size_check(boxList[i]):
+                    continue
 
                 #error check the bounding box parameters
                 if((boxList[i].get_x_value() < 0) or (boxList[i].get_y_value() < 0) or (boxList[i].get_depth() < 0) or (boxList[i].get_height() < 0) or (boxList[i].get_width() < 0)):
@@ -39,7 +43,10 @@ class objectlog:
                 self.plates.append(newPlate)
                 self.idAssign += 1 
         else:
-            for i in boxList:
+            for i in range(len(boxList)):
+                #check size of bounding box, if too small pass this iteration
+                if not self.size_check(boxList[i]):
+                    continue 
 
                 #error check the bounding box parameters
                 if((boxList[i].get_x_value() < 0) or (boxList[i].get_y_value() < 0) or (boxList[i].get_depth() < 0) or (boxList[i].get_height() < 0) or (boxList[i].get_width() < 0)):
@@ -57,8 +64,8 @@ class objectlog:
                         # add new plate and we have space
                         self.plates.append(new_armor)
                     else:
-                        #idk, no space to add plate
-                        print("need space?")
+                        #looking at more than 9 things
+                        print("need space")
 
                 elif assoc_plate == -2:
                     #panic, something is null
@@ -87,7 +94,11 @@ class objectlog:
                         self.kill_plate(i)
             return
 
-
+    def size_check(box) -> bool:
+        #10 is an abitrary num
+        if box.get_height() * box.get_width() < 10:
+            return False
+        return True
             
         
     # Input from prediction/errorchecking?
