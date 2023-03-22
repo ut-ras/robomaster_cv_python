@@ -52,6 +52,7 @@ def get_color_image():
         #stop streaming
         pipeline.stop()
 
+#bounding_box input parameter should be of type BoundingBox
 def get_depth_at_pixel(bounding_box):
     try:
 
