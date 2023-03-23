@@ -3,12 +3,6 @@
 
     <xacro:include filename="$(find ghost_description)/urdf_robomasters/mecanum_macros.xacro"/>
 
-    <xacro:property name="dist_to_wheel" value="0.2286"/> <!-- 9" center to wheel modules-->
-    <xacro:property name="r_wheel" value="0.034925"/> <!-- 1.375" wheel radius-->
-    <xacro:property name="width_wheel" value="0.0254"/> <!-- 1" wheel width-->
-    <xacro:property name="com_radius" value="0.02"/>
-    <xacro:property name="d2r" value="${3.14159/180}"/>
-
     <xacro:property name="mecanum_diameter" value="0.1525"/>
     <xacro:property name="mecanum_width" value="0.04"/>
     <xacro:property name="y_dist_to_wheel" value="0.183"/>
@@ -50,6 +44,24 @@
         </gazebo>
     </link>
 
+    <link name="base_footprint">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.00001"/>
+            <inertia
+                ixx="0.00001" ixy="0.0" ixz="0.0"
+                iyy="0.00001" iyz="0.0"
+                izz="0.00001"/>
+        </inertial>
+    </link>
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_footprint"/>
+        <origin xyz="0 0 -${mecanum_diameter/2}"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
     <link name="turret">
         <visual>
             <origin xyz="0 0 0"/>
@@ -85,6 +97,29 @@
     <xacro:mecanum_macro name="front_right_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="${x_dist_to_wheel}" y_pos="-${y_dist_to_wheel}"/>
     <xacro:mecanum_macro name="back_left_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="-${x_dist_to_wheel}" y_pos="${y_dist_to_wheel}"/>
     <xacro:mecanum_macro name="back_right_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="-${x_dist_to_wheel}" y_pos="-${y_dist_to_wheel}"/>
+
+    <gazebo>
+      <plugin name="gazebo_ros_mecanum_diff_drive" filename="libgazebo_ros_mecanum_diff_drive.so">
+        <commandTopic>command_velocity</commandTopic>
+        <odometryTopic>mecanum_odom</odometryTopic>
+        <!-- <odometryFrame>odom</odometryFrame> -->
+        <robotBaseFrame>base_footprint</robotBaseFrame>
+        <LeftRear>base_back_left_wheel_joint</LeftRear>
+        <LeftFront>base_front_left_wheel_joint</LeftFront>
+        <RightFront>base_front_right_wheel_joint</RightFront>
+        <RightRear>base_front_right_wheel_joint</RightRear>
+        <odometryRate>20</odometryRate>      
+        <publishWheelTF>true</publishWheelTF>
+        <publishWheelJointState>true</publishWheelJointState>
+        <WheelTorque>1</WheelTorque>
+        <WheelSeparationW>${2 * y_dist_to_wheel}</WheelSeparationW>
+        <WheelSeparationL>${2 * x_dist_to_wheel}</WheelSeparationL>
+        <wheelAccel>5</wheelAccel>
+        <wheelDiameter>${mecanum_diameter}</wheelDiameter>
+        <publishOdom>true</publishOdom>
+        <!-- <isRollerModel>true</isRollerModel> -->
+      </plugin>
+    </gazebo>
 
     <!-- Sensors -->
     <link name="lidar_link">
