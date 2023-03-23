@@ -71,6 +71,6 @@ class armorplate:
 
     def writeToHistory(self, historyFile):
         # historyFile = open("pathhere",'a')
-        historyFile.write(self.id + " " + self.position + " " self.activity + " " )
+        historyFile.write(self.id + " " + self.position + " " + self.activity + " " )
         historyFile.write(self.lastTime + ", ") # insert writing stuff here
         # historyFile.close()
