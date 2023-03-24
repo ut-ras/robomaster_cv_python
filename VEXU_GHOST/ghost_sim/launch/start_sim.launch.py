@@ -138,7 +138,7 @@ def generate_launch_description():
         DeclareLaunchArgument(name='enable_pid', default_value='true'),
         DeclareLaunchArgument(name='joystick', default_value='false'),
         DeclareLaunchArgument('sim_gui', default_value='false'),
-        DeclareLaunchArgument('verbose', default_value='false'),
+        DeclareLaunchArgument('verbose', default_value='true'),
         simulation,
         ground_truth_publisher,
         rviz_node,
