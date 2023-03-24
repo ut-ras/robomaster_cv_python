@@ -37,13 +37,5 @@
             <origin xyz="${x_pos} ${y_pos} 0" rpy="-${pi/2} 0 0"/>
             <axis xyz="0 0 1"/>
         </joint>
-
-        <!-- Joint State Publisher -->
-        <gazebo>
-            <plugin name="gazebo_ros_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
-                <update_rate>100</update_rate>
-                <joint_name>base_${name}_joint</joint_name>
-            </plugin>
-        </gazebo>
     </xacro:macro>
 </robot>
