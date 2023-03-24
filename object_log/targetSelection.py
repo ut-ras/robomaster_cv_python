@@ -1,4 +1,3 @@
-import objectlog
 import numpy as np
 
 #Assumes x, y as camera 
