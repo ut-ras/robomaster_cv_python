@@ -12,14 +12,23 @@ We need to add our robomasters field into the simulation
 An example of how the simulation wants the world can be found at `VEXU_GHOST/ghost_sim/urdf/spin_up.world` (it is in meters)
 
 ### Particle Filter Fix
+#### Leo
 Particle filter currently not publish stuff. Figure out why and get it to publish
  * Particle cloud published to /particle_cloud topic
  * /estimation/robot_pose also works by intating particle cloud
 
-### Command Velocity Fix
+### Command Velocity Fix (Polish Mecanum Wheel Work)
+#### Tanay
 Right now, some command velocities work and other dont and changing up what direction you go in doesn't work. Fix that
  * any twist published to cmd_vel, robot goes in that direction
- * robot can change direction when new  
+ * robot can change direction when new
+ * cmd_vel topic is configured in `sentry_base.xacro` and the topic is published to in the mecanum_plugin folder
+ * command to publish to the cmd_vel topic is ```ros2 topic pub cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1, y: 0, z: 0}}”```
+
+
+### UART
+Work with Paul to get data from embeded.
+ * Creates a topic for embeded data and sends the data to the respective topic in sim
 
 # Old
 
