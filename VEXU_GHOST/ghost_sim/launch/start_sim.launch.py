@@ -24,10 +24,10 @@ def launch_setup(context, *args, **kwargs):
         # For now default to true
         enable_pid = True
 
-    # if(bool(enable_pid)):
-    #     filename = "ghost1_sim_pid.urdf"
-    # else:
-    #     filename = "ghost1_sim_voltage.urdf"
+    if(bool(enable_pid)):
+        filename = "ghost1_sim_pid.urdf"
+    else:
+        filename = "ghost1_sim_voltage.urdf"
 
     # Load URDF and process to text
     # urdf_path = os.path.join(ghost_sim_share_dir, "urdf", filename)
@@ -128,6 +128,12 @@ def generate_launch_description():
         parameters=[ghost_ros_base_dir + "/config/ghost_state_machine_config.yaml"]
     )
 
+    sentry_control_node = Node(
+        package='sentry_control',
+        executable='sentry_control',
+        name='sentry_control'
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument(name='enable_pid', default_value='true'),
         DeclareLaunchArgument(name='joystick', default_value='false'),
@@ -140,5 +146,6 @@ def generate_launch_description():
         estimator_node,
         depth_node,
         state_machine_node,
+        sentry_control_node,
         OpaqueFunction(function = launch_setup)
     ])

@@ -3,6 +3,7 @@ sudo apt-get install -y libgoogle-glog-dev python3-colcon-common-extensions ros-
 sudo apt-get install -y ros-foxy-joint-state-publisher ros-foxy-joint-state-publisher-gui ros-foxy-rqt-tf-tree ros-foxy-joy-linux
 sudo apt-get install -y python3-pip libgtest-dev libgoogle-glog-dev
 sudo apt-get install -y ros-foxy-rplidar-ros  ros-foxy-realsense2*
+sudo apt-get install -y ros-foxy-gazebo-ros2-control ros-foxy-ros2-controllers libgazebo11-dev gazebo11
 
 cd ~/VEXU_GHOST
 
