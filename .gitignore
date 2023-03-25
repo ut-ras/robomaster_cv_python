@@ -1,0 +1,17 @@
+install
+build
+log
+.vscode
+*.pyc
+.cache/*
+
+ghost_pros/include/ghost_control/**
+ghost_pros/include/ghost_estimation/**
+ghost_pros/include/ghost_serial/**
+ghost_pros/include/ghost_ros/**
+
+ghost_pros/src/ghost_control/**
+ghost_pros/src/ghost_estimation/**
+ghost_pros/src/ghost_serial/**
+ghost_pros/src/ghost_ros/**
+*.DS_Store
