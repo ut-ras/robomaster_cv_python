@@ -7,7 +7,8 @@ class BoundingBox:
 		self.__depth_value__ = 0
 		self.__height__ = 0
 		self.__width__ = 0
-		self.__time__ = time.local_time(time.time())
+		self.__time__ = time.localtime(time.time())
+		self.__position__ = [self.__x_center__, self.__y_center__, self.__depth_value__]
 
 	def set_x_value(self,x):
 		self.__x_center__ = x
@@ -25,7 +26,7 @@ class BoundingBox:
 		self.__width__ = width
 
 	def set_time(self):
-		self.__time = time.local_time(time.time())
+		self.__time = time.localtime(time.time())
 	
 	def get_x_value(self):
 		return self.__x_center__
@@ -47,5 +48,9 @@ class BoundingBox:
 	
 	def print_time(self):
 		print(self.__time__)
+
+	def get_position(self):
+		return self.__position__
+
 	
 	

@@ -4,13 +4,13 @@ import bounding_box
 
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
-#these should be updated with the actal values
-MAX_X = 100
-MAX_Y = 100
+#these should be updated with the actual values
+MAX_X = 150
+MAX_Y = 150
 MAX_Z = 50
-MIN_X = -10
-MIN_Y = -10
-MIN_Z = -5
+MIN_X = -1
+MIN_Y = -1
+MIN_Z = -1
 
 class objectlog:
 
@@ -43,6 +43,9 @@ class objectlog:
                     return -1
 
                 newPlate = armorplate(i, self.idAssign)
+                kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
+                kinematic_predict(currentTime - timestamp)
+                newPlate.updateVA(getVA())
                 self.plates.append(newPlate)
                 self.idAssign += 1 
         else:
@@ -118,12 +121,16 @@ class objectlog:
             #error check
             return -2
         predicted = newPlate.getNextPosition()
+        #This variable accounts for the plate's position being the center of the bounding box
+        #maybe factor in the plate boundaries into the out of range calculations
+        #plate_radius = newPlate.getBoundingBox().get_width() / 2
         shortest_dist = float('inf')
         shortest_plate = -1 # keeping the index, not decided what to do with the closest plate
 
         margin_of_err = 5 # this is some random number, we need to finetune this later
 
-        if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)):       
+        if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)
+           or ((predicted[0] - margin_of_err) < MIN_X) or ((predicted[1] - margin_of_err) < MIN_Y) or ((predicted[2] - margin_of_err) < MIN_Z)):       
             #if it is out of range, return early
             return -3
 

@@ -22,9 +22,9 @@ class armorplate:
         activity, boolean on the plate on if it is currently active
         
         """
-        self.position = boundingbox.position
-        self.velocity = 0 
-        self.acceleration = 0
+        self.position = boundingbox.get_position()
+        self.velocity = [0,0,0]
+        self.acceleration = [0,0,0]
         self.boundingbox = boundingbox # bounding box object
         self.id = id
         self.activity = True
@@ -36,18 +36,23 @@ class armorplate:
         self.assoc_plates = None 
         self.max_assoc_plates = 5
 
-    def updateVA(self, velocity: float, acceleration: float) -> int:
-        self.velocity = velocity
-        self.acceleration = acceleration
+    # velocity and acceleration are sets of three values
+    def updateVA(self, va_vector: float) -> int:
+        self.velocity = va_vector[0:3]
+        self.acceleration = va_vector[3:6]
         return 0
 
-    # use position, velocity, and delta time to predict where armor plate will be
+    # use position, velocity, and delta time to predict where armor plate have moved to since the last check
     # this method is subject to change depending on how PVA is implemented (currently assumed to be world positions)
+    # assumes that time is being kept track of in per second units while velocity/acceleration are per millisecond units
     def predictPosition(self, currentTime):
         delta_t = currentTime - lastTime
         delta_t = delta_t / 1000
         self.nextPosition = self.position + (self.velocity * delta_t) + (self.acceleration * np.exp(delta_t, 2) / 2) # kinematics :D
         lastTime = currentTime
+
+    def getPosition(self):
+        return self.Position    
 
     def getNextPosition(self):
         return self.nextPosition
