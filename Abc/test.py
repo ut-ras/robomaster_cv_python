@@ -9,7 +9,7 @@ f.H = np.array([[1., 0., 0., 0., 0., 0., 0., 0., 0.],
                 [0., 0., 0., 1., 0., 0., 0., 0., 0.],
                 [0., 0., 0., 0., 0., 0., 1., 0., 0.]])
 f.R = 5.
-def kinematic_predict(delt):
+def kinematic_predict(self, delt):
     f.F = np.array([[1.,    delt,   0.5*(delt**2),     0., 0., 0., 0., 0., 0.],
                 [0.,    1.,     delt,               0., 0., 0., 0., 0., 0.],
                 [0.,    0.,     1.,                 0., 0., 0., 0., 0., 0.],
@@ -24,12 +24,12 @@ def kinematic_predict(delt):
     f.predict()
     
 #x', y', z', x'', y'', z''
-def getVA():
+def getVA(self):
     return [f.x[1], f.x[4], f.x[7], f.x[2], f.x[5], f.x[8]]
 
 #x, y, z
-def getPredictedPos():
+def getPredictedPos(self):
     return[f.x[0], f.x[3], f.x[6]]
 
-def kinematic_Update(x, y, z):
+def kinematic_Update(self, x, y, z):
     f.update([x,y,z])
