@@ -1,10 +1,16 @@
 from bounding_box import *
-#from armorplate import *
-#from objectlog import *
+from armorplate import *
+
+from objectlog import *
 import numpy as np
+import pytest
+
+@pytest.fixture
+def obj():
+    return objectlog()
 
 
-num = 4
+num = 9
 
 def main():
     boxlistPrev = []
@@ -31,7 +37,7 @@ def main():
         boxlistPrev[i].print_time()
         print('\n')
 
-
+    
         
 
     

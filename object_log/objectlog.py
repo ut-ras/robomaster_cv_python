@@ -5,9 +5,12 @@ import bounding_box
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
 #these should be updated with the actal values
-MAX_X = 20
-MAX_Y = 20
-MAX_Z = 20
+MAX_X = 100
+MAX_Y = 100
+MAX_Z = 50
+MIN_X = -10
+MIN_Y = -10
+MIN_Z = -5
 
 class objectlog:
 
