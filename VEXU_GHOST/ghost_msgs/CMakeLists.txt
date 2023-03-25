@@ -27,6 +27,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/V5SensorUpdate.msg"
   "msg/DepthQuery.msg"
   "msg/DepthReturn.msg"
+  "msg/CVDisc.msg"
   DEPENDENCIES std_msgs
  )
 ament_export_dependencies(rosidl_default_runtime)
