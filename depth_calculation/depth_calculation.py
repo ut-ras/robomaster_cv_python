@@ -44,11 +44,11 @@ def initialize_real_sense():
 def get_color_image():
     try:
         # while True:
-        frames = pipeline.wait_for_frame()
+        frames = pipeline.wait_for_frames()
         color_frame = frames.get_color_frame()
 
         return color_frame
-    finally:
+    except:
         #stop streaming
         pipeline.stop()
 
@@ -67,7 +67,7 @@ def get_depth_at_pixel(bounding_box):
 
         #TODO once coordinates have been received, return the depth at the specific pixel, not the entire depth image
         return depth_image
-    finally:
+    except:
     # Stop streaming
         pipeline.stop()
 
