@@ -10,6 +10,8 @@ See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay atte
 Objective: Have our field in the simulation
 We need to add our robomasters field into the simulation
 An example of how the simulation wants the world can be found at `VEXU_GHOST/ghost_sim/urdf/spin_up.world` (it is in meters)
+ * Bottom left is 0,0 on map
+ * Units is meters
 
 ### Particle Filter Fix
 #### Leo
