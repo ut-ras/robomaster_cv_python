@@ -52,7 +52,10 @@ class armorplate:
         lastTime = currentTime
 
     def getPosition(self):
-        return self.Position    
+        return self.Position 
+
+    def getID(self):
+        return self.id   
 
     def getNextPosition(self):
         return self.nextPosition

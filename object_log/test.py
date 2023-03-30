@@ -6,17 +6,28 @@ import numpy as np
 import pytest
 import time
 
+log = objectlog(0)
+box = bounding_box()
+armor = armorplate()
+
 @pytest.fixture
 def objectLogFixture():
-    return objectlog(time.localtime(time.time()))
+    return log(time.localtime(time.time()))
 
 @pytest.fixture
 def boundingBoxFixture():
-    return BoundingBox()
+    return box()
 
 @pytest.fixture
 def armorplateFixture():
-    return armorplate()
+    return armor()
+
+# parameters for previous bounding boxes
+prev_params = [
+    (100, 100, 25, 10, 10, 1),
+    (50, 50, 25, 10, 10, 1),
+    (75, 75, 25, 10, 10, 1)
+]
 
 num = 3
 boxlistPrev = []
@@ -29,8 +40,9 @@ deltaTime = 1000 # time between boxListPrev and boxListNext in ms
 
 # create global list of bounding boxes for testing purposes
 def main():
-    
-    makeBoxes(boxlistPrev)
+
+    # generate a list of previous boxes
+    makeBoxes(boxlistPrev, prev_params)
 
     for i in range(num):
         print(boxlistPrev[i].get_x_value())
@@ -46,15 +58,16 @@ def main():
         print('\n')
 
 # Hardcoding bounding boxes for temporary use
-def makeBoxes(boxlistPrev):
-    # Bounding Box 1 - On the edge
-    boxlistPrev.append(BoundingBox())
-    boxlistPrev[0].set_x_value(100)
-    boxlistPrev[0].set_y_value(100)
-    boxlistPrev[0].set_depth_value(25)
-    boxlistPrev[0].set_height_value(10)
-    boxlistPrev[0].set_width_value(10)
-    boxlistPrev[0].set_time(1)
+def makeBoxes(box_list, box_params):
+    for i in range(0, num):
+        box_list[i].append(BoundingBox())
+        box_list[i].set_x_value(box_params[0])
+        box_list[i].set_y_value(box_params[1])
+        box_list[i].set_depth_value(box_params[2])
+        box_list[i].set_height_value(box_params[3])
+        box_list[i].set_width_value(box_params[4])
+        box_list[i].set_time(box_params[5])
+
 
     boxVelocities[0] = [-25, -25, 0]
     boxAccelerations[0] = [-10, -10, 0]
@@ -67,14 +80,6 @@ def makeBoxes(boxlistPrev):
     boxlistNext[0].set_width_value()
     boxlistNext[0].set_time()
 
-    # Bounding Box 2 - Within Range 
-    boxlistPrev.append(BoundingBox())
-    boxlistPrev[1].set_x_value(50)
-    boxlistPrev[1].set_y_value(50)
-    boxlistPrev[1].set_depth_value(25)
-    boxlistPrev[1].set_height_value(10)
-    boxlistPrev[1].set_width_value(10)
-    boxlistPrev[1].set_time(1)
 
     boxVelocities[1] = [10, 20, 0]
     boxAccelerations[1] = [30 ,-2, 0]
@@ -87,14 +92,6 @@ def makeBoxes(boxlistPrev):
     boxlistNext[1].set_width_value()
     boxlistNext[1].set_time()
     
-    # Bounding Box 3 - Outside Range
-    boxlistPrev.append(BoundingBox())
-    boxlistPrev[2].set_x_value(200)
-    boxlistPrev[2].set_y_value(200)
-    boxlistPrev[2].set_depth_value(100)
-    boxlistPrev[2].set_height_value(10)
-    boxlistPrev[2].set_width_value(10)
-    boxlistPrev[2].set_time(1)
 
     boxVelocities[2] = [40, 2, 0]
     boxAccelerations[2] = [10 ,20, 0]
@@ -109,6 +106,7 @@ def makeBoxes(boxlistPrev):
 
     return
 
+
 # Test something here
 def test_basic(obj):
     # TODO: write test
@@ -116,8 +114,59 @@ def test_basic(obj):
     assert one == 1
     pass
 
-   
+def test_boxesInputInit(obj):#this doesn't test out of bounds plates yet (modify later)
+    log = objectlog(0)
+    log.boxesInput(boxlistPrev,10)
+    plates = log.get_plates
+    assert(len(plates) == 3)
+
     
+    #this part is to check ids (see if they are unique)
+    isunique  = 1  
+    for i in (0,len(plates)):
+        for j in range(1, len(plates)):
+            if isunique==1 and plates[i].getID()==plates[j].getID():
+                isUnique = 0
+
+    assert(isUnique==1)
+    
+    
+    log.boxesInput(boxlistNext, 10,20)
+    pass
+
+# check for correct assignment of IDs to each armor plate
+@pytest.mark.parametrize("expectedID", [
+    (0),
+    (1),
+    (2)
+])
+def test_assignID(expectedID):
+    log = objectlog(0)  # current timestamp set to 0
+    log.boxesInput(boxlistPrev, 10) # 10 is random value for current time
+    plates = log.get_plates
+    for i in range(0, len(plates)):
+        assert plates[i].getID() == expectedID
+
+
+
+
+#Should test that the object log accurately assigns plates
+def test_assignPlate(obj):
+    plates = objectlog.get_plates
+    objectlog.assign_plate(boxlistPrev[0])
+    objectlog.assign_plate(boxlistPrev[1])
+    objectlog.assign_plate(boxlistPrev[2])
+ 
+    pass
+#Should test that the object log is killing dead plates
+def test_killPlate(obj):
+    pass
+
+def test_killAll(obj):
+    pass
+
+
+
 # Test that objectlog can accurately match the right bounding box to the right armor plate after delta_t time
 def test_predict(obj):
     # TODO: write test

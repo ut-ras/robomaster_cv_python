@@ -1,6 +1,7 @@
 import armorplate
 import numpy as np
 import bounding_box
+from prediction import * 
 
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
@@ -26,9 +27,9 @@ class objectlog:
     #Input from depth
     #Input is a bunch of bounding boxes, we need to associate each one with a previous bounding box
     # the plates unless the closest distance is greater than some margin of error
-    def boxesInput(self, boxList, timestamp, currentTime):
+    def boxesInput(self, boxList, currentTime):
 
-        self.timeStamp = timestamp #what is this used for
+         #what is this used for
 
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
@@ -44,10 +45,12 @@ class objectlog:
 
                 newPlate = armorplate(i, self.idAssign)
                 kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
-                kinematic_predict(currentTime - timestamp)
+                kinematic_predict(currentTime - self.timeStamp)
                 newPlate.updateVA(getVA())
+                self.timeStamp = currentTime
                 self.plates.append(newPlate)
                 self.idAssign += 1 
+
         else:
             for i in range(len(boxList)):
                 #check size of bounding box, if too small pass this iteration
@@ -61,6 +64,9 @@ class objectlog:
 
                 i.predictPosition(currentTime)
                 new_armor = armorplate(boxList[i], self.idAssign)
+                kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
+                kinematic_predict(currentTime - self.timeStamp)
+                newPlate.updateVA(getVA())
 
                 # greedy stuff done here \/
                 assoc = self.assign_plate(new_armor, self.plates) #index of matching plate
@@ -68,6 +74,7 @@ class objectlog:
                     #new plate, not seen before
                     if len(self.plates) < 9:
                         # add new plate and we have space
+
                         self.plates.append(new_armor)
                     else:
                         #looking at more than 9 things
@@ -105,8 +112,9 @@ class objectlog:
         if box.get_height() * box.get_width() < 10:
             return False
         return True
-            
-        
+    
+    def get_plates(self):
+        return self.plates
     # Input from prediction/errorchecking?
     # unsure
     # def predictionInput(self, input):
@@ -172,3 +180,4 @@ class objectlog:
     def kill_plate(self, index):
         self.plates[index].writeToHistory(self.objectLogOutput)
         self.plates.remove(index)
+
