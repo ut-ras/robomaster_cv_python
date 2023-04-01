@@ -65,6 +65,9 @@ class armorplate:
 
     def getLastTime(self):
         self.lastTime
+
+    def setActivity(self, newAct):
+        self.activity = newAct
     
     # given an armorplate we have associated in objectlog, 
     # add to a list of associated armor plates
@@ -74,8 +77,7 @@ class armorplate:
             self.assoc_plates.pop()
         self.assoc_plates.insert(0,new_plate)
         return
-
-
+    
 
     def writeToHistory(self, historyFile):
         # historyFile = open("pathhere",'a')

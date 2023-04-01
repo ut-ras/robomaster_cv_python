@@ -13,6 +13,10 @@ MIN_X = -1
 MIN_Y = -1
 MIN_Z = -1
 
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
+
+
 class objectlog:
 
     def __init__(self, timestamp):
@@ -96,7 +100,7 @@ class objectlog:
                     assoc_plate.timeBuffer = 0
 
             # bump up timer buffers and remove dead plates 
-            kill_threshold = -1 #need to replace with an actual val
+            kill_threshold = 5 #need to replace with an actual val
             for i in range(len(self.plates)):
                 p = self.plates[i]
                 if p.timeBuffer != 0:
@@ -169,8 +173,9 @@ class objectlog:
             +np.pow((point_one[2]-point_two[2]),2))
     
     #log all of the armor plates at the very end of the program before all the plates are deleted (genocide D:)
-    def kill_all(self, index):
+    def kill_all(self):
         for plate in self.plates:
+            plate.setActivity(False)
             plate.writeToHistory(self.objectLogOutput)
             self.kill_plate(self.plates.index(plate))
         self.objectLogOutput.close()
@@ -178,6 +183,10 @@ class objectlog:
 
     #logs and removes a single plate
     def kill_plate(self, index):
+        self.plate[index].setActivity(False)
         self.plates[index].writeToHistory(self.objectLogOutput)
         self.plates.remove(index)
 
+    # return the center coordinates of the sreen
+    def getCenter(self):
+        return [SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2]
