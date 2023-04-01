@@ -1,0 +1,6 @@
+For UART, some design choices:
+
+Use a different UART port besides UART0 since it is used for serial debugging
+Use UART1, but is used for wake up, but does have a physical port - would require purchase of JST ZH connectors
+Use other UART ports other than UART0, 1, would have to use the pins built into the BeagleBone, could run into connection issues as jumper wires may be liable to fall out
+

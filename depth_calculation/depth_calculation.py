@@ -41,24 +41,25 @@ def initialize_real_sense():
     # Start streaming
     pipeline.start(config)
 
-def get_color_image():
+def get_color_image_depth_image():
     try:
         # while True:
         frames = pipeline.wait_for_frames()
         color_frame = frames.get_color_frame()
+        depth_frame = frames.get_depth_frame()
 
-        return color_frame
+        return color_frame, depth_frame
     except:
         #stop streaming
         pipeline.stop()
 
 #bounding_box input parameter should be of type BoundingBox
-def get_depth_at_pixel(bounding_box):
+def get_depth_at_pixel(depth_frame, bounding_box):
     try:
 
         # Wait for a coherent pair of frames: depth and color
-        frames = pipeline.wait_for_frames()
-        depth_frame = frames.get_depth_frame()
+        # frames = pipeline.wait_for_frames()
+        # depth_frame = frames.get_depth_frame()
 
         # Convert images to numpy arrays
         #depth_image returns an array of depth values, in meters
