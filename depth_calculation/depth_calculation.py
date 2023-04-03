@@ -66,7 +66,7 @@ def get_depth_at_pixel(depth_frame, bounding_box):
         depth_image = np.asanyarray(depth_frame.get_data())
         # color_image = np.asanyarray(color_frame.get_data())
 
-        #TODO once coordinates have been received, return the depth at the specific pixel, not the entire depth image
+        # Get depth of specific pixel at the x and y coordinates from the bounding box 
         return depth_image[bounding_box.get_y_value(), bounding_box.get_x_value()]
     except:
     # Stop streaming
