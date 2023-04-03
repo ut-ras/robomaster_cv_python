@@ -10,15 +10,15 @@ class armorplate:
     Armor plate object is used in object log
     """
 
-    def __init__(self, boundingbox, id: int):
+    def __init__(self, boundingbox:bb, id: int):
         """
         Initializes the armor plate
         Rundown of the fields of the object:
         position, holds the position of the bounding box in a x, y, z system (camera relative)
         velocity, last velocity of the target
         acceleration, last acceleration of the target
-        boundingbox, ???
-        id, id of the armor plate (fokr debugging purposes)
+        boundingbox, boundingbox object
+        id, id of the armor plate (for debugging purposes)
         activity, boolean on the plate on if it is currently active
         
         """
