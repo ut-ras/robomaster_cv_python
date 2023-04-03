@@ -1,7 +1,6 @@
 import armorplate
 import numpy as np
 import bounding_box
-from prediction import * 
 
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
@@ -13,12 +12,27 @@ MIN_X = -1
 MIN_Y = -1
 MIN_Z = -1
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+"""
+Object Log:
+Purpose: System to hold current value of armor plate. 
+Fields:
+- plates: array of currently active armor plates (armor plate objects)
+- id: ID associated with them
+- Timestamp: The last timestamp they have.
 
-
+Primary functions in pipeline:
+- Take in input from depth/ML and associate armor plates
+- Filter out old plates
+- Write to a log file
+"""
 class objectlog:
 
+    """
+    Initialize function
+
+    Runs in init() in main loop
+    instantiates plates, ID var, and the timestamp variable. Opens output doc
+    """
     def __init__(self, timestamp):
         self.plates = []
         self.idAssign = 0
@@ -28,12 +42,16 @@ class objectlog:
         self.objectLogOuput = open("ObjectLog.txt",'w')
 
 
-    #Input from depth
-    #Input is a bunch of bounding boxes, we need to associate each one with a previous bounding box
-    # the plates unless the closest distance is greater than some margin of error
-    def boxesInput(self, boxList, currentTime):
+    """
+    Input from depth
+    Input: 
+    - boxList: an array of of bounding box objects
+    - timestamp: timestamp of the boundingBoxes
+    the plates unless the closest distance is greater than some margin of error
+    """
+    def boxesInput(self, boxList, timestamp, currentTime):
 
-         #what is this used for
+        self.timeStamp = timestamp #timestamp is used for 
 
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
@@ -49,12 +67,10 @@ class objectlog:
 
                 newPlate = armorplate(i, self.idAssign)
                 kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
-                kinematic_predict(currentTime - self.timeStamp)
+                kinematic_predict(currentTime - timestamp)
                 newPlate.updateVA(getVA())
-                self.timeStamp = currentTime
                 self.plates.append(newPlate)
                 self.idAssign += 1 
-
         else:
             for i in range(len(boxList)):
                 #check size of bounding box, if too small pass this iteration
@@ -68,9 +84,6 @@ class objectlog:
 
                 i.predictPosition(currentTime)
                 new_armor = armorplate(boxList[i], self.idAssign)
-                kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
-                kinematic_predict(currentTime - self.timeStamp)
-                newPlate.updateVA(getVA())
 
                 # greedy stuff done here \/
                 assoc = self.assign_plate(new_armor, self.plates) #index of matching plate
@@ -78,7 +91,6 @@ class objectlog:
                     #new plate, not seen before
                     if len(self.plates) < 9:
                         # add new plate and we have space
-
                         self.plates.append(new_armor)
                     else:
                         #looking at more than 9 things
@@ -100,7 +112,7 @@ class objectlog:
                     assoc_plate.timeBuffer = 0
 
             # bump up timer buffers and remove dead plates 
-            kill_threshold = 5 #need to replace with an actual val
+            kill_threshold = -1 #need to replace with an actual val
             for i in range(len(self.plates)):
                 p = self.plates[i]
                 if p.timeBuffer != 0:
@@ -116,9 +128,8 @@ class objectlog:
         if box.get_height() * box.get_width() < 10:
             return False
         return True
-    
-    def get_plates(self):
-        return self.plates
+            
+        
     # Input from prediction/errorchecking?
     # unsure
     # def predictionInput(self, input):
@@ -173,9 +184,8 @@ class objectlog:
             +np.pow((point_one[2]-point_two[2]),2))
     
     #log all of the armor plates at the very end of the program before all the plates are deleted (genocide D:)
-    def kill_all(self):
+    def kill_all(self, index):
         for plate in self.plates:
-            plate.setActivity(False)
             plate.writeToHistory(self.objectLogOutput)
             self.kill_plate(self.plates.index(plate))
         self.objectLogOutput.close()
@@ -183,10 +193,5 @@ class objectlog:
 
     #logs and removes a single plate
     def kill_plate(self, index):
-        self.plate[index].setActivity(False)
         self.plates[index].writeToHistory(self.objectLogOutput)
         self.plates.remove(index)
-
-    # return the center coordinates of the sreen
-    def getCenter(self):
-        return [SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2]
