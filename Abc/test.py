@@ -19,7 +19,7 @@ class Prediction(object):
 
     # 
     def kinematicPredict(self, delt):
-        pass
+        #State Transition Matrix with x,v,a,j
         self.filter.F = np.array([[1.,  delt,   0.5*(delt**2),      (1/6)*(delt**3),0., 0., 0., 0., 0., 0., 0., 0.],
                                 [0.,    1.,     delt,               0.5*(delt**2),  0., 0., 0., 0., 0., 0., 0., 0.],
                                 [0.,    0.,     1.,                 delt,           0., 0., 0., 0., 0., 0., 0., 0.],
@@ -32,8 +32,11 @@ class Prediction(object):
                                 [0., 0., 0., 0., 0., 0., 0., 0,   0.,    1.,     delt,          0.5*(delt**2)],
                                 [0., 0., 0., 0., 0., 0., 0., 0,   0.,    0.,     1.,            delt],
                                 [0., 0., 0., 0., 0., 0., 0., 0,   0.,    0.,     0.,            1.]])
+        #Covariance Matrix
         self.filter.P *= 1000.
+        #Noise Matrix
         self.filter.Q = Q_discrete_white_noise(dim=4, dt=delt, block_size = 3, var=0.13, order_by_dim = True)
+        #Solves for a N+1 solution and places it in filter.x
         self.filter.predict()
         
     #x', y', z', x'', y'', z''
