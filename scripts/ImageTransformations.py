@@ -183,7 +183,7 @@ class RandomHorizontalFlip:
             img_center = np.hstack((img_center, img_center))
 
             bboxes = BoundingBox.bboxes_to_numpy(sample['labels'])
-            bboxes[:, [0, 2]] = (bboxes[:, [0, 2]].astype(np.float) + 2 * (img_center[[0, 2]] - bboxes[:, [0, 2]])).astype(np.int)
+            bboxes[:, [0, 2]] = (bboxes[:, [0, 2]].astype(float) + 2 * (img_center[[0, 2]] - bboxes[:, [0, 2]])).astype(int)
             box_w = abs(bboxes[:, 0] - bboxes[:, 2])
             bboxes[:, 0] -= box_w
             bboxes[:, 2] += box_w
@@ -235,7 +235,7 @@ class RandomScale(object):
         resize_scale = 1 + actual_scale
 
         img = cv2.resize(img, None, fx=resize_scale, fy=resize_scale)
-        bboxes[:, :4] = (bboxes[:, :4].astype(np.float) * [resize_scale, resize_scale, resize_scale, resize_scale]).astype(np.int)
+        bboxes[:, :4] = (bboxes[:, :4].astype(float) * [resize_scale, resize_scale, resize_scale, resize_scale]).astype(int)
 
         canvas = np.zeros(img_shape, dtype=np.uint8)
 
@@ -389,7 +389,7 @@ class RandomRotate(object):
 
         img = cv2.resize(img, (w, h))
 
-        new_bbox[:, :4] = (new_bbox[:, :4].astype(np.float) / [scale_factor_x, scale_factor_y, scale_factor_x, scale_factor_y]).astype(np.int)
+        new_bbox[:, :4] = (new_bbox[:, :4].astype(float) / [scale_factor_x, scale_factor_y, scale_factor_x, scale_factor_y]).astype(int)
 
         bboxes = new_bbox
 
@@ -462,7 +462,7 @@ class RandomShear(object):
 
         scale_factor_x = nW / w
 
-        bboxes[:, :4] = (bboxes[:, :4].astype(np.float) / [scale_factor_x, 1, scale_factor_x, 1]).astype(np.int)
+        bboxes[:, :4] = (bboxes[:, :4].astype(float) / [scale_factor_x, 1, scale_factor_x, 1]).astype(int)
 
         return {'image': cv2_to_pil(img), 'labels': BoundingBox.numpy_to_bboxes(bboxes, image_dims=(img.shape[1], img.shape[0]))}
 
@@ -476,7 +476,7 @@ def _horizontal_flip(img, bboxes):
     img_center = np.hstack((img_center, img_center))
 
     img = img[:, ::-1, :]
-    bboxes[:, [0, 2]] = (bboxes[:, [0, 2]].astype(np.float) + 2 * (img_center[[0, 2]] - bboxes[:, [0, 2]])).astype(np.int)
+    bboxes[:, [0, 2]] = (bboxes[:, [0, 2]].astype(float) + 2 * (img_center[[0, 2]] - bboxes[:, [0, 2]])).astype(int)
 
     box_w = abs(bboxes[:, 0] - bboxes[:, 2])
 

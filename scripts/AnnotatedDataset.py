@@ -97,6 +97,10 @@ class BoundingBox:
             raise Exception(f"Unhandled class name: {self.class_name}")
         self.class_id = CLASS_TO_ID[self.class_name]
 
+    def train_test_split():
+        pass
+         
+    
     @staticmethod
     def bboxes_to_numpy(bboxes: List[BoundingBox]):
         return np.stack([bbox.convert_corner_numpy() for bbox in bboxes], axis=0)
@@ -180,11 +184,11 @@ def draw_bboxes_on_image(image: Image, labels: List[BoundingBox]):
 
 
 class AnnotatedDataset(Dataset):
-    def __init__(self, original_path, transform=None):
+    def __init__(self, original_path, image_dir_name, annot_dir_name, transform=None):
         self.original_path = original_path
         self.transform = transform
-        image_paths_raw = [Path(x) for x in glob.glob(f'{original_path}/images/*.png')]  # List used for order of paths
-        annot_paths_raw = [Path(x) for x in glob.glob(f'{original_path}/annotations/*.xml')]
+        image_paths_raw = [Path(x) for x in glob.glob(f'{original_path}/{image_dir_name}/*.png')]  # List used for order of paths
+        annot_paths_raw = [Path(x) for x in glob.glob(f'{original_path}/{annot_dir_name}/*.xml')]
         self.SAMPLE_FRAME_PATTERN = re.compile("[0-9]+_frame_[0-9]+")
 
         # Clean image paths

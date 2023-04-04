@@ -10,6 +10,8 @@ from fire import Fire
 from tqdm import tqdm
 import time
 
+import glob
+from pathlib import Path
 from aug import get_normalize
 from models.networks import get_generator
 import matplotlib.pyplot as plt
@@ -156,13 +158,18 @@ if __name__ == '__main__':
     # Fire(main)
 #增加批量处理图片：
     # get deblurred training set images
-    img_path=get_files(r'../images/train/')
+    img_path=sorted(glob.glob(r'../data/output/val/images/*.png'))
     predictor = Predictor()
     for i in img_path:
+        print(i)
         pred = predictor.get_deblurred(i)
         pred = cv2.cvtColor(pred, cv2.COLOR_RGB2BGR)
         # folder needs to exist before you run this
-        cv2.imwrite(os.path.join(r'../images/train_deblurred/', os.path.basename(i)), pred)
+        
+        out_dir = Path("../data/output/val_deblurred/images/")
+        out_dir.mkdir(exist_ok=True, parents=True)
+        cv2.imwrite(f"{out_dir}/{os.path.basename(i)}", pred)
+        print("h")
 
     # # For training on both blurred and deblurred
     # # copies deblurred images and labels into the train folder

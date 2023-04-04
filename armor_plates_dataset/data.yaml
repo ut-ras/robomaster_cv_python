@@ -1,0 +1,6 @@
+path: /var/local/dy4652/RoboMasters/robomaster_CV/armor_plates_dataset/
+train: ../train/images
+val: ../valid/images
+
+nc: 1
+names: ['armor']
