@@ -1,7 +1,7 @@
 import numpy as np
 import bounding_box as bb
 
-class armorplate:
+class ArmorPlate:
     """
     A object of an armor plate object that is typically associated with what is seen.
 
@@ -46,10 +46,10 @@ class armorplate:
     # this method is subject to change depending on how PVA is implemented (currently assumed to be world positions)
     # assumes that time is being kept track of in per second units while velocity/acceleration are per millisecond units
     def predictPosition(self, currentTime):
-        delta_t = currentTime - lastTime
+        delta_t = currentTime - self.lastTime
         delta_t = delta_t / 1000
         self.nextPosition = self.position + (self.velocity * delta_t) + (self.acceleration * np.exp(delta_t, 2) / 2) # kinematics :D
-        lastTime = currentTime
+        self.lastTime = currentTime
 
     def getPosition(self):
         return self.Position 

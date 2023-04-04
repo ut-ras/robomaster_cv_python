@@ -1,4 +1,4 @@
-import armorplate
+from armorplate import *
 import numpy as np
 import bounding_box
 
@@ -11,6 +11,12 @@ MAX_Z = 50
 MIN_X = -1
 MIN_Y = -1
 MIN_Z = -1
+
+#TODO figure out smallest allowed order
+MIN_AREA = 10
+
+#TODO margin of error used in 
+margin_of_err = 5 # this is some random number, we need to finetune this later
 
 """
 Object Log:
@@ -65,10 +71,15 @@ class objectlog:
                     #bounding box is invalid
                     return -1
 
-                newPlate = armorplate(i, self.idAssign)
+                newPlate = ArmorPlate(boxList[i], self.idAssign)
+
+                #commented out for syntax checking COMMENT BACK IN FOR ACTUAL THING
+                #***************************************************************
                 kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
                 kinematic_predict(currentTime - timestamp)
                 newPlate.updateVA(getVA())
+                #***************************************************************
+
                 self.plates.append(newPlate)
                 self.idAssign += 1 
         else:
@@ -82,12 +93,13 @@ class objectlog:
                     #bounding box is invalid
                     return -1
 
-                i.predictPosition(currentTime)
-                new_armor = armorplate(boxList[i], self.idAssign)
+                
+                new_armor = ArmorPlate(boxList[i], self.idAssign)
+                new_armor.predictPosition(currentTime)
 
                 # greedy stuff done here \/
                 assoc = self.assign_plate(new_armor, self.plates) #index of matching plate
-                if assoc_plate == -1:
+                if assoc == -1:
                     #new plate, not seen before
                     if len(self.plates) < 9:
                         # add new plate and we have space
@@ -96,11 +108,11 @@ class objectlog:
                         #looking at more than 9 things
                         print("need space")
 
-                elif assoc_plate == -2:
+                elif assoc == -2:
                     #panic, something is null
                     print("panic")
 
-                elif assoc_plate == -3:
+                elif assoc == -3:
                     #out of range in x,y, or z
                     print("out of range")
                     
@@ -123,9 +135,9 @@ class objectlog:
                         self.kill_plate(i)
             return
 
-    def size_check(box) -> bool:
+    def size_check(self, box) -> bool:
         #10 is an abitrary num
-        if box.get_height() * box.get_width() < 10:
+        if box.get_height() * box.get_width() < MIN_AREA:
             return False
         return True
             
@@ -149,8 +161,6 @@ class objectlog:
         #plate_radius = newPlate.getBoundingBox().get_width() / 2
         shortest_dist = float('inf')
         shortest_plate = -1 # keeping the index, not decided what to do with the closest plate
-
-        margin_of_err = 5 # this is some random number, we need to finetune this later
 
         if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)
            or ((predicted[0] - margin_of_err) < MIN_X) or ((predicted[1] - margin_of_err) < MIN_Y) or ((predicted[2] - margin_of_err) < MIN_Z)):       
@@ -190,6 +200,10 @@ class objectlog:
             self.kill_plate(self.plates.index(plate))
         self.objectLogOutput.close()
         return
+    
+    def get_plates(self):
+        #used for debugging 
+        return self.plates
 
     #logs and removes a single plate
     def kill_plate(self, index):

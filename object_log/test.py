@@ -9,8 +9,8 @@ import time
 # object log that persists across tests
 hist_log = objectlog(0)
 
-box = bounding_box()
-armor = armorplate()
+# box = BoundingBox()
+# armor = ArmorPlate(box,1)
 
 num = 3
 boxlistPrev = []
@@ -45,24 +45,27 @@ param_VA = [
 def obj_log():
     return hist_log(time.localtime(time.time()))
 
-@pytest.fixture
-def boundingBoxFixture():
-    return box()
+#What is this for \/
 
-@pytest.fixture
-def armorplateFixture():
-    return armor()
+# @pytest.fixture
+# def boundingBoxFixture():
+#     return box()
+
+# @pytest.fixture
+# def armorplateFixture():
+#     return armor()
 
 # hardcoding bounding boxes for temporary use
 def makeBoxes(box_list, box_params):
     for i in range(0, num):
-        box_list[i].append(BoundingBox())
-        box_list[i].set_x_value(box_params[0])
-        box_list[i].set_y_value(box_params[1])
-        box_list[i].set_depth_value(box_params[2])
-        box_list[i].set_height_value(box_params[3])
-        box_list[i].set_width_value(box_params[4])
-        box_list[i].set_time(box_params[5])
+        box = BoundingBox()
+        box.set_x_value(box_params[i][0])
+        box.set_y_value(box_params[i][1])
+        box.set_depth(box_params[i][2])
+        box.set_height(box_params[i][3])
+        box.set_width(box_params[i][4])
+        box.set_time() #time only takes in one argument
+        box_list.append(box)
 
 makeBoxes(boxlistPrev, prev_params)
 makeBoxes(boxlistNext, next_params)
@@ -88,27 +91,31 @@ makeBoxes(boxlistNext, next_params)
 
 # test that ID is correctly assigned.
 def test_assignID(expectedID):
-    hist_log.boxesInput(boxlistPrev, dt)
-    plates = hist_log.get_plates
+    hist_log.boxesInput(boxlistPrev, dt, dt)
+    plates = hist_log.get_plates()
     for i in range(0, len(plates)):
-        assert plates[i].getID() == expectedID
+        assert plates[i].getID() == expectedID + i
     pass
+
+test_assignID(0)
 
 # test that bounding boxes are assigned correctly across time
 # assumes that test_assign_ID has already run
 def test_boxesInput():
     # set the velocity and acceleration values of the existing armor plates
-    old_plates = hist_log.get_plates
+    old_plates = hist_log.get_plates()
     for i in range(0, len(old_plates)):
-        i.updateVA(param_VA[i])
+        old_plates[i].updateVA(param_VA[i])
 
-    hist_log.boxesInput(boxlistNext, 2 * dt) # step forward by dt time
+    hist_log.boxesInput(boxlistNext, dt,  2 * dt) # step forward by dt time
     new_plates = hist_log.get_plates
 
     assert len(new_plates) == 3 # if there are not 3 armor plates objects in object log, something went wrong...
     for i in range(0, len(new_plates)):
         assert new_plates[i].getPosition == [next_params[i][0], next_params[i][1], next_params[i][2]] #check if position of the armor plates are correct
     pass
+
+test_boxesInput()
 
 
 # test that the camera is able to a select a target.
