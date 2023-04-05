@@ -57,7 +57,7 @@ class objectlog:
     """
     def boxesInput(self, boxList, timestamp, currentTime):
 
-        self.timeStamp = timestamp #timestamp is used for 
+        self.timeStamp = timestamp #timestamp is used for finding the delta t to do the kinematics. This needs to change, it is wrong
 
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
@@ -186,8 +186,6 @@ class objectlog:
     Output is a float which is the distance between the two objects 
     """
     def get_distance(self, point_one, point_two)-> float:
-
-        np.sqrt(np.dot())
         
         return np.sqrt(np.pow((point_one[0]-point_two[0]),2)\
             +np.pow((point_one[1]-point_two[1]),2)\

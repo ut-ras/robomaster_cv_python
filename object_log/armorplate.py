@@ -37,7 +37,7 @@ class ArmorPlate:
         self.max_assoc_plates = 5
 
     # velocity and acceleration are sets of three values
-    def updateVA(self, va_vector: float) -> int:
+    def updateVA(self, va_vector) -> int:
         self.velocity = va_vector[0:3]
         self.acceleration = va_vector[3:6]
         return 0
@@ -48,7 +48,7 @@ class ArmorPlate:
     def predictPosition(self, currentTime):
         delta_t = currentTime - self.lastTime
         delta_t = delta_t / 1000
-        self.nextPosition = self.position + (self.velocity * delta_t) + (self.acceleration * np.exp(delta_t, 2) / 2) # kinematics :D
+        self.nextPosition = self.position + (np.multiply(self.velocity, delta_t)) + (np.multiply(self.acceleration, np.exp(delta_t, 2) / 2)) # kinematics :D
         self.lastTime = currentTime
 
     def getPosition(self):
