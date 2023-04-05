@@ -30,7 +30,7 @@ class ArmorPlate:
         self.activity = True
         self.timeBuffer = 0
         self.nextPosition = [0,0,0]
-        self.lastTime = 0
+        self.lastTime = None
         self.history = None
         self.timestamp_history = None # Hasif told me to make this
         self.assoc_plates = None 
