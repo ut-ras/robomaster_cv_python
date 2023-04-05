@@ -1,6 +1,8 @@
 import numpy as np
 import bounding_box as bb
 
+
+
 class ArmorPlate:
     """
     A object of an armor plate object that is typically associated with what is seen.
@@ -47,12 +49,12 @@ class ArmorPlate:
     # assumes that time is being kept track of in per second units while velocity/acceleration are per millisecond units
     def predictPosition(self, currentTime):
         delta_t = currentTime - self.lastTime
-        delta_t = delta_t / 1000
+        delta_t = delta_t
         self.nextPosition = self.position + (np.multiply(self.velocity, delta_t)) + (np.multiply(self.acceleration, np.exp(delta_t, 2) / 2)) # kinematics :D
         self.lastTime = currentTime
 
     def getPosition(self):
-        return self.Position 
+        return self.position 
 
     def getID(self):
         return self.id   

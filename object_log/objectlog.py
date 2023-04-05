@@ -39,10 +39,9 @@ class objectlog:
     Runs in init() in main loop
     instantiates plates, ID var, and the timestamp variable. Opens output doc
     """
-    def __init__(self, timestamp):
+    def __init__(self):
         self.plates = []
         self.idAssign = 0
-        self.timeStamp = timestamp
         
         #Python automatically creates the file with this name if it does not exist
         self.objectLogOuput = open("ObjectLog.txt",'w')
@@ -57,7 +56,7 @@ class objectlog:
     """
     def boxesInput(self, boxList, timestamp, currentTime):
 
-        self.timeStamp = timestamp #timestamp is used for finding the delta t to do the kinematics. This needs to change, it is wrong
+        #self.timeStamp = timestamp #timestamp is used for finding the delta t to do the kinematics. This needs to change, it is wrong
 
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
