@@ -15,8 +15,11 @@ def getXY(xy):
         return None
 
 # Models and Filters
-model = torch.hub.load('', 'custom', 
-    path='./runs/train/exp30/weights/best.pt', 
+# model = torch.hub.load('', 'custom', 
+#     path='./runs/train/exp30/weights/best.pt', 
+#     source='local')
+model = torch.hub.load('yolov5', 'custom', 
+    path='./yolov5/runs/train/exp30/weights/best.pt', 
     source='local')
 kf = KalmanFilter()
 
