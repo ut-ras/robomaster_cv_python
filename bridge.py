@@ -11,7 +11,6 @@ import object_log as ol
 import target_selection as ts
 import prediction as p
 
-
 def init():
     dc.initialize_real_sense()
     oLog = ol.objectlog()
