@@ -47,5 +47,5 @@ class Prediction(object):
     def getPredictedPos(self):
         return[self.filter.x[0], self.filter.x[4], self.filter.x[8]]
 
-    def kinematicUpdate(self, x, y, z):
-        self.filter.update([x, y, z])
+    def kinematicUpdate(self, pos):
+        self.filter.update(pos[0], pos[1], pos[2])
