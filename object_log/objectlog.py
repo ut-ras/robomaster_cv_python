@@ -1,7 +1,3 @@
-from armorplate import *
-import numpy as np
-import bounding_box
-
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
 #these should be updated with the actual values
