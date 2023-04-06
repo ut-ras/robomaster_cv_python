@@ -7,7 +7,7 @@ import pytest
 import time
 
 # object log that persists across tests
-hist_log = objectlog(0)
+hist_log = objectlog()
 
 # box = BoundingBox()
 # armor = ArmorPlate(box,1)

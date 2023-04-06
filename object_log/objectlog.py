@@ -1,6 +1,7 @@
 from armorplate import *
 import numpy as np
 import bounding_box
+import filterpy
 
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
@@ -54,10 +55,7 @@ class objectlog:
     - timestamp: timestamp of the boundingBoxes
     the plates unless the closest distance is greater than some margin of error
     """
-    def boxesInput(self, boxList, timestamp, currentTime):
-
-        #self.timeStamp = timestamp #timestamp is used for finding the delta t to do the kinematics. This needs to change, it is wrong
-
+    def boxesInput(self, boxList, currentTime):
         # add all bounding boxes to plates if plates is empty
         if len(self.plates) == 0:
             for i in range(len(boxList)):
@@ -74,9 +72,7 @@ class objectlog:
 
                 #commented out for syntax checking COMMENT BACK IN FOR ACTUAL THING
                 #***************************************************************
-                kinematic_Update(newPlate.getPosition[0], newPlate.getPosition[1], newPlate.getPosition[2])
-                kinematic_predict(currentTime - timestamp)
-                newPlate.updateVA(getVA())
+                newPlate.kinematicUpdate(currentTime)
                 #***************************************************************
 
                 self.plates.append(newPlate)
@@ -91,18 +87,18 @@ class objectlog:
                 if((boxList[i].get_x_value() < 0) or (boxList[i].get_y_value() < 0) or (boxList[i].get_depth() < 0) or (boxList[i].get_height() < 0) or (boxList[i].get_width() < 0)):
                     #bounding box is invalid
                     return -1
-
                 
-                new_armor = ArmorPlate(boxList[i], self.idAssign)
-                new_armor.predictPosition(currentTime)
+                # new_armor = ArmorPlate(boxList[i], self.idAssign)
+                # new_armor.predictPosition(currentTime)
 
                 # greedy stuff done here \/
-                assoc = self.assign_plate(new_armor, self.plates) #index of matching plate
+                assoc = self.assign_plate(boxList[i], self.plates) #index of matching plate
                 if assoc == -1:
                     #new plate, not seen before
                     if len(self.plates) < 9:
                         # add new plate and we have space
-                        self.plates.append(new_armor)
+                        self.plates.append(ArmorPlate(boxList[i], self.idAssign))
+                        self.idAssign += 1
                     else:
                         #looking at more than 9 things
                         print("need space")
@@ -119,8 +115,9 @@ class objectlog:
                     # associate new plate with plates[assoc]
                     # add new plate to list of associated plates of plates[assoc]
                     assoc_plate = self.plates[assoc]
-                    assoc_plate.addArmorPlate(new_armor)
+                    assoc_plate.addArmorPlate(ArmorPlate(boxList[i], self.idAssign), currentTime)
                     assoc_plate.timeBuffer = 0
+                    self.idAssign += 1
 
             # bump up timer buffers and remove dead plates 
             kill_threshold = -1 #need to replace with an actual val
@@ -140,7 +137,6 @@ class objectlog:
             return False
         return True
             
-        
     # Input from prediction/errorchecking?
     # unsure
     # def predictionInput(self, input):
@@ -150,24 +146,25 @@ class objectlog:
 
     # pseudo greedy (?)
     # newPlate is the new armor plate we are trying to associate
-    def assign_plate(self, newPlate, plates) -> int: 
-        if newPlate == None or plates == None:
+    def assign_plate(self, box, plates) -> int: 
+        if box == None or plates == None:
             #error check
             return -2
-        predicted = newPlate.getNextPosition()
+        # predicted = newPlate.getNextPosition()
+        position = box.get_position()
         #This variable accounts for the plate's position being the center of the bounding box
         #maybe factor in the plate boundaries into the out of range calculations
         #plate_radius = newPlate.getBoundingBox().get_width() / 2
         shortest_dist = float('inf')
         shortest_plate = -1 # keeping the index, not decided what to do with the closest plate
 
-        if(((predicted[0] + margin_of_err) > MAX_X) or ((predicted[1] + margin_of_err) > MAX_Y) or ((predicted[2] + margin_of_err) > MAX_Z)
-           or ((predicted[0] - margin_of_err) < MIN_X) or ((predicted[1] - margin_of_err) < MIN_Y) or ((predicted[2] - margin_of_err) < MIN_Z)):       
+        if(((position[0] + margin_of_err) > MAX_X) or ((position[1] + margin_of_err) > MAX_Y) or ((position[2] + margin_of_err) > MAX_Z)
+           or ((position[0] - margin_of_err) < MIN_X) or ((position[1] - margin_of_err) < MIN_Y) or ((position[2] - margin_of_err) < MIN_Z)):       
             #if it is out of range, return early
             return -3
 
         for i in range(len(plates)):
-            dist = self.get_distance(self, newPlate, plates[i])
+            dist = self.get_distance(self, position, plates[i])
             if dist < shortest_dist:
                 shortest_plate = i
                 shortest_dist = dist
@@ -177,7 +174,6 @@ class objectlog:
             return -1
         return shortest_plate # this returns an index, but this could change to 
     # an actual refernce to the plate ¯\_(ツ)_/¯
-
 
     """
     Get_Distance returns the distance in pixels between two points
