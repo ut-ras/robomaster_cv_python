@@ -1,10 +1,7 @@
-import sys
 import pyrealsense2 as rs
 
 from depth_calculation import depth_calculation as dc
 from object_log import objectlog as ol
-import target_selection as ts
-import prediction as p
 
 def init():
     dc.initialize_real_sense()
@@ -12,5 +9,5 @@ def init():
 
 init()
 while True:
-    #oLog.update(Get_Bounding_box())
+    #oLog.boxesInput(Get_Bounding_box())
     print("LOL")
