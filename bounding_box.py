@@ -1,4 +1,4 @@
-from datetime import datetime
+import time
 
 class BoundingBox:
 	def __init__(self, x_center, y_center, width, height):
@@ -8,8 +8,7 @@ class BoundingBox:
 		self.__height__ = height
 		self.__width__ = width
 		self.__position__ = [self.__x_center__, self.__y_center__, self.__depth_value__]
-		current_time = datetime.now()
-		self.__time__ = current_time.strftime("%d/%m/%Y %H:%M:%S:") + f"{current_time.microsecond // 1000:03d}"
+		self.__time__ = time.time()
 
 	def __repr__(self) -> str:
 		return f"Center: ({self.__x_center__}px, {self.__y_center__}px)\n\
@@ -33,7 +32,7 @@ class BoundingBox:
 		self.__width__ = width
 
 	def set_time(self):
-		self.__time = time.localtime(time.time())
+		self.__time__ = time.time()
 	
 	def get_x_value(self):
 		return self.__x_center__

@@ -158,7 +158,7 @@ if __name__ == '__main__':
     # Fire(main)
 #增加批量处理图片：
     # get deblurred training set images
-    img_path=sorted(glob.glob(r'../data/output/val/images/*.png'))
+    img_path=sorted(glob.glob(r'../data/output/test/images/*.png'))
     predictor = Predictor()
     for i in img_path:
         print(i)
