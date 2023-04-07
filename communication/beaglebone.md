@@ -50,3 +50,11 @@ The result of the transmission can be printed onto the terminal. If this doesn't
 **Pins**
 
 https://docs.beagleboard.org/latest/boards/beaglebone/ai-64/ch07.html#p8-17-p8-19
+
+
+**UART Pins**
+
+In order to determine which pins are mapped to the symbolic link that can be found by running *tree /dev/bone*, we must access the dtsi file and configure the pins ourselves.
+
+For whatever reason, the symbolic link for UART1 is actually connected to UART2's pins.
+
