@@ -72,6 +72,8 @@ def get_depth_at_pixel(depth_frame, bounding_box):
     # Stop streaming
         pipeline.stop()
 
+#TODO: Take in bounding box list and just populate all of them
+
 if __name__ == "__main__":
     initialize_real_sense()
     # get_color_image()

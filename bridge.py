@@ -1,3 +1,4 @@
+import sys
 import pyrealsense2 as rs
 
 from depth_calculation import depth_calculation as dc
@@ -8,5 +9,19 @@ def init():
 
 init()
 while True:
-    #oLog.boxesInput(Get_Bounding_box())
+    #oLog.update(Get_Bounding_box())
+    #grab ML bbo
+    temp = None
+    #feed bbo into depth calculation
+    
+    #feed temp into update
+    ol.boxesInput(temp, time.time())
+
+    #target select the object
+    sel = ts.selectTarget(ol)
+
+    #send to UART
+    #sendtoUART()
+
+    
     print("LOL")
