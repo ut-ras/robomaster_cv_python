@@ -1,9 +1,7 @@
+import numpy as np
 import sys
 sys.path.append('../robomaster_CV')
-from object_log import armorplate
-import numpy as np
-
-
+from object_log import armorplate as ap
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
 #these should be updated with the actual values
@@ -73,28 +71,31 @@ class objectlog:
                     #bounding box is invalid
                     return -1
 
-                newPlate = ArmorPlate(boxList[i], self.idAssign)
+                newPlate = ap.ArmorPlate(boxList[i], self.idAssign)
                 newPlate.addArmorPlate(newPlate, currentTime)
 
                 self.plates.append(newPlate)
                 self.idAssign += 1 
         else:
             for box in boxList:
+                print(box)
                 #check size of bounding box, if too small pass this iteration
                 if not self.size_check(box):
                     continue 
 
                 #error check the bounding box parameters
+                if(box.get_depth() is None):
+                    print ("Well fuck")
                 if((box.get_x_value() < 0) or (box.get_y_value() < 0) or (box.get_depth() < 0) or (box.get_height() < 0) or (box.get_width() < 0)):
                     #bounding box is invalid
                     return -1
                 
-                # new_armor = ArmorPlate(boxList[i], self.idAssign)
+                # new_armor = ap.ArmorPlate(boxList[i], self.idAssign)
                 # new_armor.predictPosition(currentTime)
 
                 # greedy stuff done here \/
                 assoc = self.assign_plate(box, self.plates) #index of matching plate
-                new_armor = ArmorPlate(box, self.idAssign)
+                new_armor = ap.ArmorPlate(box, self.idAssign)
                 if assoc == -1:
                     #new plate, not seen before
                     if len(self.plates) < 9:

@@ -22,10 +22,12 @@ while True:
     oLog.boxesInput(temp, time.time())
     #feed bbo into depth calculation
     if len(temp) > 0:
-        color_frame = dc.get_all_color_image_(temp)
+        dc.get_all_color_image_(temp)
+        print(color_image.shape)
         #feed temp into update
+        #print(color_frame)
         oLog.boxesInput(temp, time.time())
-        color_image = np.asanyarray(color_frame.get_data())
+        #color_image = np.asanyarray(color_frame.get_data())
 
         for i in range(len(temp)):
             color_image = cv2.rectangle(color_image, temp[i].__x_center__-(temp[i].__width__/2), temp[i].__y_center__-(temp[i].__height__/2), temp[i].__x_center__, temp[i].__y_center__)

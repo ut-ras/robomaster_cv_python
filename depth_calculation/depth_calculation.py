@@ -34,7 +34,7 @@ def initialize_real_sense():
     config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
 
     if device_product_line == 'D435i':
-        config.enable_stream(rs.stream.color, 960, 540, rs.format.bgr8, 30)
+        config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
     else:
         config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
@@ -45,11 +45,11 @@ def get_color_image_depth_image():
     try:
         # while True:
         frames = pipeline.wait_for_frames()
-        #color_frame = frames.get_color_frame()
+        color_frame = frames.get_color_frame()
         depth_frame = frames.get_depth_frame()
 
-        #return color_frame, depth_frame
-        return depth_frame
+        return color_frame, depth_frame
+        # return depth_frame
     except:
         #stop streaming
         pipeline.stop()
@@ -66,9 +66,11 @@ def get_depth_at_pixel(depth_frame, bounding_box):
         #depth_image returns an array of depth values, in meters
         depth_image = np.asanyarray(depth_frame.get_data())
         # color_image = np.asanyarray(color_frame.get_data())
-
+        print(depth_image.shape)
+        print([bounding_box.get_y_value(), bounding_box.get_x_value()])
+        print([int(bounding_box.get_y_value()), int(bounding_box.get_x_value())])
         # Get depth of specific pixel at the x and y coordinates from the bounding box 
-        return depth_image[bounding_box.get_y_value(), bounding_box.get_x_value()]
+        return depth_image[int(bounding_box.get_y_value()), int(bounding_box.get_x_value())]
     except:
     # Stop streaming
         pipeline.stop()
@@ -76,10 +78,11 @@ def get_depth_at_pixel(depth_frame, bounding_box):
 #TODO: Take in bounding box list and just populate all of them
 def get_all_color_image_(boxList):
     #color_image, depth_image = get_color_image_depth_image()
-    depth_image = get_color_image_depth_image()
+    _, depth_image = get_color_image_depth_image()
     if boxList == None:
         return
     for i in range(len(boxList)):
+        print("I got here")
         boxList[i].set_depth(get_depth_at_pixel(depth_image, boxList[i]))
     #return color_image
 
