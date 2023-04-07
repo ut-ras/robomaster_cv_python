@@ -1,13 +1,12 @@
 import torch
 import cv2
-from kalmanfilter import KalmanFilter
 from bounding_box import BoundingBox
 
 
 class Model:
     def __init__(self, path):
         self.model = torch.hub.load(
-            "yolov5",
+            "",
             "custom",
             path=path,
             source="local",
