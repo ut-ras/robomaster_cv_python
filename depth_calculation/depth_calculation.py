@@ -48,6 +48,9 @@ def get_color_image_depth_image():
         color_frame = frames.get_color_frame()
         depth_frame = frames.get_depth_frame()
 
+        color_frame = np.asanyarray(color_frame.get_data())
+        depth_frame = np.asanyarray(depth_frame.get_data())
+
         return color_frame, depth_frame
     except:
         #stop streaming

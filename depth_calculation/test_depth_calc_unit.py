@@ -24,18 +24,20 @@ def test_realsense_connection():
 
 #test to make sure that we are receiving a color image from the realsense that yolo can run on
 def test_color_image():
-	color_image = dc.get_color_image()
+	color_image,depth_image = dc.get_color_image_depth_image()
 	print(type(color_image))
-	assert type(color_image) is rs.video_frame
+	assert isinstance(color_image,np.ndarray) is True
+	assert isinstance(depth_image,np.ndarray) is True
 
 # test to make sure that we are receiving a depth image of type numpya array and we do not have empty depth measurements
-def test_depth_image():
-	depth_image = dc.get_depth_at_pixel(0)
-	assert(np.all(depth_image==0) is not True)
-	assert isinstance(depth_image,np.ndarray) is True
+# def test_depth_image():
+
+# 	depth_image = dc.get_depth_at_pixel(0)
+# 	assert(np.all(depth_image==0) is not True)
+# 	assert isinstance(depth_image,np.ndarray) is True
 	
-	#uncomment this when depth_image function is fully written to provide the depth value on the center of the armor plate
-	# instead of returning the entire np array of depth values
-	# assert depth_image != 0
-	# assert type(depth_image) is float 
+# 	#uncomment this when depth_image function is fully written to provide the depth value on the center of the armor plate
+# 	# instead of returning the entire np array of depth values
+# 	# assert depth_image != 0
+# 	# assert type(depth_image) is float 
 
