@@ -146,6 +146,36 @@ install(TARGETS
   ghost_estimator_node
   DESTINATION lib/${PROJECT_NAME})
 
+###############################
+#### Sentry Estimator Node ####
+###############################
+add_executable(sentry_estimator_node
+  src/ros_nodes/sentry_estimator_node.cpp
+)
+ament_target_dependencies(sentry_estimator_node
+  rclcpp
+  tf2_msgs
+  sensor_msgs
+  visualization_msgs
+  ghost_msgs
+  nav_msgs
+  ghost_estimation
+  Eigen3
+)
+target_link_libraries(sentry_estimator_node
+  ghost_estimation::amrl_shared_lib
+  ghost_estimation::vector_map
+  ghost_estimation::particle_filter
+  yaml-cpp
+)
+target_include_directories(sentry_estimator_node
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+install(TARGETS
+  sentry_estimator_node
+  DESTINATION lib/${PROJECT_NAME})
+
 ##################################
 #### Robot State Machine Node ####
 ##################################

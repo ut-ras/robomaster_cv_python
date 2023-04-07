@@ -114,6 +114,14 @@ def generate_launch_description():
         parameters=[ghost_ros_base_dir + "/config/ghost_estimator_config.yaml"]
     )
 
+    sentry_estimator_node = Node(
+        package='ghost_ros',
+        executable='sentry_estimator_node',
+        name='sentry_estimator_node',
+        output='screen',
+        parameters=[ghost_ros_base_dir + "/config/sentry_estimator_config.yaml"]
+    )
+
     depth_node = Node(
         package='depth',
         executable='depth_calculations',
@@ -137,13 +145,14 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(name='enable_pid', default_value='true'),
         DeclareLaunchArgument(name='joystick', default_value='false'),
-        DeclareLaunchArgument('sim_gui', default_value='false'),
+        DeclareLaunchArgument('sim_gui', default_value='true'),
         DeclareLaunchArgument('verbose', default_value='true'),
         simulation,
         ground_truth_publisher,
         rviz_node,
         joy_launch_description,
         estimator_node,
+        sentry_estimator_node,
         depth_node,
         state_machine_node,
         sentry_control_node,
