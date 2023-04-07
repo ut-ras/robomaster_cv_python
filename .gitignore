@@ -162,3 +162,5 @@ cython_debug/
 # Repo specific excludes
 /data
 /yolov8
+/yolov5/runs
+/yolov5/*.pt

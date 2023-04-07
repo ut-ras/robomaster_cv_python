@@ -158,7 +158,8 @@ if __name__ == '__main__':
     # Fire(main)
 #增加批量处理图片：
     # get deblurred training set images
-    img_path=sorted(glob.glob(r'../data/output/test/images/*.png'))
+    set_type = "train"
+    img_path=sorted(glob.glob(f'../data/output/{set_type}/images/*.png'))
     predictor = Predictor()
     for i in img_path:
         print(i)
@@ -166,7 +167,7 @@ if __name__ == '__main__':
         pred = cv2.cvtColor(pred, cv2.COLOR_RGB2BGR)
         # folder needs to exist before you run this
         
-        out_dir = Path("../data/output/val_deblurred/images/")
+        out_dir = Path(f"../data/output/{set_type}deblurred/images/")
         out_dir.mkdir(exist_ok=True, parents=True)
         cv2.imwrite(f"{out_dir}/{os.path.basename(i)}", pred)
         print("h")
