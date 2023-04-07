@@ -7,7 +7,7 @@ from object_log import objectlog as ol
 from target_selection import Target_Selection as ts
 
 
-# dc.initialize_real_sense()
+dc.initialize_real_sense()
 oLog = ol.objectlog()
 targetSel = ts.targetSelection()
 while True:
@@ -15,7 +15,7 @@ while True:
     #grab ML bbo
     temp = None
     #feed bbo into depth calculation
-    
+    dc.get_all_color_image_(temp)
     #feed temp into update
     oLog.boxesInput(temp, time.time())
 
