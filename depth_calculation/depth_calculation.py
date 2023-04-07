@@ -74,11 +74,12 @@ def get_depth_at_pixel(depth_frame, bounding_box):
 
 #TODO: Take in bounding box list and just populate all of them
 def get_all_color_image_(boxList):
-    _, depth_image = get_color_image_depth_image()
+    color_image, depth_image = get_color_image_depth_image()
     if boxList == None:
         return
     for i in range(len(boxList)):
         boxList[i].set_depth(get_depth_at_pixel(depth_image, boxList[i]))
+    return color_image
 
 if __name__ == "__main__":
     initialize_real_sense()
