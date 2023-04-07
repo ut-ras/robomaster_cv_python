@@ -1,6 +1,6 @@
-if __name__ == "__main__":
-    from armorplate import *
-
+import sys
+sys.path.append('../robomaster_CV')
+from object_log import armorplate
 import numpy as np
 
 

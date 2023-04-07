@@ -1,5 +1,9 @@
 import torch
 import cv2
+import sys
+sys.path.append("../")
+from object_log import bounding_box
+
 
 class Model:
     def __init__(self, path):
@@ -9,7 +13,7 @@ class Model:
             path=path,
             source="local",
         )
-        self.cam_feed = cv2.VideoCapture(0)
+        self.cam_feed = cv2.VideoCapture(1)
         self.cam_feed.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.cam_feed.set(cv2.CAP_PROP_FRAME_HEIGHT, 750)
         self.image_attempts = 5
@@ -25,7 +29,7 @@ class Model:
                 break
         if not ret:
             print("Error in accessing camera")
-            return []
+            return [], img
         pred = self.model(cv2.cvtColor(img, cv2.COLOR_BGR2RGB), size=640)
         xy_df = pred.pandas().xyxy[0]
         plates = xy_df[xy_df['name'].str.contains("Plate")]
@@ -35,6 +39,6 @@ class Model:
             plates["yCenter"] = plates['ymin'] + plates['ymax'] / 2
             plates["width"] = plates['xmax'] - plates['xmin']
             plates["height"] = plates['ymax'] - plates['ymin']
-            return [bbox for bbox in plates.apply(lambda x: BoundingBox(*x[['xCenter', 'yCenter', 'width', 'height']]), axis=1)]
+            return [bbox for bbox in plates.apply(lambda x: bounding_box.BoundingBox(*x[['xCenter', 'yCenter', 'width', 'height']]), axis=1)], img
         else:
-            return []
+            return [], img

@@ -17,17 +17,18 @@ prevTime = 0
 while True:
     
     #grab ML bbo
-    temp = mod.get_bounding_boxes()
+    temp, color_image = mod.get_bounding_boxes()
     print(temp)
     oLog.boxesInput(temp, time.time())
     #feed bbo into depth calculation
-    color_frame = dc.get_all_color_image_(temp)
-    #feed temp into update
-    oLog.boxesInput(temp, time.time())
-    color_image = np.asanyarray(color_frame.get_data())
+    if len(temp) > 0:
+        color_frame = dc.get_all_color_image_(temp)
+        #feed temp into update
+        oLog.boxesInput(temp, time.time())
+        color_image = np.asanyarray(color_frame.get_data())
 
-    for i in range(len(temp)):
-        color_image = cv2.rectangle(color_image, temp[i].__x_center__-(temp[i].__width__/2), temp[i].__y_center__-(temp[i].__height__/2), temp[i].__x_center__, temp[i].__y_center__)
+        for i in range(len(temp)):
+            color_image = cv2.rectangle(color_image, temp[i].__x_center__-(temp[i].__width__/2), temp[i].__y_center__-(temp[i].__height__/2), temp[i].__x_center__, temp[i].__y_center__)
     cv2.imshow('Image', color_image)
     cv2.waitKey(1)
     #target select  the object

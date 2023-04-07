@@ -45,10 +45,11 @@ def get_color_image_depth_image():
     try:
         # while True:
         frames = pipeline.wait_for_frames()
-        color_frame = frames.get_color_frame()
+        #color_frame = frames.get_color_frame()
         depth_frame = frames.get_depth_frame()
 
-        return color_frame, depth_frame
+        #return color_frame, depth_frame
+        return depth_frame
     except:
         #stop streaming
         pipeline.stop()
@@ -74,12 +75,13 @@ def get_depth_at_pixel(depth_frame, bounding_box):
 
 #TODO: Take in bounding box list and just populate all of them
 def get_all_color_image_(boxList):
-    color_image, depth_image = get_color_image_depth_image()
+    #color_image, depth_image = get_color_image_depth_image()
+    depth_image = get_color_image_depth_image()
     if boxList == None:
         return
     for i in range(len(boxList)):
         boxList[i].set_depth(get_depth_at_pixel(depth_image, boxList[i]))
-    return color_image
+    #return color_image
 
 if __name__ == "__main__":
     initialize_real_sense()
