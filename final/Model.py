@@ -6,7 +6,7 @@ from bounding_box import BoundingBox
 class Model:
     def __init__(self, path):
         self.model = torch.hub.load(
-            "",
+            "yolov5",
             "custom",
             path=path,
             source="local",
