@@ -1,7 +1,10 @@
+if __name__ == "__main__":
+    import bounding_box as bb
+    import prediction as pred
+    
 import numpy as np
-import bounding_box as bb
-import prediction as pred
-
+from prediction import prediction as pred
+from object_log import bounding_box as bb
 
 class ArmorPlate:
     """
