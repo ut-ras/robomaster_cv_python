@@ -5,13 +5,14 @@ import time
 from depth_calculation import depth_calculation as dc
 from object_log import objectlog as ol
 from target_selection import Target_Selection as ts
-
+from ML import Model as m
 
 dc.initialize_real_sense()
 oLog = ol.objectlog()
 targetSel = ts.targetSelection()
+mod = m.Model('../Robomaster_CV/ML/best.pt')
 while True:
-    #oLog.update(Get_Bounding_box())
+    oLog.boxesInput(mod.get_bounding_boxes(), time.time())
     #grab ML bbo
     temp = None
     #feed bbo into depth calculation
