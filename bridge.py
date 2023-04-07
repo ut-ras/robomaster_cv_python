@@ -1,13 +1,15 @@
 import sys
 import pyrealsense2 as rs
+import time
 
 from depth_calculation import depth_calculation as dc
 from object_log import objectlog as ol
-def init():
-    # dc.initialize_real_sense()
-    oLog = ol.objectlog()
+from target_selection import Target_Selection as ts
 
-init()
+
+# dc.initialize_real_sense()
+oLog = ol.objectlog()
+targetSel = ts.targetSelection()
 while True:
     #oLog.update(Get_Bounding_box())
     #grab ML bbo
@@ -15,10 +17,10 @@ while True:
     #feed bbo into depth calculation
     
     #feed temp into update
-    ol.boxesInput(temp, time.time())
+    oLog.boxesInput(temp, time.time())
 
-    #target select the object
-    sel = ts.selectTarget(ol)
+    #target select  the object
+    sel = targetSel.selectTarget(oLog)
 
     #send to UART
     #sendtoUART()

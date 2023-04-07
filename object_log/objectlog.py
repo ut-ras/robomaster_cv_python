@@ -60,6 +60,8 @@ class objectlog:
     """
     def boxesInput(self, boxList, currentTime):
         # add all bounding boxes to plates if plates is empty
+        if boxList == None:
+            return -1
         if len(self.plates) == 0:
             for i in range(len(boxList)):
                 #check size of bounding box, if too small pass this iteration
