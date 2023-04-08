@@ -1,12 +1,14 @@
+if __name__ == "__main__":
+    import bounding_box as bb
+    import prediction as pred
+    
 import numpy as np
-import bounding_box as bb
-import prediction as pred
-
+from prediction import prediction as pred
+from object_log import bounding_box as bb
 
 class ArmorPlate:
     """
     A object of an armor plate object that is typically associated with what is seen.
-
     Object should be initialized from the outputs of the machine learning model and has parameters such as position, velocity, depth, etc.
     
     Armor plate object is used in object log
@@ -35,7 +37,7 @@ class ArmorPlate:
         self.lastTime = None
         self.history = None
         self.timestamp_history = None # Hasif told me to make this
-        self.assoc_plates = None 
+        self.assoc_plates = []
         self.max_assoc_plates = 5
         self.kf = pred.Prediction()
 
@@ -84,6 +86,6 @@ class ArmorPlate:
 
     def writeToHistory(self, historyFile):
         # historyFile = open("pathhere",'a')
-        historyFile.write(self.id + " " + self.position + " " + self.activity + " " )
-        historyFile.write(self.lastTime + ", ") # insert writing stuff here
+        historyFile.write("ID: {} Position: {} Activity: {} LastTime: {}\n"\
+                          .format(self.id, self.position, self.activity,self.lastTime))
         # historyFile.close()
