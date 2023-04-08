@@ -13,8 +13,8 @@ class targetSelection(object):
         shortest_plate = None # keeping the index, not decided what to do with the closest plate
         #Loops through all armor plates and finds the closest plate by pythagorean theorem
         for i in range(len(log.plates)):
-            if (np.pow((mousePos[0]-log.plates[i].boundingBox.__x_center__), 2)\
-            +np.pow((mousePos[1]-log.plates[i].boundingBox.__y_center__), 2) < shortest_dist):
+            if (pow((mousePos[0]-log.plates[i].boundingbox.__x_center__), 2)\
+            +pow((mousePos[1]-log.plates[i].boundingbox.__y_center__), 2) < shortest_dist):
                 shortest_plate = log.plates[i]
-                shortest_dist = np.pow((mousePos[0]-log.plates[i].boundingBox.__x_center__), 2)+np.pow((mousePos[1]-log.plates[i].boundingBox.__y_center__), 2)
+                shortest_dist = pow((mousePos[0]-log.plates[i].boundingbox.__x_center__), 2)+pow((mousePos[1]-log.plates[i].boundingbox.__y_center__), 2)
         return shortest_plate
