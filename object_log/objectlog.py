@@ -2,6 +2,7 @@ import numpy as np
 import sys
 sys.path.append('../robomaster_CV')
 from object_log import armorplate as ap
+
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
 #these should be updated with the actual values
@@ -36,6 +37,7 @@ Primary functions in pipeline:
 """
 class objectlog:
 
+
     """
     Initialize function
     Runs in init() in main loop
@@ -56,7 +58,7 @@ class objectlog:
     - timestamp: timestamp of the boundingBoxes
     the plates unless the closest distance is greater than some margin of error
     """
-    def boxesInput(self, boxList, currentTime):
+    def boxesInput(self, boxList, currentTime: float):
         # add all bounding boxes to plates if plates is empty
         if boxList == None:
             return -1
@@ -131,11 +133,20 @@ class objectlog:
                         self.kill_plate(i)
             return
 
+    """
+    Checks and returns if the armor plate's area is significant enough to be targeted
+    and added/associated into the list of active armor plates
+    """
     def size_check(self, box) -> bool:
         if box.get_height() * box.get_width() < MIN_AREA:
             return False
         return True
-            
+    
+    """
+    Takes in an armor plate, makes sure that it is valid and not predicted to be out of
+    range, and then associates it with the armor plate whose predicted position is closest
+    to the position of this armor plate
+    """
     def assign_plate(self, box, plates) -> int: 
         if box == None or plates == None:
             #error check
@@ -167,16 +178,20 @@ class objectlog:
 
     """
     Get_Distance returns the distance in pixels between two points
-    input is two 3x1 matrices, each representing a point in (x,y,z)
+    input is two 3x1 matrices, each representing point in (x,y,z)
     Output is a float which is the distance between the two objects 
     """
-    def get_distance(self, point_one, point_two)-> float:
+    def get_distance(self, point_one, point_two) -> float:
         
         return np.sqrt( pow((point_one[0]-point_two[0]),2)\
             + pow((point_one[1]-point_two[1]),2)\
             + pow((point_one[2]-point_two[2]),2))
     
     #log all of the armor plates at the very end of the program before all the plates are deleted (genocide D:)
+    
+    """
+    kill_all kills all the plates in the object log list of plates and closes the 
+    """
     def kill_all(self):
         for plate in self.plates:
             plate.writeToHistory(self.objectLogOutput)
@@ -185,11 +200,17 @@ class objectlog:
         return
     
     #used for debugging 
+    """
+    get_plates returns an array of armor plates belonging to the object log instance.
+    """
     def get_plates(self):
         return self.plates
 
     #logs and removes a single plate
-    def kill_plate(self, id):
+    """
+    kill_plate removes a plate from the current object log list of plates.
+    """
+    def kill_plate(self, id: int):
         for i in range(len(self.plates)):
             plate = self.plates[i]
             if plate.getID() == id:
