@@ -66,7 +66,7 @@ def get_depth_value_from_bounding_box(bounding_box):
         depth_frame = np.asanyarray(depth_frame.get_data())
 
         #return a float by indexing into the numpy array using the coordinates given by the bounding box
-        return depth_frame[bounding_box.get_y_value(),bounding_box.get_x_value()]
+        return depth_frame[int(bounding_box.get_y_value()),int(bounding_box.get_x_value())]
     except:
         #stop streaming
         pipeline.stop()

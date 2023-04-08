@@ -31,7 +31,7 @@ while True:
         #color_image = np.asanyarray(color_frame.get_data())
 
         for i in range(len(bounding_boxes)):
-            color_image = cv2.rectangle(color_image, bounding_boxes[i].__x_center__-(bounding_boxes[i].__width__/2), bounding_boxes[i].__y_center__-(bounding_boxes[i].__height__/2), bounding_boxes[i].__x_center__, bounding_boxes[i].__y_center__)
+            color_image = cv2.rectangle(color_image, bounding_boxes[i].get_x_value()-(bounding_boxes[i].get_width()/2), bounding_boxes[i].get_y_value()-(bounding_boxes[i].get_height()/2), bounding_boxes[i].get_x_value(), bounding_boxes[i].get_y_value())
     cv2.namedWindow('Image',cv2.WINDOW_AUTOSIZE)
     cv2.imshow('Image', color_image)
     cv2.waitKey(1)
