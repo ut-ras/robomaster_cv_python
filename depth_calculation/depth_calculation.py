@@ -12,6 +12,7 @@ import cv2
 # Set up pipeline
 pipeline = rs.pipeline()
 
+#the depth image resolution is set to 1280 x 720p, USB 3.0 required to access 1280 by 720 otherwise, crashes
 def initialize_real_sense():
     # Configure depth and color streams
     config = rs.config()
@@ -31,7 +32,7 @@ def initialize_real_sense():
         print("The demo requires Depth camera with Color sensor")
         exit(0)
 
-    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
+    config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
 
     if device_product_line == 'D435i':
         config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
@@ -41,52 +42,23 @@ def initialize_real_sense():
     # Start streaming
     pipeline.start(config)
 
-def get_color_image_depth_image():
+#acquiring the depth frame, convert to numpy array so that it can be indexed into by a bounding box
+def get_depth_value_from_bounding_box(bounding_box):
     try:
-        # while True:
+        
         frames = pipeline.wait_for_frames()
-        color_frame = frames.get_color_frame()
+
+        #acquire the depth frame
         depth_frame = frames.get_depth_frame()
 
-        return color_frame, depth_frame
-        # return depth_frame
+        #convert depth frame into numpy array of shape 720 by 1280
+        depth_frame = np.asanyarray(depth_frame.get_data())
+
+        #return a float by indexing into the numpy array using the coordinates given by the bounding box
+        return depth_frame[bounding_box.get_y_value(),bounding_box.get_x_value()]
     except:
         #stop streaming
         pipeline.stop()
 
-#bounding_box input parameter should be of type BoundingBox
-def get_depth_at_pixel(depth_frame, bounding_box):
-    try:
-
-        # Wait for a coherent pair of frames: depth and color
-        # frames = pipeline.wait_for_frames()
-        # depth_frame = frames.get_depth_frame()
-
-        # Convert images to numpy arrays
-        #depth_image returns an array of depth values, in meters
-        depth_image = np.asanyarray(depth_frame.get_data())
-        # color_image = np.asanyarray(color_frame.get_data())
-        print(depth_image.shape)
-        print([bounding_box.get_y_value(), bounding_box.get_x_value()])
-        print([int(bounding_box.get_y_value()), int(bounding_box.get_x_value())])
-        # Get depth of specific pixel at the x and y coordinates from the bounding box 
-        return depth_image[int(bounding_box.get_y_value()), int(bounding_box.get_x_value())]
-    except:
-    # Stop streaming
-        pipeline.stop()
-
-#TODO: Take in bounding box list and just populate all of them
-def get_all_color_image_(boxList):
-    #color_image, depth_image = get_color_image_depth_image()
-    _, depth_image = get_color_image_depth_image()
-    if boxList == None:
-        return
-    for i in range(len(boxList)):
-        print("I got here")
-        boxList[i].set_depth(get_depth_at_pixel(depth_image, boxList[i]))
-    #return color_image
-
 if __name__ == "__main__":
     initialize_real_sense()
-    # get_color_image()
-    # get_depth_at_pixel(0)
