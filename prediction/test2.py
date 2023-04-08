@@ -29,6 +29,7 @@ while (i<30):
     pos = f.getPredictedPos()
     #Prints Position
     print("({:.2f}".format(pos[0]), ", {:.2f})".format(xm[i]), "\t\t({:.2f}".format(pos[1]), ", {:.2f})".format(ym[i]), "\t\t({:.2f}".format(pos[2]), ", {:.2f})".format(zm[i]))
+    # f.getLikelihood()
     #Updates matricies with new noisy measurement
     f.kinematicUpdate([ap[i], aq[i], ar[i]])
     #Iteration
