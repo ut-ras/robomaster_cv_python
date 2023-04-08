@@ -42,6 +42,17 @@ def initialize_real_sense():
     # Start streaming
     pipeline.start(config)
 
+#testing purposes
+def get_color_image():
+    try:
+        frames = pipeline.wait_for_frames()
+        color_frame = frames.get_color_frame()
+        color_image = np.asanyarray(color_frame)
+
+        return color_image
+    except:
+        pipeline.stop()
+    # return color_image
 #acquiring the depth frame, convert to numpy array so that it can be indexed into by a bounding box
 def get_depth_value_from_bounding_box(bounding_box):
     try:
