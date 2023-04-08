@@ -60,5 +60,13 @@ def get_depth_value_from_bounding_box(bounding_box):
         #stop streaming
         pipeline.stop()
 
+def set_all_bounding_box_depth_values(box_list):
+    if box_list == None or len(box_list) == 0:
+        return
+    else:
+        for i in range(len(box_list)):
+            box_list[i].set_depth(get_depth_value_from_bounding_box(box_list[i]))
+    
+
 if __name__ == "__main__":
     initialize_real_sense()
