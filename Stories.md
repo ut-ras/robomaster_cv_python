@@ -27,6 +27,11 @@ Right now, some command velocities work and other dont and changing up what dire
  * cmd_vel topic is configured in `sentry_base.xacro` and the topic is published to in the mecanum_plugin folder
  * command to publish to the cmd_vel topic is ```ros2 topic pub cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1, y: 0, z: 0}}”```
 
+### Real LIDAR data
+Objective: Load real lidar data into sim
+We now have a real lidar and it would be nice to fuck around with it and we'll need to know how to set up the lidar later
+ * LIDAR data from actual sensor streamed to ROS
+ * LIDAR data visualized in simulation
 
 ### UART
 Work with Paul to get data from embeded.
