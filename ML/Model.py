@@ -13,7 +13,7 @@ class Model:
             path=path,
             source="local",
         )
-        self.cam_feed = cv2.VideoCapture(1)
+        self.cam_feed = cv2.VideoCapture(0)
         self.cam_feed.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         self.cam_feed.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
         self.image_attempts = 5
