@@ -51,6 +51,7 @@ def get_color_depth_image():
         #convert frames to images
         color_image = np.asanyarray(color_frame.get_data())
         depth_image = np.asanyarray(depth_frame.get_data())
+        return color_image, depth_image
     except:
         pipeline.stop()
 

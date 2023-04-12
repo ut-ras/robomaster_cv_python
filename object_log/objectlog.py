@@ -78,7 +78,6 @@ class objectlog:
                 self.idAssign += 1 
         else:
             for box in boxList:
-                print(box)
                 #check size of bounding box, if too small pass this iteration
                 if not self.size_check(box):
                     continue 

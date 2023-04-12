@@ -16,30 +16,33 @@ mod = m.Model('../Robomaster_CV/ML/best.pt')
 prevTime = 0
 while True:
     
-    #grab ML bbo
-    #bounding_boxes is a list of bounding_box objects
-    bounding_boxes, color_image = mod.get_bounding_boxes()
-    print(bounding_boxes)
+    #Retrieves bounding boxes
+    bounding_boxes, color_image, depth_image = mod.get_bounding_boxes()
     oLog.boxesInput(bounding_boxes, time.time())
     #feed bbo into depth calculation
     if len(bounding_boxes) > 0:
-        dc.set_all_bounding_box_depth_values(bounding_boxes)
-        print(color_image.shape)
+        dc.set_all_bounding_box_depth_values(depth_image, bounding_boxes)
+        print("Hello")
         #feed bounding_boxes into update
-        #print(color_frame)
         oLog.boxesInput(bounding_boxes, time.time())
-        #color_image = np.asanyarray(color_frame.get_data())
 
+    #For drawing the bounding boxes
         for i in range(len(bounding_boxes)):
-            color_image = cv2.rectangle(color_image, bounding_boxes[i].get_x_value()-(bounding_boxes[i].get_width()/2), bounding_boxes[i].get_y_value()-(bounding_boxes[i].get_height()/2), bounding_boxes[i].get_x_value(), bounding_boxes[i].get_y_value())
+            pt1 = (int((bounding_boxes[i].get_x_value()-bounding_boxes[i].get_width())/2), int((bounding_boxes[i].get_y_value()-bounding_boxes[i].get_height())/2))
+            pt2 = (int((bounding_boxes[i].get_x_value()+bounding_boxes[i].get_width())/2), int((bounding_boxes[i].get_y_value()+bounding_boxes[i].get_height())/2))
+            color_image = cv2.rectangle(color_image, color=(255,0,0),pt1=pt1, pt2=pt2, thickness=4)
     cv2.namedWindow('Image',cv2.WINDOW_AUTOSIZE)
     cv2.imshow('Image', color_image)
     cv2.waitKey(1)
+
     #target select  the object
     sel = targetSel.selectTarget(oLog)
 
     #send to UART
     #sendtoUART()
 
-    print(time.time()-prevTime) 
-    prevTime = time.time()
+    #Prints out delta t
+    # print(time.time()-prevTime) 
+    # prevTime = time.time()
+
+ 
