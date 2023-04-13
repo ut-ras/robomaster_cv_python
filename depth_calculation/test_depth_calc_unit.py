@@ -1,7 +1,7 @@
 import pytest as pt
 import depth_calculation as dc
 import numpy as np
-import pyrealsense2 as rs
+import pyrealsense2.pyrealsense2 as rs
 
 #initialize realsense drivers and test to make sure that a camera is connected at the time of test running
 def test_realsense_connection():

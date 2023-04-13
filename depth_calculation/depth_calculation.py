@@ -5,7 +5,7 @@
 ##      Open CV and Numpy integration        ##
 ###############################################
 
-import pyrealsense2 as rs
+import pyrealsense2.pyrealsense2 as rs
 import numpy as np
 import cv2
 
@@ -14,6 +14,7 @@ pipeline = rs.pipeline()
 
 #the depth image resolution is set to 1280 x 720p, USB 3.0 required to access 1280 by 720 otherwise, crashes
 def initialize_real_sense():
+
     # Configure depth and color streams
     config = rs.config()
 
@@ -73,4 +74,10 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
         pipeline.stop()
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     initialize_real_sense()
+    # get_color_image()
+    # get_depth_at_pixel(0)
+=======
+    initialize_real_sense()
+>>>>>>> 9d6db8576d6d73ed838c921b84d40029d649d6e8
