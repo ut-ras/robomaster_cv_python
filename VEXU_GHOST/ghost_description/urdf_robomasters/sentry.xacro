@@ -92,6 +92,7 @@
         <origin xyz="0 0 0.25654"/>
     </joint>
 
+    <!-- importing all mecanum wheels from the macro files -->
     <xacro:mecanum_macro name="front_left_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="${x_dist_to_wheel}" y_pos="${y_dist_to_wheel}"/>
     <xacro:mecanum_macro name="front_right_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="${x_dist_to_wheel}" y_pos="-${y_dist_to_wheel}"/>
     <xacro:mecanum_macro name="back_left_wheel" wheel_radius="${mecanum_diameter/2}" wheel_width="${mecanum_width}" x_pos="-${x_dist_to_wheel}" y_pos="${y_dist_to_wheel}"/>
