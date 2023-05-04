@@ -17,3 +17,8 @@ cd build
 cmake -DYAML_BUILD_SHARED_LIBS=ON ..
 make -j
 sudo make install
+
+cd ~/VEXU_GHOST/ghost_deps
+git clone -b ros2 git@github.com:Slamtec/rplidar_ros.git
+cd rplidar_ros
+colcon build --symlink-install
