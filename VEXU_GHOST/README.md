@@ -46,3 +46,4 @@ First, add the extension [Dev Containers](https://marketplace.visualstudio.com/i
 ## Interesting Links & Explanations
 * Here is an explanation of our VNC setup that may help you work through issues <https://jasonmurray.org/posts/2021/x11vnc/>
 * When we VNC into a user account, we only give that user x11 forwarding authorization and have to essentially copy the credentials from the user to root so we can do the simulation from root. This is all done programmatically now, but this link covers how it is done manually <https://unix.stackexchange.com/questions/476290/x11-forwarding-does-not-work-if-su-to-another-user>
+* Making a ROS package https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html
