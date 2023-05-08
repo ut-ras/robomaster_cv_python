@@ -458,9 +458,6 @@ namespace ghost_ros
   {
     vector<particle_filter::Particle> particles;
     particle_filter_.GetParticles(&particles);
-    RCLCPP_INFO(
-        this->get_logger(),
-        "in draw particles %s part", particles);
     for (const particle_filter::Particle &p : particles)
     {
       auto pose_msg = geometry_msgs::msg::Pose{};
@@ -468,9 +465,6 @@ namespace ghost_ros
       pose_msg.position.y = p.loc.y();
       pose_msg.orientation.w = cos(p.angle * 0.5);
       pose_msg.orientation.z = sin(p.angle * 0.5);
-      RCLCPP_INFO(
-        this->get_logger(),
-        "%s", pose_msg);
       viz_msg.poses.push_back(pose_msg);
     }
   }

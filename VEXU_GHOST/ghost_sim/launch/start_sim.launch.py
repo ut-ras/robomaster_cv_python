@@ -34,7 +34,7 @@ def launch_setup(context, *args, **kwargs):
     urdf_path = os.path.join(ghost_sim_share_dir, "urdf_robomasters", "sentry_base.urdf")
     doc = xacro.process(urdf_path)
     
-    spawn_entity_args = ("-x 0.0 -y 0.0 -z 1.0 -R 0.0 -P 0.0 -Y 0.0 -entity sentry -topic robot_description").split()
+    spawn_entity_args = ("-x 1.0 -y 1.0 -z 0.5 -R 0.0 -P 0.0 -Y 0.0 -entity sentry -topic robot_description").split()
 
     # Node to spawn robot model in Gazebo
     gazebo_ros = Node(
@@ -106,13 +106,13 @@ def generate_launch_description():
         condition=launch.conditions.IfCondition(LaunchConfiguration("joystick"))
     )
 
-    estimator_node = Node(
-        package='ghost_ros',
-        executable='ghost_estimator_node',
-        name='ghost_estimator_node',
-        output='screen',
-        parameters=[ghost_ros_base_dir + "/config/ghost_estimator_config.yaml"]
-    )
+    # estimator_node = Node(
+    #     package='ghost_ros',
+    #     executable='ghost_estimator_node',
+    #     name='ghost_estimator_node',
+    #     output='screen',
+    #     parameters=[ghost_ros_base_dir + "/config/ghost_estimator_config.yaml"]
+    # )
 
     sentry_estimator_node = Node(
         package='ghost_ros',
@@ -151,7 +151,7 @@ def generate_launch_description():
         ground_truth_publisher,
         rviz_node,
         joy_launch_description,
-        estimator_node,
+        # estimator_node,
         sentry_estimator_node,
         depth_node,
         state_machine_node,

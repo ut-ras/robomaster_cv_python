@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <robot name="sentry" xmlns:xacro="http://ros.org/wiki/xacro">
 
+    <gazebo reference="base_link">
+        <pose>0 0 0 0 0 3.14</pose>
+    </gazebo>
+
     <xacro:include filename="$(find ghost_description)/urdf_robomasters/mecanum_macros.xacro"/>
 
     <xacro:property name="mecanum_diameter" value="0.1525"/>
@@ -46,7 +50,7 @@
 
     <link name="base_footprint">
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <mass value="0.00001"/>
             <inertia
                 ixx="0.00001" ixy="0.0" ixz="0.0"
@@ -101,15 +105,15 @@
     <!-- Sensors -->
     <link name="lidar_link">
         <inertial>
-            <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <mass value="0.125"/>
             <inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
         </inertial>
 
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <geometry>
-            <cylinder radius="${0.06985/2}" length="0.0254"/>
+                <cylinder radius="${0.06985/2}" length="0.0254"/>
             </geometry>
         </visual>
     </link>
@@ -117,6 +121,6 @@
     <joint name="lidar_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
-        <origin xyz="0.098 0 0.22" rpy="0 0 0"/>
+        <origin xyz="0.098 0 0.22"/>
     </joint>
 </robot>

@@ -5,7 +5,7 @@
         <link name="${name}">
             <visual>
                 <geometry>
-                    <cylinder radius="${wheel_radius}" length="${wheel_width}" rpy="" />
+                    <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
                 </geometry>
                 <material name="black">
                     <color rgba="0 0 0 1.0" />
@@ -13,7 +13,7 @@
             </visual>
 
             <collision> 
-                <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+                <origin xyz="0 0 0"/>
                 <geometry>
                     <cylinder radius="${wheel_radius}" length="${wheel_width}" />
                 </geometry>
@@ -35,7 +35,7 @@
         <joint name="base_${name}_joint" type="continuous">
             <parent link="base_link" />
             <child link="${name}" />
-            <origin xyz="${x_pos} ${y_pos} 0" rpy="-${pi/2} 0 0" />
+            <origin xyz="${x_pos} ${y_pos} 0" rpy="${pi/2} 0 0" />
             <axis xyz="0 0 1" />
         </joint>
     </xacro:macro>

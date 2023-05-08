@@ -15,6 +15,8 @@
 * `startxfce4` : start GUI
 * `bash ~/VEXU_GHOST/scripts/init_container.sh` : initialize container
 * `bash ~/VEXU_GHOST/scripts/launch_sim.sh` : launch simulation
+* `ros2 topic list` : list topics
+* `ros2 topic pub cmd_vel --once geometry_msgs/msg/Twist "{linear: {x: 1, y: 0, z: 0}}"` : publish message to cmd_vel
 
 ## Setup Steps
 0. Init the .gitmodules by running `git submodule update --init --force` from the `robomaster_CV` directory. The directory `robomaster_CV/VEXU_GHOST/ghost_estimation/src/shared` should have stuff in it after force initing the submodules.
