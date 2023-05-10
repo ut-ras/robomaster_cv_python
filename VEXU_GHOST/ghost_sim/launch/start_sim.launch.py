@@ -144,17 +144,17 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument(name='enable_pid', default_value='true'),
-        DeclareLaunchArgument(name='joystick', default_value='false'),
+        DeclareLaunchArgument(name='joystick', default_value='true'),
         DeclareLaunchArgument('sim_gui', default_value='true'),
         DeclareLaunchArgument('verbose', default_value='true'),
         simulation,
-        ground_truth_publisher,
+        # ground_truth_publisher,
         rviz_node,
         joy_launch_description,
         # estimator_node,
-        sentry_estimator_node,
-        depth_node,
-        state_machine_node,
-        sentry_control_node,
+        # sentry_estimator_node,
+        # depth_node,
+        # state_machine_node,
+        # sentry_control_node,
         OpaqueFunction(function = launch_setup)
     ])

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Assumes repository is in base directory
-cd ~/VEXU_GHOST
+cd ~/robomaster_CV/VEXU_GHOST
 echo "---Building Ghost ROS Packages---"
 
 # Build simulator packages depending on what is passed for EMBEDBUILD

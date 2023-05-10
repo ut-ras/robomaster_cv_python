@@ -2,13 +2,13 @@
 <robot name="sentry" xmlns:xacro="http://ros.org/wiki/xacro">
 
     <gazebo reference="base_link">
-        <pose>0 0 0 0 0 3.14</pose>
+        <pose>0 0 0 0 0 0.0</pose>
     </gazebo>
 
     <xacro:include filename="$(find ghost_description)/urdf_robomasters/mecanum_macros.xacro"/>
 
     <xacro:property name="mecanum_diameter" value="0.1525"/>
-    <xacro:property name="mecanum_width" value="0.04"/>
+    <xacro:property name="mecanum_width" value="0.0125"/>
     <xacro:property name="y_dist_to_wheel" value="0.183"/>
     <xacro:property name="x_dist_to_wheel" value="0.170"/>
 

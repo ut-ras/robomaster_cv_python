@@ -90,7 +90,7 @@ Visualization Manager:
         Value: /scan
       Value: true
     - Class: rviz_default_plugins/Odometry
-      Enabled: true
+      Enabled: false
       Name: Odometry
       Topic:
         Depth: 5
@@ -107,7 +107,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
-    Fixed Frame: world
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:

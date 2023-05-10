@@ -8,7 +8,7 @@ def generate_launch_description():
             executable = 'joy_linux_node',
             name = 'joystick_node',
             parameters= [{
-                "dev": "/dev/input/js0"
+                "dev": "/dev/input/js4"
             }]
         ),
         Node(
@@ -16,10 +16,10 @@ def generate_launch_description():
             executable = 'teleop_node',
             parameters = [{
                 "require_enable_button": False,
-                "axis_linear": {"x": 0, "y": 1},
-                "axis_angular": {"yaw": 3},
-                "scale_linear": {"x": -1.0, "y": 1.0},
-                "scale_angular": {"yaw": 0.5}
+                "axis_linear": {"x": 1, "y": 0},
+                "axis_angular": {"yaw": 2},
+                "scale_linear": {"x": 0.5, "y": 0.5},
+                "scale_angular": {"yaw": 7.5}
                 }]
         )
     ])
