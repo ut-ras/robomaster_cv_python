@@ -45,31 +45,25 @@ class SentryEstimatorNode : public rclcpp::Node {
 
     // Topic callback functions
     void LaserCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg);
-    // void EncoderCallback(const ghost_msgs::msg::V5SensorUpdate::SharedPtr msg);
     void OdomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
     void InitialPoseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     
     // Topic publish functions
-    void PublishWorldTransform();
     void PublishVisualization();
     void PublishMapViz();
-    // void PublishJointStateMsg(const ghost_msgs::msg::V5SensorUpdate::SharedPtr msg);
-    void PublishGhostRobotState(const nav_msgs::msg::Odometry::SharedPtr odom_update_msg);
+    void PublishEstimatedPosition();
 
 
     // Visualization
-    // void DrawWheelAxisVectors(std::vector<geometry::Line2f> & lines);
-    // void DrawICRPoints(std::vector<Eigen::Vector3f> & points);
-    void DrawParticles(geometry_msgs::msg::PoseArray &viz_msg);
+    void DrawWheelAxisVectors(std::vector<geometry::Line2f> & lines);
+    void DrawICRPoints(std::vector<Eigen::Vector3f> & points);
+    void DrawParticles(geometry_msgs::msg::PoseArray &cloud_msg);
+    void DrawPredictedScan(visualization_msgs::msg::MarkerArray &viz_msg);
 
     visualization_msgs::msg::MarkerArray viz_msg_;
 
-    // void CalculateHSpaceICR(ghost_msgs::msg::V5SensorUpdate::SharedPtr encoder_msg);
-    // void CalculateOdometry(ghost_msgs::msg::V5SensorUpdate::SharedPtr encoder_msg);
-
     // Subscribers
     rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_sub_;
-    // rclcpp::Subscription<ghost_msgs::msg::V5SensorUpdate>::SharedPtr encoder_sub_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr initial_pose_sub_;
     
@@ -77,30 +71,25 @@ class SentryEstimatorNode : public rclcpp::Node {
     rclcpp::Publisher<geometry_msgs::msg::PoseArray>::SharedPtr cloud_viz_pub_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr map_viz_pub_;
     rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr debug_viz_pub_;
-    rclcpp::Publisher<tf2_msgs::msg::TFMessage>::SharedPtr world_tf_pub_;
-    // rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_state_pub_;
+    rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr estimated_pose_pub_;    
 
     // Particle Filter
     particle_filter::ParticleFilter particle_filter_;
-    sensor_msgs::msg::LaserScan last_laser_msg_;
+    sensor_msgs::msg::LaserScan::SharedPtr last_laser_msg_;
 
     // Configuration
     YAML::Node config_yaml_;
     particle_filter::ParticleFilterConfig config_params;
 
     bool first_map_load_;
-
-    // Odometry Config
-    Eigen::Vector2f left_wheel_link_;
-    Eigen::Vector2f right_wheel_link_;
-    Eigen::Vector2f back_wheel_link_;
-
-    Eigen::Vector3f h_space_icr_avg_;
-    Eigen::Vector3f icr_flat_estimation_;
+    bool laser_msg_received_;
 
     Eigen::Vector2f odom_loc_;
     float odom_angle_;
 
+    float x_vel_;
+    float y_vel_;
+    float theta_vel_;
 
 };
 } // namespace ghost_ros

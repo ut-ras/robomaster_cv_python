@@ -157,9 +157,10 @@ ament_target_dependencies(sentry_estimator_node
   rclcpp
   tf2_msgs
   sensor_msgs
+  nav_msgs
   visualization_msgs
   ghost_msgs
-  nav_msgs
+  ghost_util
   ghost_estimation
   Eigen3
 )

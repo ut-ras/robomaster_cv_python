@@ -24,11 +24,11 @@
             <!-- Just going with Maxx's math here and assuming swerve wheel ~ mecanum inertial-->
             <inertial>
                 <origin xyz="0 0 0" />
-                <mass value="0.4545" />
+                <mass value="0.4545"/>
                 <inertia
-                    ixx="0.000482" ixy="0.0" ixz="0.0"
-                    iyy="0.000482" iyz="0.0"
-                    izz="0.000914" />
+                    ixx="0.000975" ixy="0.0" ixz="0.0"
+                    iyy="0.000975" iyz="0.0"
+                    izz="0.001902"/>
             </inertial>
         </link>
 

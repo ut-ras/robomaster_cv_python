@@ -14,19 +14,10 @@
   <!-- Add Mecanum -->
   <!-- https://github.com/qaz9517532846/gazebo_mecanum_plugins/tree/ros2-foxy -->
   <gazebo>
-    <!-- <plugin name="gazebo_ros_joint_state_publisher"
-      filename="libgazebo_ros_joint_state_publisher.so">
-      <update_rate>100</update_rate>
-      <joint_name>base_back_left_wheel_joint</joint_name>
-      <joint_name>base_front_left_wheel_joint</joint_name>
-      <joint_name>base_front_right_wheel_joint</joint_name>
-      <joint_name>base_back_right_wheel_joint</joint_name>
-    </plugin> -->
-
     <plugin name="gazebo_mecanum_drive" filename="libgazebo_mecanum_drive.so">
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
+      <odometryFrame>world</odometryFrame>
       <robotBaseFrame>base_link</robotBaseFrame>
       <LeftRear>base_back_left_wheel_joint</LeftRear>
       <LeftFront>base_front_left_wheel_joint</LeftFront>
@@ -44,59 +35,5 @@
       <publishOdomTF>true</publishOdomTF>
       <isRollerModel>false</isRollerModel>
     </plugin>
-
-    <!-- <plugin name="gazebo_mecanum_pid_drive" filename="libgazebo_mecanum_pid_drive.so">
-      <commandTopic>cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
-      <robotBaseFrame>base_footprint</robotBaseFrame>
-      <LeftRear>base_back_left_wheel_joint</LeftRear>
-      <LeftFront>base_front_left_wheel_joint</LeftFront>
-      <RightFront>base_front_right_wheel_joint</RightFront>
-      <RightRear>base_back_right_wheel_joint</RightRear>
-      <odometryRate>20</odometryRate>      
-      <publishWheelTF>true</publishWheelTF>
-      <publishOdomTF>true</publishOdomTF>
-      <WheelTorque>30</WheelTorque>
-      <WheelSeparationW>0.5</WheelSeparationW>
-      <WheelSeparationL>0.6</WheelSeparationL>
-      <wheelAccel>10</wheelAccel>
-      <wheelDiameter>0.13</wheelDiameter>
-      <publishOdom>true</publishOdom>
-      <isRollerModel>false</isRollerModel>
-      <Wheel_LR_P>10.0</Wheel_LR_P>
-      <Wheel_LR_I>0.0</Wheel_LR_I>
-      <Wheel_LR_D>0.0</Wheel_LR_D>
-      <Wheel_LF_P>10.0</Wheel_LF_P>
-      <Wheel_LF_I>0.0</Wheel_LF_I>
-      <Wheel_LF_D>0.0</Wheel_LF_D>
-      <Wheel_RF_P>10.0</Wheel_RF_P>
-      <Wheel_RF_I>0.0</Wheel_RF_I>
-      <Wheel_RF_D>0.0</Wheel_RF_D>
-      <Wheel_RR_P>10.0</Wheel_RR_P>
-      <Wheel_RR_I>0.0</Wheel_RR_I>
-      <Wheel_RR_D>0.0</Wheel_RR_D>
-    </plugin> -->
-
-    <!-- <plugin name="mecanum_plugin" filename="libmecanum_plugin.so">
-      <LeftBack>base_back_left_wheel_joint</LeftBack>
-      <LeftFront>base_front_left_wheel_joint</LeftFront>
-      <RightFront>base_front_right_wheel_joint</RightFront>
-      <RightBack>base_back_right_wheel_joint</RightBack>
-      <BaseLink>base_link</BaseLink>
-      <WheelRadius>${mecanum_diameter/2}</WheelRadius>
-      <LeftRightSeperation>${2*x_dist_to_wheel}</LeftRightSeperation>
-      <FrontBackSeperation>${2*y_dist_to_wheel}</FrontBackSeperation>
-      <x_stddev>0.05</x_stddev>
-      <y_stddev>0.05</y_stddev>
-      <r_stddev>0.03</r_stddev>
-    </plugin>
-
-    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
-      <commandTopic>mecanum_vel</commandTopic>
-      <publish_odom_tf>false</publish_odom_tf>
-      <publish_odom>false</publish_odom>
-      <robotBaseFrame>base_footprint</robotBaseFrame>
-    </plugin> -->
   </gazebo>
 </robot>

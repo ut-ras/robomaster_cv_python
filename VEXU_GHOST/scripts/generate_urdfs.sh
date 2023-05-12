@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cd ~/robomaster_CV/VEXU_GHOST
+cd ~/VEXU_GHOST
+# cd ~/rob?omaster_CV/VEXU_GHOST
 
 # Process URDFs from Xacro and add to Share
 GHOST_DESCRIPTION_SHARE_DIR="$PWD/install/ghost_description/share/ghost_description"

@@ -10,9 +10,9 @@ sentry_estimator_node:
       init_r: 0.0
 
       # Initial cloud distribution
-      init_x_sigma: 0.1         #
-      init_y_sigma: 0.1         #
-      init_r_sigma: 0.25        #
+      init_x_sigma: 0.01         #
+      init_y_sigma: 0.01         #
+      init_r_sigma: 0.05        #
 
       # When you need to tune standard deviations, remember that 99% of values fall within 3 standard deviations
       # EX. Robot travels 1m. 99% of the time that will be accurate within 0.3m. sigma = 0.3/3 = 0.1
@@ -20,7 +20,7 @@ sentry_estimator_node:
 
       # Robot Constants
       laser_offset: 0.098
-      laser_angle_offset: 1.179166718
+      # laser_angle_offset: 1.179166718
       
       # RPLidar A1 datasheet
       range_min: 0.15
@@ -76,6 +76,6 @@ sentry_estimator_node:
       dist_long: 0.28           # 2 std from sensor 95%
 
       # Some robots can't place a LIDAR with 360° view. These parameters allow you to permanently ignore the obscured range of the scan.
-      use_skip_range: true
+      use_skip_range: false
       skip_index_min: 1
       skip_index_max: 2
