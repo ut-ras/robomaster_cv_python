@@ -52,6 +52,8 @@ def get_color_depth_image():
         #convert frames to images
         color_image = np.asanyarray(color_frame.get_data())
         depth_image = np.asanyarray(depth_frame.get_data())
+
+        return color_image, depth_image
     except:
         pipeline.stop()
 
@@ -60,14 +62,18 @@ def set_all_bounding_box_depth_values(depth_image, box_list):
         return
     else:
         for i in range(len(box_list)):
-            box_list[i].set_depth(get_depth_value_from_bounding_box(depth_image, box_list[i]))    
+            depth_value = get_depth_value_from_bounding_box(depth_image, box_list[i])
+            box_list[i].set_depth(depth_value)    
 
 #acquiring the depth frame, convert to numpy array so that it can be indexed into by a bounding box
 #helper function for set_all_bounding_box_depth_values()
 def get_depth_value_from_bounding_box(depth_image, bounding_box):
     try:
         #return a float by indexing into the numpy array using the coordinates given by the bounding box
-        return depth_image[int(bounding_box.get_y_value()),int(bounding_box.get_x_value())]
+        y_value = int(bounding_box.get_y_value())
+        x_value = int(bounding_box.get_x_value())
+        depth_value = depth_image[y_value,x_value]
+        return depth_value
     except:
         #stop streaming
         pipeline.stop()
