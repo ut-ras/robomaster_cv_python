@@ -1,41 +1,84 @@
 import onnxruntime as ort
+import numpy as np
+import cv2
 
 model_path = 'last_with_shapes.onnx'
 artifacts_dir = 'tidl_output'
-sess = None
-def initialize_object_detections():
-	session_options = ort.SessionOptions()
+class object_detector:
+
+	def __init__(self):
+		self.__sess__ = None
+		self.__height__ = None
+		self.__width__ = None
+		self.__input_name__ = None
+
+	def initialize_object_detections(self):
+		session_options = ort.SessionOptions()
+		
+		print("Available execution providers: ", ort.get_available_providers())
+
+		runtime_options = {
+			"platform":"J7",
+			"version":"8.2",
+			"artifacts_folder":artifacts_dir
+		}
+
+		desired_eps = ['TIDLExecutionProvider','CPUExecutionProvider']
+		self.__sess__ = ort.InferenceSession(
+			model_path,
+			providers = desired_eps,
+			provider_options=[runtime_options,{}],
+			sess_options=session_options
+		)
+
+		input_details, = self.__sess__.get_inputs()
+		batch_size, channel, self.__height__, self.__width__ = input_details.shape
+		print(f"Input shape: {input_details.shape}")
+
+		assert isinstance(batch_size, str) or batch_size == 1
+		assert channel == 3
+
+		self.__input_name__ = input_details.name
+		input_type = input_details.type
+
+		print(f'Input "{self.__input_name__}": {input_type}')
+
+	def render_boxes(self, image, output):
+		assert len(output.shape) == 3
+		output_count = output.shape[1]
+
+		for i in range(output_count):
+			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
+
+			x1 = int(round(x1 / self.__width__ * image.shape[1]))
+			y1 = int(round(y1 / self.__height__ * image.shape[0]))
+			x2 = int(round(x2 / self.__width__ * image.shape[1]))
+			y2 = int(round(y2 / self.__height__ * image.shape[0]))
+
+			# Yes, TI outputs the class index as a float...
+			class_draw_color = {
+				# Colors for boxes of each class, in (R, G, B) order.
+				0.: (255, 50, 50),
+				1.: (50, 50, 255),
+				# TODO: if using more than two classes, pick some more colors...
+			}[class_idx_float]
+
+			# Reverse RGB tuples since OpenCV images default to BGR
+			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color[::-1], 3)
+			return image
+
+	def run_object_detections(self,image):
+		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
+		# Model trained with RGB channel order but OpenCV loads in BGR order, so reverse channels.
+		input_data = cv2.resize(image, (self.__width__, self.__height__)).transpose((2, 0, 1))[::-1, :, :] / 255
+
+		input_data = input_data.astype(np.float32)
+		input_data = np.expand_dims(input_data, 0)
+		
+		detections, = self.__sess__.run(None, {self.__input_name__: input_data})
+		image = self.render_boxes(image, detections[0, :, :, :])
+
+		return image, detections
 	
-	print("Available execution providers: ", ort.get_available_providers())
-
-	runtime_options = {
-		"platform":"J7",
-		"version":"8.2",
-		"artifacts_folder":artifacts_dir
-	}
-
-	desired_eps = ['TIDLExecutionProvider','CPUExecutionProvider']
-	sess = ort.InferenceSession(
-		model_path,
-		providers = desired_eps,
-		provider_options=[runtime_options,{}],
-		sess_options=session_options
-	)
-
-	input_details, = sess.get_inputs()
-	batch_size, channel, height, width = input_details.shape
-	print(f"Input shape: {input_details.shape}")
-
-	assert isinstance(batch_size, str) or batch_size == 1
-	assert channel == 3
-
-	input_name = input_details.name
-	input_type = input_details.type
-
-	print(f'Input "{input_name}": {input_type}')
-
-#def run_object_detections(image, )
-
-
-
+	
 
