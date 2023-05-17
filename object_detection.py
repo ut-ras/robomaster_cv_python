@@ -76,6 +76,8 @@ class object_detector:
 		input_data = np.expand_dims(input_data, 0)
 		
 		detections, = self.__sess__.run(None, {self.__input_name__: input_data})
+
+		#for testing purposes
 		image = self.render_boxes(image, detections[0, :, :, :])
 
 		return image, detections
