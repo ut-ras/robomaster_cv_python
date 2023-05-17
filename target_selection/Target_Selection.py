@@ -1,8 +1,8 @@
 import numpy as np
 
 
-screenWidth = 1280
-screenHeight = 720
+screenWidth = 960
+screenHeight = 540
 mousePos = [screenWidth/2, screenHeight/2]
 #Assumes x, y as camera 
 class targetSelection(object):
