@@ -79,10 +79,7 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
         pipeline.stop()
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     initialize_real_sense()
     # get_color_image()
     # get_depth_at_pixel(0)
-=======
-    initialize_real_sense()
->>>>>>> 9d6db8576d6d73ed838c921b84d40029d649d6e8
+
