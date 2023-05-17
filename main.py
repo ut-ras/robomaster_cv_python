@@ -1,5 +1,5 @@
-import depth_calculation as dp
-import object_detection as od
+from depth_calculation import depth_calculation as dp
+from object_detection import object_detection as od
 import cv2
 
 #begin initialization
