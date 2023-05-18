@@ -2,6 +2,8 @@ from filterpy.kalman import KalmanFilter
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
 
+#Old Prediction using Kalman Filters
+
 class Prediction(object):
 
     def __init__(self):

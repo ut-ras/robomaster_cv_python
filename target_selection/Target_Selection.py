@@ -1,6 +1,5 @@
 import numpy as np
 
-
 screenWidth = 1280
 screenHeight = 720
 mousePos = [screenWidth/2, screenHeight/2]

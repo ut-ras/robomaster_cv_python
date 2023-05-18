@@ -3,9 +3,12 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.stats import norm
 
-P = 100.0*np.eye(9)
 
+# Example Code Taken from a github kept for reference for Prediciton
+
+P = 100.0*np.eye(9)
 dt = 0.01 # Time Step between Filter Steps
+
 A = np.matrix([[1.0, 0.0, 0.0, dt, 0.0, 0.0, 1/2.0*dt**2, 0.0, 0.0],
               [0.0, 1.0, 0.0, 0.0,  dt, 0.0, 0.0, 1/2.0*dt**2, 0.0],
               [0.0, 0.0, 1.0, 0.0, 0.0,  dt, 0.0, 0.0, 1/2.0*dt**2],

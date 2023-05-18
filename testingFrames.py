@@ -2,6 +2,8 @@ import numpy as np
 from object_log.bounding_box import BoundingBox as bb
 import object_log.objectlog as objl
 
+# Test code to test out object log
+
 '''
 def __init__(self, x_center, y_center, width, height):
 		self.__x_center__ = x_center

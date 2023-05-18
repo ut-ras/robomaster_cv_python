@@ -1,5 +1,5 @@
 #!/bin/bash
-cp ./river.service /etc/systemd/system/river.service
-chmod 664 /etc/systemd/system/river.service
+cp ./startUp.service /etc/systemd/system/startUp.service
+chmod 664 /etc/systemd/system/startUp.service
 systemctl daemon-reload
-systemctl enable river.service
+systemctl enable startUp.service

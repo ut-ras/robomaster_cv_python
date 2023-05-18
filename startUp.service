@@ -4,7 +4,7 @@ After=network.target network-online.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=~/Documents/UTRobomasterCV_venv/bin/ ~/Documents/robomaster_CV/bridge.py
+ExecStart=~/Documents/UTRobomasterCV_venv/bin/ ~/Documents/robomaster_CV/main.py
 
 [Install]
 WantedBy=multi-user.target
