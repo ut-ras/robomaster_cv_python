@@ -11,6 +11,7 @@ def run_forever():
 		color_image, depth_image = dp.get_color_depth_image()
 		color_image = detector.run_object_detections(color_image)
 				# Show images
+		print(color_image.type)
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 		cv2.imshow('RealSense', color_image)
 		cv2.waitKey(1)
