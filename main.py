@@ -1,7 +1,7 @@
 from depth_calculation import depth_calculation as dp
 from object_detection import object_detection as od
 import cv2
-
+import numpy as np
 #begin initialization
 def run_forever():
 	dp.initialize_real_sense()
@@ -11,7 +11,7 @@ def run_forever():
 		color_image, depth_image = dp.get_color_depth_image()
 		color_image = detector.run_object_detections(color_image)
 				# Show images
-		print(color_image.type)
+		print(isinstance(color_image,np.ndarray))
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 		cv2.imshow('RealSense', color_image)
 		cv2.waitKey(1)
