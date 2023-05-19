@@ -1,4 +1,6 @@
-#include "armorPlate.hpp"
+#include <iostream>
+#include <fstream>
+#include "ArmorPlate.hpp"
 
 ArmorPlate::ArmorPlate(BoundingBox* b, int i){
     id = i;
@@ -11,6 +13,10 @@ ArmorPlate::ArmorPlate(BoundingBox* b, int i){
     nextPosition[0] = 0; nextPosition[1] = 0; nextPosition[2] = 0;
     maxAssocPlates = 5;
     //TODO: create prediction object
+}
+
+ArmorPlate::~ArmorPlate(){
+    delete box;
 }
 
 void ArmorPlate::updateVA(){
@@ -58,4 +64,13 @@ void ArmorPlate::addArmorPlate(ArmorPlate* newPlate, std::chrono::time_point<std
     lastTime = currentTime;
 }
 
-//TODO: add writeToHistory here
+void ArmorPlate::writeToHistory(std::string* historyFile){
+    //There might be a more optimal way to do this
+    std::ofstream history;
+    history.open(*historyFile);
+    history << "ID: " << id << " X: " << position[0] << " Y: " << position[1] << " Depth: " << position[2];
+    history << " Activity: " << activity;
+    //TODO: fix the printing for the time stamps
+    // " Last Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(lastTime).count();
+    history.close();
+}

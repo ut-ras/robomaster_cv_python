@@ -1,5 +1,6 @@
 #include <chrono>
 #include <vector>
+#include <string>
 #include "BoundingBox.hpp"
 
 class ArmorPlate{
@@ -31,6 +32,6 @@ class ArmorPlate{
     bool* getActivity();
     void setActivity(bool a);
     void addArmorPlate(ArmorPlate* newPlate, std::chrono::time_point<std::chrono::system_clock> currentTime);
-    //TODO: add writeToHistory
+    void writeToHistory(std::string* historyFile);
 
 };
