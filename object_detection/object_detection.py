@@ -49,7 +49,7 @@ class object_detector:
 
 		for i in range(output_count):
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
-
+			print(output[0, i, :])
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
 			y1 = int(round(y1 / self.__height__ * image.shape[0]))
 			x2 = int(round(x2 / self.__width__ * image.shape[1]))
