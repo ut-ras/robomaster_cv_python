@@ -2,7 +2,7 @@ import onnxruntime as ort
 import numpy as np
 import cv2
 
-model_path = '/home/debian/robomaster_CV/object_detection/last.onnx'
+model_path = '/home/debian/robomaster_CV/object_detection/last_with_shapes.onnx'
 artifacts_dir = '/home/debian/robomaster_CV/object_detection/tidl_output'
 class object_detector:
 
@@ -60,7 +60,7 @@ class object_detector:
 			print("y2 ", y2)
 			print("confidence ", confidence)
 			print("class_idx_float ", class_idx_float)
-			
+
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
 			y1 = int(round(y1 / self.__height__ * image.shape[0]))
 			x2 = int(round(x2 / self.__width__ * image.shape[1]))
