@@ -9,10 +9,8 @@ def run_forever():
 	detector.initialize_object_detections()
 	while True:
 		color_image, depth_image = dp.get_color_depth_image()
-		print("1 ", isinstance(color_image,np.ndarray))
-		color_image = detector.run_object_detections(color_image)
-				# Show images
-		print("5 ",isinstance(color_image,np.ndarray))
+		detector.run_object_detections(color_image)
+		# Show images
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 		cv2.imshow('RealSense', color_image)
 		cv2.waitKey(1)
