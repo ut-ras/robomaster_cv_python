@@ -6,7 +6,8 @@ using namespace std::chrono_literals;
 namespace ghost_ros
 {
     FoxgloveDiagnosticsNode::FoxgloveDiagnosticsNode() : rclcpp::Node("foxglove_diagnostics_node"){
-        declare_parameter("motor_names");
+        std::vector<std::string> default_string_array;
+        declare_parameter("motor_names", default_string_array);
         motor_names_ = get_parameter("motor_names").as_string_array();
 
         // Subscriptions

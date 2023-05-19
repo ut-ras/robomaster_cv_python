@@ -45,7 +45,7 @@ find_package(ghost_serial REQUIRED)
 find_package(ghost_estimation REQUIRED)
 find_package(ghost_util REQUIRED)
 
-find_library(v5_serial_node REQUIRED)
+# find_library(v5_serial_node REQUIRED)
 
 include_directories(include)
 

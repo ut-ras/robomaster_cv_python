@@ -1,10 +1,5 @@
 # Current
 
-### Lidar Research
-#### Samik, Tanay, Will, Hasif
-Objective: We have a lot to learn
-See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
-
 ### Make Robotics Field
 #### Samik
 Objective: Have our field in the simulation
@@ -12,20 +7,6 @@ We need to add our robomasters field into the simulation
 An example of how the simulation wants the world can be found at `VEXU_GHOST/ghost_sim/urdf/spin_up.world` (it is in meters)
  * Bottom left is 0,0 on map
  * Units is meters
-
-### Particle Filter Fix
-#### Leo
-Particle filter currently not publish stuff. Figure out why and get it to publish
- * Particle cloud published to /particle_cloud topic
- * /estimation/robot_pose also works by intating particle cloud
-
-### Command Velocity Fix (Polish Mecanum Wheel Work)
-#### Tanay
-Right now, some command velocities work and other dont and changing up what direction you go in doesn't work. Fix that
- * any twist published to cmd_vel, robot goes in that direction
- * robot can change direction when new
- * cmd_vel topic is configured in `sentry_base.xacro` and the topic is published to in the mecanum_plugin folder
- * command to publish to the cmd_vel topic is ```ros2 topic pub cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1, y: 0, z: 0}}”```
 
 ### Real LIDAR data
 Objective: Load real lidar data into sim
@@ -70,3 +51,22 @@ Objective: Be able to use the simulation
 Learn the ins and outs of the simulation.
  * How do I tell robot where to go. Whats it doing on the backend. As much of that jazz as you can.
  * Show what you did to team (most imporant)
+
+### Lidar Research
+#### Samik, Tanay, Will, Hasif
+Objective: We have a lot to learn
+See Lidar Max Debrief.md for a chatGPT summary from our chat with Maxx. Pay attention to the links at the botton from Maxx. Understand it and be able to explain it
+
+### Command Velocity Fix (Polish Mecanum Wheel Work)
+#### Tanay
+Right now, some command velocities work and other dont and changing up what direction you go in doesn't work. Fix that
+ * any twist published to cmd_vel, robot goes in that direction
+ * robot can change direction when new
+ * cmd_vel topic is configured in `sentry_base.xacro` and the topic is published to in the mecanum_plugin folder
+ * command to publish to the cmd_vel topic is ```ros2 topic pub cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1, y: 0, z: 0}}”```
+
+### Particle Filter Fix
+#### Leo
+Particle filter currently not publish stuff. Figure out why and get it to publish
+ * Particle cloud published to /particle_cloud topic
+ * /estimation/robot_pose also works by intating particle cloud

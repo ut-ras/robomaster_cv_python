@@ -1,4 +1,4 @@
-FROM ros:foxy
+FROM ros:humble
 
 ARG USERNAME=lidar
 ARG PASSWORD=password
@@ -12,9 +12,10 @@ RUN apt-get clean
 # install ros package
 RUN sudo apt-get update -y && \
     apt-get install -y \
+      ros-${ROS_DISTRO}-desktop-full \
       ros-${ROS_DISTRO}-demo-nodes-cpp \
       ros-${ROS_DISTRO}-demo-nodes-py \
-      ros-foxy-rviz2 \
+      ros-${ROS_DISTRO}-rviz2 \
       openssh-server \
       lightdm \
       ubuntu-desktop \
@@ -33,7 +34,7 @@ RUN touch ~/.Xauthority
 
 RUN echo "sudo service ssh start" >> ~/.bashrc && \
     echo "export TERM=xterm" >> ~/.bashrc && \
-    echo "export ROS_DISTRO=foxy" >> ~/.bashrc && \
+    echo "export ROS_DISTRO=humble" >> ~/.bashrc && \
     echo "xauth add \$(runuser -l $USERNAME -c \"xauth list \$DISPLAY\") || echo 'xauth not set; restart terminal to run simulation'" >> ~/.bashrc
 
 RUN sudo useradd -m -p $(openssl passwd -1 "$PASSWORD") $USERNAME && \

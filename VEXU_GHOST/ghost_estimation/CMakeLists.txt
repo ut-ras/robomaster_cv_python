@@ -18,6 +18,11 @@ if(CMAKE_BUILD_TYPE EQUAL "DEBUG")
   add_compile_options(-g -O0 -DGHOST_DEBUG_VERBOSE)
 endif(CMAKE_BUILD_TYPE EQUAL "DEBUG")
 
+include_directories(
+  include
+  ${CMAKE_SOURCE_DIR}/libs
+)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
@@ -29,8 +34,6 @@ find_package(visualization_msgs REQUIRED)
 
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
-
-include_directories(include)
 
 ######################
 ### AMRL Share Lib ###

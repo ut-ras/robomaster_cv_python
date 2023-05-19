@@ -187,7 +187,7 @@ namespace ghost_ros
     PublishVisualization();
     }
     catch(std::exception e){
-      RCLCPP_ERROR(this->get_logger(), "Laser: ", e.what());
+      // RCLCPP_ERROR(this->get_logger(), "Laser: ", e.what());
     }
   }
 
@@ -205,7 +205,7 @@ namespace ghost_ros
       PublishVisualization();
       }
     catch(std::exception e){
-      RCLCPP_ERROR(this->get_logger(), "Odom: ", e.what());
+      // RCLCPP_ERROR(this->get_logger(), "Odom: ", e.what());
     }
   }
 
@@ -228,7 +228,7 @@ namespace ghost_ros
       estimated_pose_pub_->publish(p);
     }
     catch(std::exception e){
-      RCLCPP_ERROR(this->get_logger(), "Publish Estimated Position: ", e.what());
+      // RCLCPP_ERROR(this->get_logger(), "Publish Estimated Position: ", e.what());
     }
   }
 
@@ -254,7 +254,7 @@ namespace ghost_ros
     PublishMapViz();
     }
     catch(std::exception e){
-      RCLCPP_ERROR(this->get_logger(), "Initial Pose: ", e.what());
+      // RCLCPP_ERROR(this->get_logger(), "Initial Pose: ", e.what());
     }
   }
 

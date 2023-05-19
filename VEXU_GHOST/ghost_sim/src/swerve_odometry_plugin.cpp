@@ -71,7 +71,7 @@ void SwerveOdometryPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr
 
     for(std::string& param: params){
     if(!sdf->HasElement(param)){
-        RCLCPP_ERROR(logger, "Odometry plugin missing <" + param + ">, cannot proceed");
+        // RCLCPP_ERROR(logger, "Odometry plugin missing <" + param + ">, cannot proceed");
         return;
     }
     }
