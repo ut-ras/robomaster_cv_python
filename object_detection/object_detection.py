@@ -44,12 +44,15 @@ class object_detector:
 		print(f'Input "{self.__input_name__}": {input_type}')
 
 	def render_boxes(self, image, output):
-		CONFIDENCE_THRESHOLD = 0
+		CONFIDENCE_THRESHOLD = 0.03
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
 
 		for i in range(output_count):
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
+
+			if confidence < CONFIDENCE_THRESHOLD:
+				continue
 
 			print("x1 ", x1)
 			print("y1 ", y1)
@@ -57,9 +60,7 @@ class object_detector:
 			print("y2 ", y2)
 			print("confidence ", confidence)
 			print("class_idx_float ", class_idx_float)
-			if confidence < CONFIDENCE_THRESHOLD:
-				continue
-
+			
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
 			y1 = int(round(y1 / self.__height__ * image.shape[0]))
 			x2 = int(round(x2 / self.__width__ * image.shape[1]))
