@@ -50,8 +50,8 @@ def get_color_depth_image():
         depth_frame = frames.get_depth_frame()
 
         #convert frames to images
-        color_image = np.asanyarray(color_frame.get_data())
-        depth_image = np.asanyarray(depth_frame.get_data())
+        color_image = np.asanyarray(color_frame.get_data(), dtype=np.uint8)
+        depth_image = np.asanyarray(depth_frame.get_data(), dtype=np.uint16)
 
         return color_image, depth_image
     except:
