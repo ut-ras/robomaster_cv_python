@@ -3,13 +3,10 @@ from object_detection import object_detection as od
 import cv2
 
 #begin initialization
-detector = None
-def initialization():
+def run_forever():
 	dp.initialize_real_sense()
 	detector = od.object_detector()
 	detector.initialize_object_detections()
-
-def run_forever():
 	while True:
 		color_image, depth_image = dp.get_color_depth_image()
 		color_image = detector.run_object_detections(color_image)
@@ -20,6 +17,5 @@ def run_forever():
 
 
 if __name__ == "__main__":
-	initialization()
 	run_forever()
 
