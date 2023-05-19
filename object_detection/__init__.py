@@ -1,1 +1,1 @@
-import object_detection
+from object_detection import *
