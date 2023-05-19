@@ -64,7 +64,9 @@ class object_detector:
 			}[class_idx_float]
 
 			# Reverse RGB tuples since OpenCV images default to BGR
+			print("4 ", isinstance(image,np.ndarray))
 			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color[::-1], 3)
+			print("5 ", isinstance(image,np.ndarray))
 			return image
 
 	def run_object_detections(self,image):
@@ -78,9 +80,10 @@ class object_detector:
 		detections, = self.__sess__.run(None, {self.__input_name__: input_data})
 
 		#for testing purposes
-		image = self.render_boxes(image, detections[0, :, :, :])
-
-		return image, detections
+		print("2 ",isinstance(image,np.ndarray))
+		self.render_boxes(image, detections[0, :, :, :])
+		print("3 ",isinstance(image,np.ndarray))
+		return detections
 	
 	
 
