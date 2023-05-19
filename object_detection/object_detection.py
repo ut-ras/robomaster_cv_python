@@ -2,8 +2,8 @@ import onnxruntime as ort
 import numpy as np
 import cv2
 
-model_path = 'last_with_shapes.onnx'
-artifacts_dir = 'tidl_output'
+model_path = '~/robomaster_cv/object_detection/last_with_shapes.onnx'
+artifacts_dir = '~/robomaster_cv/object_detection/tidl_output'
 class object_detector:
 
 	def __init__(self):
