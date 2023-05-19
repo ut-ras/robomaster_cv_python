@@ -51,6 +51,12 @@ class object_detector:
 		for i in range(output_count):
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
 
+			print("x1 ", x1)
+			print("y1 ", y1)
+			print("x2 ", x2)
+			print("y2 ", y2)
+			print("confidence ", confidence)
+			print("class_idx_float ", class_idx_float)
 			if confidence < CONFIDENCE_THRESHOLD:
 				continue
 
