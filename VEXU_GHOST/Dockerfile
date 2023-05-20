@@ -14,7 +14,7 @@ RUN sudo apt-get update -y && \
     apt-get install -y \
       ros-${ROS_DISTRO}-demo-nodes-cpp \
       ros-${ROS_DISTRO}-demo-nodes-py \
-      ros-foxy-rviz2 \
+      ros-${ROS_DISTRO}-rviz2 \
       openssh-server \
       lightdm \
       ubuntu-desktop \

@@ -120,6 +120,7 @@ Visualization Manager:
     - Class: rviz_default_plugins/SetInitialPose
       Topic: /initial_pose
     - Class: rviz_default_plugins/SetGoal
+      Topic: /goal_pose_stamped
       Line color: 128; 128; 0
   Transformation:
     Current:

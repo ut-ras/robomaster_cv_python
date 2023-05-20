@@ -17,6 +17,8 @@
 * `bash ~/VEXU_GHOST/scripts/launch_sim.sh` : launch simulation
 * `ros2 topic list` : list topics
 * `ros2 topic pub cmd_vel --once geometry_msgs/msg/Twist "{linear: {x: 1, y: 0, z: 0}}"` : publish message to cmd_vel
+* `ros2 topic pub goal_pose --once geometry_msgs/msg/Pose "{position: {x: -1, y: -1, z: 0}}"` : publish message to goal_pose
+* `ros2 topic pub automatic_control --once std_msgs/msg/Bool "{data: false}"` : publish message to automatic_control
 
 ## Setup Steps
 0. Init the .gitmodules by running `git submodule update --init --force` from the `robomaster_CV` directory. The directory `robomaster_CV/VEXU_GHOST/ghost_estimation/src/shared` should have stuff in it after force initing the submodules.

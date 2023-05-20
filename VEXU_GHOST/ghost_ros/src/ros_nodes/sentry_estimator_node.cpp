@@ -74,7 +74,7 @@ namespace ghost_ros
     cloud_viz_pub_ = this->create_publisher<geometry_msgs::msg::PoseArray>("particle_cloud", 10);
     map_viz_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("map_viz", map_qos);
     debug_viz_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("estimation_debug", 10);
-    estimated_pose_pub_ = this->create_publisher<geometry_msgs::msg::Pose>("estimation/robot_pose", 10);
+    estimated_pose_pub_ = this->create_publisher<geometry_msgs::msg::Pose>("estimated_robot_pose", 10);
 
     // Init debug msg
     viz_msg_ = visualization_msgs::msg::MarkerArray{};
@@ -184,6 +184,7 @@ namespace ghost_ros
         msg->angle_min+config_params.laser_angle_offset,
         msg->angle_max+config_params.laser_angle_offset);
 
+    PublishEstimatedPosition();
     PublishVisualization();
     }
     catch(std::exception e){
@@ -201,7 +202,6 @@ namespace ghost_ros
       particle_filter_.Predict(odom_loc_, odom_angle_);
 
       PublishEstimatedPosition();
-
       PublishVisualization();
       }
     catch(std::exception e){
@@ -250,6 +250,7 @@ namespace ghost_ros
     particle_filter_.Initialize(config_params.map, init_loc, init_angle);
 
     // PublishWorldTransform();
+    PublishEstimatedPosition();
     PublishVisualization();
     PublishMapViz();
     }
