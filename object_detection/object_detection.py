@@ -49,6 +49,8 @@ class object_detector:
 		output_count = output.shape[1]
 
 		for i in range(output_count):
+			#x1, y1 coordinates for lower left corner of bounding box
+			#x2, y2 coordinates for upper right corner of bounding box
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
 
 			print("x1 ", x1)
@@ -73,8 +75,8 @@ class object_detector:
 				# TODO: if using more than two classes, pick some more colors...
 			}[class_idx_float]
 
-			# Reverse RGB tuples since OpenCV images default to BGR
-			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color[::-1], 3)
+			#print bounding box onto image, for debugging purposes
+			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
 			return image
 
 	def run_object_detections(self,image):
