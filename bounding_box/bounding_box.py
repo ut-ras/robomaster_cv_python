@@ -2,38 +2,40 @@ import time
 
 class BoundingBox:
 	def __init__(self):
-		self.__x_center__ = 0
-		self.__y_center__ = 0
+		self.__x1__ = 0
+		self.__x2__ = 0
+		self.__y1__ = 0
+		self.__y2__ = 0
 		self.__depth_value__ = 0
 		self.__height__ = 0
 		self.__width__ = 0
 		self.__time__ = time.local_time(time.time())
 
-	def set_x_value(self,x):
-		self.__x_center__ = x
+	def set_x_value(self,x1, x2):
+		self.__x1__ = x1
+		self.__x2__ = x2
 
-	def set_y_value(self,y):
-		self.__y_center__ = y
+	def set_y_value(self,y1, y2):
+		self.__y1__ = y1
+		self.__y2__ = y2
 	
 	def set_depth(self, depth):
-		assert(depth != 0)
-		assert(depth < 12)
 		self.__depth_value__ = depth
 	
-	def set_height(self, height):
-		self.__height__ = height
+	def calculate_height(self):
+		self.__height__ = self.__y2__ - self.__y1__
 	
-	def set_width(self, width):
-		self.__width__ = width
+	def calculate_width(self):
+		self.__width__ = self.__x2__ - self.__x1__
 
 	def set_time(self):
-		self.__time = time.local_time(time.time())
+		self.__time__ = time.local_time(time.time())
 	
 	def get_x_value(self):
-		return self.__x_center__
+		return self.__x1__, self.__x2__
 	
 	def get_y_value(self):
-		return self.__y_center__
+		return self.__y1__, self.__y2__
 	
 	def get_depth(self):
 		return self.__depth_value__
