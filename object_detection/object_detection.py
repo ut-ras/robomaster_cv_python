@@ -51,17 +51,19 @@ class object_detector:
 		for i in range(output_count):
 			#x1, y1 coordinates for lower left corner of bounding box
 			#x2, y2 coordinates for upper right corner of bounding box
+			#use these to calculate height and width of bounding box, if necessary
+			#use these to also determine average depth measurements of bounding box
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
 
 			if confidence < CONFIDENCE_THRESHOLD:
 				continue
 
-			print("x1 ", x1)
-			print("y1 ", y1)
-			print("x2 ", x2)
-			print("y2 ", y2)
-			print("confidence ", confidence)
-			print("class_idx_float ", class_idx_float)
+			# print("x1 ", x1)
+			# print("y1 ", y1)
+			# print("x2 ", x2)
+			# print("y2 ", y2)
+			# print("confidence ", confidence)
+			# print("class_idx_float ", class_idx_float)
 
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
 			y1 = int(round(y1 / self.__height__ * image.shape[0]))
@@ -78,7 +80,13 @@ class object_detector:
 
 			#print bounding box onto image, for debugging purposes
 			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
-			return image
+			#TODO
+
+			#returning at this point takes away the ability to render multiple bounding boxes
+			#and detect multiple opponents at once
+
+			#figure out a way to generate multiple bounding boxes and populate them with coordinates
+			return image, x1, y2, x2, y2
 
 	def run_object_detections(self,image):
 		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
