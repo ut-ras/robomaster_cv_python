@@ -65,14 +65,17 @@ def set_all_bounding_box_depth_values(depth_image, box_list):
             depth_value = get_depth_value_from_bounding_box(depth_image, box_list[i])
             box_list[i].set_depth(depth_value)    
 
-#acquiring the depth frame, convert to numpy array so that it can be indexed into by a bounding box
+#index into depth image using coordinates from bounding box
 #helper function for set_all_bounding_box_depth_values()
 def get_depth_value_from_bounding_box(depth_image, bounding_box):
     try:
         #return a float by indexing into the numpy array using the coordinates given by the bounding box
-        y_value = int(bounding_box.get_y_value())
-        x_value = int(bounding_box.get_x_value())
-        depth_value = depth_image[y_value,x_value]
+        x1, x2 = bounding_box.get_x_value()
+        y1, y2 = bounding_box.get_y_value()
+
+        depth_box = depth_image[x1:x2, y1:y2]
+        depth_value = depth_box[depth_box.nonzero()].nanmean()
+
         return depth_value
     except:
         #stop streaming

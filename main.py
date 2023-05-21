@@ -7,9 +7,13 @@ def run_forever():
 	dp.initialize_real_sense()
 	detector = od.object_detector()
 	detector.initialize_object_detections()
+	boundingbox_list = []
 	while True:
 		color_image, depth_image = dp.get_color_depth_image()
-		detector.run_object_detections(color_image)
+		detector.run_object_detections(color_image, boundingbox_list)
+		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
+		print("Depth value from last detected armor plate: ", boundingbox_list[-1].get_depth())
+		boundingbox_list.clear()
 		# Show images
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 		cv2.imshow('RealSense', color_image)

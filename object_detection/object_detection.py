@@ -1,6 +1,7 @@
 import onnxruntime as ort
 import numpy as np
 import cv2
+import bounding_box as bb
 
 model_path = '/home/debian/robomaster_CV/object_detection/last_with_shapes.onnx'
 artifacts_dir = '/home/debian/robomaster_CV/object_detection/tidl_output'
@@ -43,7 +44,7 @@ class object_detector:
 
 		print(f'Input "{self.__input_name__}": {input_type}')
 
-	def render_boxes(self, image, output):
+	def render_boxes(self, image, output, boundingbox_list):
 		CONFIDENCE_THRESHOLD = 0.2
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
@@ -80,15 +81,15 @@ class object_detector:
 
 			#print bounding box onto image, for debugging purposes
 			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
-			#TODO
+			
+			bounding_box = bb.BoundingBox()
+			bounding_box.set_x_value(x1, x2)
+			bounding_box.set_y_value(y1, y2)
+			bounding_box.calculate_height()
+			bounding_box.calculate_width()
+			boundingbox_list.append(bounding_box)
 
-			#returning at this point takes away the ability to render multiple bounding boxes
-			#and detect multiple opponents at once
-
-			#figure out a way to generate multiple bounding boxes and populate them with coordinates
-			return image, x1, y2, x2, y2
-
-	def run_object_detections(self,image):
+	def run_object_detections(self, image, boundingbox_list):
 		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
 		# Model trained with RGB channel order but OpenCV loads in BGR order, so reverse channels.
 		input_data = cv2.resize(image, (self.__width__, self.__height__)).transpose((2, 0, 1))[::-1, :, :] / 255
@@ -99,7 +100,7 @@ class object_detector:
 		detections, = self.__sess__.run(None, {self.__input_name__: input_data})
 
 		#for testing purposes
-		self.render_boxes(image, detections[0, :, :, :])
+		self.render_boxes(image, detections[0, :, :, :], boundingbox_list)
 		return detections
 	
 	
