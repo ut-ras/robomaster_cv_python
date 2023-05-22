@@ -1,6 +1,7 @@
 import serial
-import ctypes
 import struct
+import crc
+import sys
 from enum import Enum
 
 
@@ -16,30 +17,41 @@ def read_message():
     message = ser.readline()
     return message
 
-def send_message(message):
-    ser.write(message)
+def send_message(data):
+    data_length = sys.getsizeof(data)
+    frame_message = FrameHeaderFormat.pack(0xA5, data_length, 0)
+    checksum = crc8.checksum(frame_message)
+
+    
+    ser.write(data)
+
+
+crc8 = crc.Calcuator(crc.Crc8.MAXIM_DOW)
+
+crc16config = crc.Configuration(
+    width=16,
+    polynomial=0x1021,
+    init_value=0x0000,
+    final_xor_value=0x0000,
+    reverse_input=True,
+    reverse_output=True,
+)
+
+crc16 = crc.Calculator(crc16config)
 
 
 # Reading message
-# Message type
 class MessageType(Enum):
     CMD_Odometry_Data = 1
     CMD_Turret_Aim = 2
 
-def find_message:
-
-
 # Sending message
-# Formatting struct
-
-TurretData = struct.Struct("<fffffffff?")
-
-# @params turret data
-def format_turret(xPos, yPos, zPos, 
+def send_turret_data(xPos, yPos, zPos, 
                   xVel, yVel, zVel, 
                   xAcc, yAcc, zAcc, 
                   hasTarget):
-    TurretData.pack(xPos, yPos, zPos, 
-                  xVel, yVel, zVel, 
-                  xAcc, yAcc, zAcc, 
-                  hasTarget)
+    send_message(TurretDataFormat.pack(xPos, yPos, zPos, xVel, yVel, zVel, xAcc, yAcc, zAcc, hasTarget))
+
+TurretDataFormat = struct.Struct("<fffffffff?")
+FrameHeaderFormat = struct.Struct("<cHccH")
+    
