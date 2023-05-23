@@ -1,11 +1,13 @@
 import time
-
+import numpy as np
 class BoundingBox:
 	def __init__(self):
 		self.__x1__ = 0
 		self.__x2__ = 0
 		self.__y1__ = 0
 		self.__y2__ = 0
+		self.__x_center__ = 0
+		self.__y_center__ = 0
 		self.__depth_value__ = 0
 		self.__height__ = 0
 		self.__width__ = 0
@@ -18,6 +20,12 @@ class BoundingBox:
 	def set_y_value(self,y1, y2):
 		self.__y1__ = y1
 		self.__y2__ = y2
+
+	def calculate_x_center(self):
+		self.__x_center__ = np.float32((self.__x1__ + self.__x2__)/2)
+	
+	def calculate_y_center(self):
+		self.__y_center__ = np.float32((self.__y1__ + self.__y2__)/2)
 	
 	def set_depth(self, depth):
 		self.__depth_value__ = depth
@@ -36,6 +44,14 @@ class BoundingBox:
 	
 	def get_y_value(self):
 		return self.__y1__, self.__y2__
+	
+	def get_x_center(self):
+		self.calculate_x_center()
+		return self.__x_center__
+	
+	def get_y_center(self):
+		self.calculate_y_center()
+		return self.__y_center__
 	
 	def get_depth(self):
 		return self.__depth_value__
