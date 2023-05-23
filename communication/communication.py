@@ -15,7 +15,7 @@ ser = serial.Serial()
 Initialize_communication initializes the communication port. Tentatively, the COM port is /dev/bone/ttyS4 with a baud rate of 115200 and a timeout of 0.5
 """
 def initialize_communication():
-    ser.port = '/dev/bone/ttyS4'
+    ser.port = '/dev/ttyS4'
     ser.baudrate = 115200
     ser.timeout = 0.5
     ser.open()
