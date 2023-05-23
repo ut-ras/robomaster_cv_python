@@ -90,11 +90,11 @@
         <pose>0 0 0.1524 0 0 0</pose>
 
         <link name="wall_1">
-          <pose>0 1.8542 0 0 0 0</pose>
+          <pose>0 4 0 0 0 0</pose>
           <visual name='visual'>
             <geometry>
               <box>
-                <size>3.6576 0.0508 0.3048</size>
+                <size>12 0.1 1</size>
               </box>
             </geometry>
             <material>Gazebo/Black</material>
@@ -102,18 +102,18 @@
           <collision name='collision'>
             <geometry>
               <box>
-                <size>3.6576 0.0508 0.3048</size>
+                <size>12 0.1 1</size>
               </box>
             </geometry>
           </collision>
         </link>
 
         <link name="wall_2">
-          <pose>0 -1.8542 0 0 0 0</pose>
+          <pose>0 -4 0 0 0 0</pose>
           <visual name='visual'>
             <geometry>
               <box>
-                <size>3.6576 0.0508 0.3048</size>
+                <size>12 0.1 1</size>
               </box>
             </geometry>
             <material>Gazebo/Black</material>
@@ -121,18 +121,18 @@
           <collision name='collision'>
             <geometry>
               <box>
-                <size>3.6576 0.0508 0.3048</size>
+                <size>12 0.1 1</size>
               </box>
             </geometry>
           </collision>
         </link>
 
         <link name="wall_3">
-          <pose>1.8542 0 0 0 0 0</pose>
+          <pose>6 0 0 0 0 0</pose>
           <visual name='visual'>
             <geometry>
               <box>
-                <size>0.0508 3.6576 0.3048</size>
+                <size>0.1 8 1</size>
               </box>
             </geometry>
             <material>Gazebo/Black</material>
@@ -140,18 +140,18 @@
           <collision name='collision'>
             <geometry>
               <box>
-                <size>0.0508 3.6576 0.3048</size>
+                <size>0.1 8 1</size>
               </box>
             </geometry>
           </collision>
         </link>
 
         <link name="wall_4">
-          <pose>-1.8542 0 0 0 0 0</pose>
+          <pose>-6 0 0 0 0 0</pose>
           <visual name='visual'>
             <geometry>
               <box>
-                <size>0.0508 3.6576 0.3048</size>
+                <size>0.1 8 1</size>
               </box>
             </geometry>
             <material>Gazebo/Black</material>
@@ -159,7 +159,45 @@
           <collision name='collision'>
             <geometry>
               <box>
-                <size>0.0508 3.6576 0.3048</size>
+                <size>0.1 8 1</size>
+              </box>
+            </geometry>
+          </collision>
+        </link>
+
+        <link name="center-wall-teamA">
+          <pose>-1 1.895 0 0 0 0</pose>
+          <visual name='visual'>
+            <geometry>
+              <box>
+                <size>0.1 2.950 1</size>
+              </box>
+            </geometry>
+            <material>Gazebo/Black</material>
+          </visual>
+          <collision name='collision'>
+            <geometry>
+              <box>
+                <size>0.1 2.950 1</size>
+              </box>
+            </geometry>
+          </collision>
+        </link>
+
+        <link name="center-wall-teamB">
+          <pose>1 -1.895 0 0 0 0</pose>
+          <visual name='visual'>
+            <geometry>
+              <box>
+                <size>0.1 -2.950 1</size>
+              </box>
+            </geometry>
+            <material>Gazebo/Black</material>
+          </visual>
+          <collision name='collision'>
+            <geometry>
+              <box>
+                <size>0.1 2.950 1</size>
               </box>
             </geometry>
           </collision>
