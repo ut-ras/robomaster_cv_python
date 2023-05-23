@@ -33,7 +33,7 @@ def run_forever():
 		assert(isinstance(depth_value,np.float32))
 
 		#send message to dev board through UART
-		com.send_turret_data(x_center,y_center,depth_value,np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),True)
+		# com.send_turret_data(x_center,y_center,depth_value,np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),True)
 		boundingbox_list.clear()
 
 		# Show images, debugging
