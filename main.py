@@ -3,6 +3,7 @@ from object_detection import object_detection as od
 from communication import communication as com
 import cv2
 import numpy as np
+import time
 #begin initialization
 def run_forever():
 	dp.initialize_real_sense()
@@ -11,6 +12,7 @@ def run_forever():
 	com.initialize_communication()
 	boundingbox_list = []
 	while True:
+		start_time = time.time()
 		color_image, depth_image = dp.get_color_depth_image()
 		detector.run_object_detections(color_image, boundingbox_list)
 		
@@ -18,10 +20,12 @@ def run_forever():
 			continue
 
 		#dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
-		for i in range(len(boundingbox_list)):
-			print(boundingbox_list[i].get_depth())
+		# for i in range(len(boundingbox_list)):
+		# 	print(boundingbox_list[i].get_depth())
 		boundingbox_list.clear()
 		# Show images, debugging
+		end_time = time.time()
+		print(start_time - end_time)
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 		cv2.imshow('RealSense', color_image)
 		cv2.waitKey(1)
