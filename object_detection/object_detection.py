@@ -1,7 +1,7 @@
 import onnxruntime as ort
 import numpy as np
 import cv2
-import bounding_box as bb
+from bounding_box import bounding_box as bb
 
 model_path = '/home/debian/robomaster_CV/object_detection/last_with_shapes.onnx'
 artifacts_dir = '/home/debian/robomaster_CV/object_detection/tidl_output'
