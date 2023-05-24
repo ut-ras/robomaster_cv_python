@@ -17,6 +17,9 @@ def run_forever():
 		detector.run_object_detections(color_image, boundingbox_list)
 		
 		if(len(boundingbox_list) == 0):
+			cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+			cv2.imshow('RealSense', color_image)
+			cv2.waitKey(1)
 			continue
 
 		#dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
@@ -25,10 +28,11 @@ def run_forever():
 		boundingbox_list.clear()
 		# Show images, debugging
 		end_time = time.time()
-		print(start_time - end_time)
+		print(end_time - start_time)
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 		cv2.imshow('RealSense', color_image)
 		cv2.waitKey(1)
+
 
 
 if __name__ == "__main__":
