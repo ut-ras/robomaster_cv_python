@@ -37,7 +37,7 @@ class BoundingBox:
 		self.__width__ = self.__x2__ - self.__x1__
 
 	def set_time(self):
-		self.__time__ = time.local_time(time.time())
+		self.__time__ = time.localtime(time.time())
 	
 	def get_x_value(self):
 		return self.__x1__, self.__x2__
