@@ -17,6 +17,9 @@ def run_forever():
 		detector.run_object_detections(color_image, boundingbox_list)
 		
 		if(len(boundingbox_list) == 0):
+			cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+			cv2.imshow('RealSense', color_image)
+			cv2.waitKey(1)
 			end_time = time.time()
 			print(end_time - start_time)
 			continue
