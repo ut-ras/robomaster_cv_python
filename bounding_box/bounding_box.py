@@ -11,7 +11,7 @@ class BoundingBox:
 		self.__depth_value__ = 0
 		self.__height__ = 0
 		self.__width__ = 0
-		self.__time__ = time.local_time(time.time())
+		self.__time__ = 0
 
 	def set_x_value(self,x1, x2):
 		self.__x1__ = x1
