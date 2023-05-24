@@ -15,26 +15,29 @@ def run_forever():
 		detector.run_object_detections(color_image, boundingbox_list)
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
 
-		#debugging
-		print("x coordinate of center of armor plate: ", boundingbox_list[:-1].get_x_center())
-		print("y coordinate of center of armor plate: ", boundingbox_list[:-1].get_y_center())
-		print("Depth value from last detected armor plate: ", boundingbox_list[:-1].get_depth())
+		if(boundingbox_list.empty() is not True):
+			#debugging
+			print("x coordinate of center of armor plate: ", boundingbox_list[:-1].get_x_center())
+			print("y coordinate of center of armor plate: ", boundingbox_list[:-1].get_y_center())
+			print("Depth value from last detected armor plate: ", boundingbox_list[:-1].get_depth())
 
-		#TODO
-		#Obtain velocity, acceleration values from Kalman filter
-		#Research how the fuck you use the Kalman filter API
-		x_center = boundingbox_list[:-1].get_x_center()
-		y_center = boundingbox_list[:-1].get_y_center()
-		depth_value = boundingbox_list[:-1].get_depth()
+			#TODO
+			#Obtain velocity, acceleration values from Kalman filter
+			#Research how the fuck you use the Kalman filter API
+			x_center = boundingbox_list[:-1].get_x_center()
+			y_center = boundingbox_list[:-1].get_y_center()
+			depth_value = boundingbox_list[:-1].get_depth()
 
-		#debugging
-		assert(isinstance(x_center,np.float32))
-		assert(isinstance(y_center,np.float32))
-		assert(isinstance(depth_value,np.float32))
+			#debugging
+			assert(isinstance(x_center,np.float32))
+			assert(isinstance(y_center,np.float32))
+			assert(isinstance(depth_value,np.float32))
 
-		#send message to dev board through UART
-		# com.send_turret_data(x_center,y_center,depth_value,np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),True)
-		boundingbox_list.clear()
+			#send message to dev board through UART
+			# com.send_turret_data(x_center,y_center,depth_value,np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),np.float32(0),True)
+			boundingbox_list.clear()
+
+
 
 		# Show images, debugging
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
