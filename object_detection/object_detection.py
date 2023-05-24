@@ -49,9 +49,6 @@ class object_detector:
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
 
-		if(output_count == 0):
-			return False
-
 		for i in range(output_count):
 			#x1, y1 coordinates for lower left corner of bounding box
 			#x2, y2 coordinates for upper right corner of bounding box
@@ -92,7 +89,6 @@ class object_detector:
 			bounding_box.calculate_width()
 			boundingbox_list.append(bounding_box)
 		
-		return True
 
 	def run_object_detections(self, image, boundingbox_list):
 		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
