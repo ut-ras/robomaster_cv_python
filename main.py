@@ -16,16 +16,16 @@ def run_forever():
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
 
 		#debugging
-		print("x coordinate of center of armor plate: ", boundingbox_list[-1].get_x_center())
-		print("y coordinate of center of armor plate: ", boundingbox_list[-1].get_y_center())
-		print("Depth value from last detected armor plate: ", boundingbox_list[-1].get_depth())
+		print("x coordinate of center of armor plate: ", boundingbox_list[:-1].get_x_center())
+		print("y coordinate of center of armor plate: ", boundingbox_list[:-1].get_y_center())
+		print("Depth value from last detected armor plate: ", boundingbox_list[:-1].get_depth())
 
 		#TODO
 		#Obtain velocity, acceleration values from Kalman filter
 		#Research how the fuck you use the Kalman filter API
-		x_center = boundingbox_list[-1].get_x_center()
-		y_center = boundingbox_list[-1].get_y_center()
-		depth_value = boundingbox_list[-1].get_depth()
+		x_center = boundingbox_list[:-1].get_x_center()
+		y_center = boundingbox_list[:-1].get_y_center()
+		depth_value = boundingbox_list[:-1].get_depth()
 
 		#debugging
 		assert(isinstance(x_center,np.float32))
