@@ -50,8 +50,8 @@ class object_detector:
 		output_count = output.shape[1]
 
 		for i in range(output_count):
-			#x1, y1 coordinates for lower left corner of bounding box
-			#x2, y2 coordinates for upper right corner of bounding box
+			#x1, y1 coordinates for upper left corner of bounding box
+			#x2, y2 coordinates for lower right corner of bounding box
 			#use these to calculate height and width of bounding box, if necessary
 			#use these to also determine average depth measurements of bounding box
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]

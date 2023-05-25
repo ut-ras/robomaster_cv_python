@@ -74,9 +74,9 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
 
     # print("xcoordinates", x1, x2)
     # print("ycoordinates", y1, y2)
-    depth_box = depth_image[x1:x2, y2:y1]
-    depth_value = np.nanmean(depth_box[depth_box.nonzero()])
-    # print("Depth value", depth_value)
+    depth_box = depth_image[x1:x2, y1:y2]
+    depth_value = np.nanmean(depth_box[np.nonzero(depth_box)])
+    print("Depth value", depth_value)
     return depth_value/100 #To convert to meters
 
 if __name__ == "__main__":
