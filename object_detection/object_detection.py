@@ -59,12 +59,12 @@ class object_detector:
 			if confidence < CONFIDENCE_THRESHOLD:
 				continue
 
-			# print("x1 ", x1)
-			# print("y1 ", y1)
-			# print("x2 ", x2)
-			# print("y2 ", y2)
-			# print("confidence ", confidence)
-			# print("class_idx_float ", class_idx_float)
+			print("x1 ", x1)
+			print("y1 ", y1)
+			print("x2 ", x2)
+			print("y2 ", y2)
+			print("confidence ", confidence)
+			print("class_idx_float ", class_idx_float)
 
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
 			y1 = int(round(y1 / self.__height__ * image.shape[0]))
