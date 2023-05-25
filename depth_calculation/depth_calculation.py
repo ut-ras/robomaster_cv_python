@@ -72,6 +72,8 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
     x1, x2 = bounding_box.get_x_value()
     y1, y2 = bounding_box.get_y_value()
 
+    print(x1, x2)
+    print(y1, y2)
     depth_box = depth_image[y1:y2, x1:x2]
     depth_value = np.nanmean(depth_box[depth_box.nonzero()])
 
