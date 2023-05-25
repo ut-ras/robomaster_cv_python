@@ -72,10 +72,10 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
     x1, x2 = bounding_box.get_x_value()
     y1, y2 = bounding_box.get_y_value()
 
-    depth_box = depth_image[x1:x2, y1:y2]
+    depth_box = depth_image[y1:y2, x1:x2]
     depth_value = np.nanmean(depth_box[depth_box.nonzero()])
 
-    return depth_value
+    return depth_value/100 #To convert to meters
 
 if __name__ == "__main__":
     initialize_real_sense()

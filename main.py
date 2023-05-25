@@ -20,8 +20,10 @@ def run_forever():
 			continue
 
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
+
 		for i in range(len(boundingbox_list)):
 			print(boundingbox_list[i].get_depth())
+		
 		boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
