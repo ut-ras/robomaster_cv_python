@@ -12,11 +12,11 @@ import cv2
 # Set up pipeline
 pipeline = rs.pipeline()
 
+# Configure depth and color streams
+config = rs.config()
+
 #the depth image resolution is set to 1280 x 720p, USB 3.0 required to access 1280 by 720 otherwise, crashes
 def initialize_real_sense():
-
-    # Configure depth and color streams
-    config = rs.config()
 
     # Get device product line for setting a supporting resolution
     pipeline_wrapper = rs.pipeline_wrapper(pipeline)
@@ -78,6 +78,11 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
     depth_value = np.mean(depth_box[np.nonzero(depth_box)])
     print("Depth value", depth_value)
     return depth_value #To convert to meters
+
+def get_intrinsics():
+    profile = config.get_stream(rs.stream.depth)
+    intrinsics = profile.as_video_stream_profile().get_intrinsics()
+    return intrinsics
 
 if __name__ == "__main__":
     initialize_real_sense()
