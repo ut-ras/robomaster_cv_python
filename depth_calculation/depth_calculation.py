@@ -12,11 +12,11 @@ import cv2
 # Set up pipeline
 pipeline = rs.pipeline()
 
+# Configure depth and color streams
+config = rs.config()
+
 #the depth image resolution is set to 1280 x 720p, USB 3.0 required to access 1280 by 720 otherwise, crashes
 def initialize_real_sense():
-
-    # Configure depth and color streams
-    config = rs.config()
 
     # Get device product line for setting a supporting resolution
     pipeline_wrapper = rs.pipeline_wrapper(pipeline)
@@ -43,17 +43,26 @@ def initialize_real_sense():
     # Start streaming
     pipeline.start(config)
 
+# Creates align object for depth frame
+align_to = rs.stream.color
+align = rs.align(align_to)
+
 def get_color_depth_image():
     try:
         frames = pipeline.wait_for_frames()
-        color_frame = frames.get_color_frame()
-        depth_frame = frames.get_depth_frame()
+
+        # Get aligned frames
+        aligned_frames = align.process(frames)
+
+        color_frame = aligned_frames.get_color_frame()
+        depth_frame = aligned_frames.get_depth_frame()
 
         #convert frames to images
         color_image = np.asanyarray(color_frame.get_data(), dtype=np.uint8)
         depth_image = np.asanyarray(depth_frame.get_data(), dtype=np.uint16)
 
         return color_image, depth_image
+        
     except:
         pipeline.stop()
 
