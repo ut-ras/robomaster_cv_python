@@ -43,17 +43,26 @@ def initialize_real_sense():
     # Start streaming
     pipeline.start(config)
 
+# Creates align object for depth frame
+align_to = rs.stream.color
+align = rs.align(align_to)
+
 def get_color_depth_image():
     try:
         frames = pipeline.wait_for_frames()
-        color_frame = frames.get_color_frame()
-        depth_frame = frames.get_depth_frame()
+
+        # Get aligned frames
+        aligned_frames = align.process(frames)
+
+        color_frame = aligned_frames.get_color_frame()
+        depth_frame = aligned_frames.get_depth_frame()
 
         #convert frames to images
         color_image = np.asanyarray(color_frame.get_data(), dtype=np.uint8)
         depth_image = np.asanyarray(depth_frame.get_data(), dtype=np.uint16)
 
         return color_image, depth_image
+        
     except:
         pipeline.stop()
 
@@ -71,11 +80,23 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
     #return a float by indexing into the numpy array using the coordinates given by the bounding box
     x1, x2 = bounding_box.get_x_value()
     y1, y2 = bounding_box.get_y_value()
-    cv2.imshow('Depth image', depth_image)
+
+	# cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+    # depth_10000 = depth_image/10000.
+    # depth_10000[x1:x2, y1:y2] = 1
+    # cv2.rectangle(depth_10000, (x1, y1), (x2, y2), 1, 3)
+    # cv2.imshow('Depth image', depth_10000)
+    # cv2.waitKey(1)
     # print("xcoordinates", x1, x2)
     # print("ycoordinates", y1, y2)
-    depth_box = depth_image[x1:x2, y1:y2]
+
+    #TODO
+    #Align the depth image with the color image using align from the python wrapper
+    depth_box = depth_image[y1:y2, x1:x2]
+
+    #not using nanmean as nan is not returned for integer data types
     depth_value = np.mean(depth_box[np.nonzero(depth_box)])
+
     print("Depth value", depth_value)
     return depth_value #To convert to meters
 

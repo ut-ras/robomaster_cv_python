@@ -18,9 +18,6 @@ def run_forever():
 		start_time = time.time()
 		color_image, depth_image = dp.get_color_depth_image()
 		detector.run_object_detections(color_image, boundingbox_list)
-		
-		if(len(boundingbox_list) == 0):
-			continue
 
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
 
@@ -36,8 +33,8 @@ def run_forever():
 
 		# Show images, calculate time elapsed, debugging
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-		cv2.imshow('RealSense', color_image)
-		cv2.waitKey(1)
+		# cv2.imshow('RealSense', color_image)
+		# cv2.waitKey(1)
 
 
 
