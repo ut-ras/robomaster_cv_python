@@ -1,4 +1,11 @@
 import pyrealsense2.pyrealsense2 as rs
+'''
+    x axis: horizontal plane
+    y axis: vertical plane
+    z axis: forward plane (depth values)
+
+    follows realsense SDK convention
+'''
 
 # Converts pixel coordinates and depth to 3D coordinates (in meters)
 # 
@@ -12,13 +19,13 @@ def convert_pixel_and_depth_to_point(x, y, depth, intrinsics):
     _intrinsics = rs.intrinsics()
     _intrinsics.width = intrinsics.width
     _intrinsics.height = intrinsics.height
-    _intrinsics.ppx = intrinsics.K[2]
-    _intrinsics.ppy = intrinsics.K[5]
-    _intrinsics.fx = intrinsics.K[0]
-    _intrinsics.fy = intrinsics.K[4]
+    _intrinsics.ppx = intrinsics.ppx
+    _intrinsics.ppy = intrinsics.ppy
+    _intrinsics.fx = intrinsics.fx
+    _intrinsics.fy = intrinsics.fy
     _intrinsics.model  = rs.distortion.none
 
-    _intrinsics.coeffs = [i for i in intrinsics.D]
+    _intrinsics.coeffs = intrinsics.coeffs
 
     result = rs.rs2_deproject_pixel_to_point(_intrinsics, [x, y], depth)
-    return result[2], -result[0], -result[1]
+    return -result[1], -result[0], result[2]

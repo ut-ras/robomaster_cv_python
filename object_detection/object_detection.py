@@ -58,7 +58,14 @@ class object_detector:
 
 			if confidence < CONFIDENCE_THRESHOLD:
 				continue
-
+			
+			# if part of an armor plate is detected, detection coordinates
+			# are returned as a negative value. To fix, set values to 0 to avoid issues further on.
+			if x1 < 0:
+				x1 = 0.0
+			if y1 < 0:
+				y1 = 0.0
+				
 			print("x1 ", x1)
 			print("y1 ", y1)
 			print("x2 ", x2)

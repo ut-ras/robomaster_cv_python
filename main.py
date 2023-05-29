@@ -15,7 +15,7 @@ def run_forever():
 	intrinsics = dp.get_intrinsics()
 
 	while True:
-		start_time = time.time()
+		# start_time = time.time()
 		color_image, depth_image = dp.get_color_depth_image()
 		detector.run_object_detections(color_image, boundingbox_list)
 
@@ -28,13 +28,16 @@ def run_forever():
 			boundingbox_list[i].set_x_coord(coords[0])
 			boundingbox_list[i].set_y_coord(coords[1])
 			boundingbox_list[i].set_z_coord(coords[2])
-		
+			# print(boundingbox_list[i].get_x_coord())
+			# print(boundingbox_list[i].get_y_coord())
+			# print(boundingbox_list[i].get_z_coord())
+
 		boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
 		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-		# cv2.imshow('RealSense', color_image)
-		# cv2.waitKey(1)
+		cv2.imshow('RealSense', color_image)
+		cv2.waitKey(1)
 
 
 

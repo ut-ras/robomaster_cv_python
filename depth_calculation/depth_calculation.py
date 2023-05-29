@@ -89,20 +89,27 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
     # cv2.waitKey(1)
     # print("xcoordinates", x1, x2)
     # print("ycoordinates", y1, y2)
-
+    print("depth image", depth_image)
     #TODO
-    #Align the depth image with the color image using align from the python wrapper
+    #Why is this array sometimes empty?
     depth_box = depth_image[y1:y2, x1:x2]
+
+    print(depth_box[np.nonzero(depth_box)])
 
     #not using nanmean as nan is not returned for integer data types
     depth_value = np.mean(depth_box[np.nonzero(depth_box)])
 
     print("Depth value", depth_value)
-    return depth_value #To convert to meters
+    return depth_value/1000. #To convert to meters
 
 def get_intrinsics():
-    profile = config.get_stream(rs.stream.depth)
+    pipeline_wrapper = rs.pipeline_wrapper(pipeline)
+    pipeline_profile = config.resolve(pipeline_wrapper)
+    profile = pipeline_profile.get_stream(rs.stream.depth)
     intrinsics = profile.as_video_stream_profile().get_intrinsics()
+
+    # profile = config.get_stream(rs.stream.depth)
+    # intrinsics = profile.as_video_stream_profile().get_intrinsics()
     return intrinsics
 
 if __name__ == "__main__":
