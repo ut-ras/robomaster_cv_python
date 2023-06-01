@@ -32,6 +32,12 @@ def run_forever():
 			# print(boundingbox_list[i].get_y_coord())
 			# print(boundingbox_list[i].get_z_coord())
 
+			VA = boundingbox_list[i].get_prediction().predicted_VA(
+				boundingbox_list[i].get_x_coord(),
+				boundingbox_list[i].get_y_coord(),
+				boundingbox_list[i].get_z_coord(),
+				dt = 0.1)
+
 		boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
