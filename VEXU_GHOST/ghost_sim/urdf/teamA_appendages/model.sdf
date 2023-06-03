@@ -1,0 +1,65 @@
+<?xml version='1.0'?>
+<sdf version='1.7'>
+  <model name='teamA_appendages'>
+    <pose>1.70055 1.65526 0 0 -0 0</pose>
+    <link name='Wall_6'>
+      <collision name='Wall_6_Collision'>
+        <geometry>
+          <box>
+            <size>0.5 0.25 0.65</size>
+          </box>
+        </geometry>
+        <pose>0 0 0.325 0 -0 0</pose>
+      </collision>
+      <visual name='Wall_6_Visual'>
+        <pose>0 0 0.325 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.5 0.25 0.65</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+          <ambient>1 1 1 1</ambient>
+        </material>
+        <meta>
+          <layer>0</layer>
+        </meta>
+      </visual>
+      <pose>0.110388 1.46982 0 0 -0 -2.87979</pose>
+    </link>
+    <link name='Wall_8'>
+      <collision name='Wall_8_Collision'>
+        <geometry>
+          <box>
+            <size>0.600019 0.25 0.65</size>
+          </box>
+        </geometry>
+        <pose>0 0 0.325 0 -0 0</pose>
+      </collision>
+      <visual name='Wall_8_Visual'>
+        <pose>0 0 0.325 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.600019 0.25 0.65</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+          <ambient>1 1 1 1</ambient>
+        </material>
+        <meta>
+          <layer>0</layer>
+        </meta>
+      </visual>
+      <pose>1.40028 0.02143 0 0 -0 -2.35417</pose>
+    </link>
+    <static>1</static>
+  </model>
+</sdf>
