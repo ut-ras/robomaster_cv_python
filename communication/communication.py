@@ -21,6 +21,10 @@ def initialize_communication():
     ser.open()
 
 
+# https://docs.python.org/3/library/struct.html#format-strings
+TurretDataFormat = struct.Struct("<fffffffff?")
+FrameHeaderFormat = struct.Struct("<BHB")
+
 def read_message():
     message = ser.readline()
     return message
@@ -42,9 +46,6 @@ def send_message(data, data_format, message_type):
 
     ser.write(full_message)
 
-# https://docs.python.org/3/library/struct.html#format-strings
-TurretDataFormat = struct.Struct("<fffffffff?")
-FrameHeaderFormat = struct.Struct("<BHB")
 
 crc8 = crc.Calculator(crc.Crc8.MAXIM_DOW)
 
