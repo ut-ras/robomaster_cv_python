@@ -21,16 +21,7 @@ def run_forever():
 
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
 
-		# for i in range(len(boundingbox_list)):
-		# 	print(boundingbox_list[i].get_depth())
-		for i in range(len(boundingbox_list)):
-			coords = ptp.convert_pixel_and_depth_to_point(boundingbox_list[i].get_x_center(), boundingbox_list[i].get_y_center(), boundingbox_list[i].get_depth(), intrinsics)
-			boundingbox_list[i].set_x_coord(coords[0])
-			boundingbox_list[i].set_y_coord(coords[1])
-			boundingbox_list[i].set_z_coord(coords[2])
-			# print(boundingbox_list[i].get_x_coord())
-			# print(boundingbox_list[i].get_y_coord())
-			# print(boundingbox_list[i].get_z_coord())
+		ptp.set_point_coords(boundingbox_list,intrinsics)
 
 		boundingbox_list.clear()
 
