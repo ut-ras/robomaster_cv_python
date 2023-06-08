@@ -25,7 +25,7 @@ def run_forever():
 			xAcc = np.float32(0.0), yAcc = np.float32(0.0), zAcc = np.float32(0.0),
 			hasTarget=False)
 			boundingbox_list.clear()
-			pass
+			continue
 
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
 
