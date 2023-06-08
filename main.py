@@ -29,13 +29,7 @@ def run_forever():
 
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
 
-		# for i in range(len(boundingbox_list)):
-		# 	print(boundingbox_list[i].get_depth())
-		for i in range(len(boundingbox_list)):
-			coords = ptp.convert_pixel_and_depth_to_point(boundingbox_list[i].get_x_center(), boundingbox_list[i].get_y_center(), boundingbox_list[i].get_depth(), intrinsics)
-			boundingbox_list[i].set_x_coord(coords[0])
-			boundingbox_list[i].set_y_coord(coords[1])
-			boundingbox_list[i].set_z_coord(coords[2])
+		ptp.set_point_coords(boundingbox_list,intrinsics)
 
 		com.send_turret_data(xPos = boundingbox_list[0].get_x_coord(), yPos = boundingbox_list[0].get_y_coord(), zPos = boundingbox_list[0].get_z_coord(),
 			xVel = np.float32(0.0),yVel = np.float32(0.0), zVel = np.float32(0.0),
