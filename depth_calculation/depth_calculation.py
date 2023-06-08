@@ -81,26 +81,18 @@ def get_depth_value_from_bounding_box(depth_image, bounding_box):
     x1, x2 = bounding_box.get_x_value()
     y1, y2 = bounding_box.get_y_value()
 
-	# cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-    # depth_10000 = depth_image/10000.
-    # depth_10000[x1:x2, y1:y2] = 1
-    # cv2.rectangle(depth_10000, (x1, y1), (x2, y2), 1, 3)
-    # cv2.imshow('Depth image', depth_10000)
-    # cv2.waitKey(1)
-    # print("xcoordinates", x1, x2)
-    # print("ycoordinates", y1, y2)
-    print("depth image", depth_image)
     #TODO
     #Why is this array sometimes empty?
+    #Either ignore NaNs or catch edge cases for when NaNs occur
     depth_box = depth_image[y1:y2, x1:x2]
-
-    print(depth_box[np.nonzero(depth_box)])
 
     #not using nanmean as nan is not returned for integer data types
     depth_value = np.mean(depth_box[np.nonzero(depth_box)])
 
-    print("Depth value", depth_value)
-    return depth_value/1000. #To convert to meters
+    #To convert to meters, also casts depth value to np.float32
+    depth_value = depth_value/np.float32(1000)
+
+    return depth_value 
 
 def get_intrinsics():
     pipeline_wrapper = rs.pipeline_wrapper(pipeline)
