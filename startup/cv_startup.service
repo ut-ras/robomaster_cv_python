@@ -1,0 +1,12 @@
+[Unit]
+Description=On boot, begin running CV system
+
+[Service]
+ExecStart=/home/debian/robomaster_CV/main.py
+Restart=Always
+User=root
+Group=root
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
