@@ -1,5 +1,6 @@
 [Unit]
 Description=On boot, begin running CV system
+After=network.target
 
 [Service]
 ExecStart=/home/debian/robomaster_CV/main.py
