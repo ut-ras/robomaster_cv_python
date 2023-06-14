@@ -45,32 +45,45 @@ class Prediction(object):
         self.filter.P *= 10
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
-    def kinematicPredict(self, delt):
+    def kinematicPredict(self, del_t):
         # Q - noise matrix
-        self.filter.Q = Q_discrete_white_noise(dim=4, dt=delt, block_size=3, var=0.13, order_by_dim=True)
+        self.filter.Q = Q_discrete_white_noise(dim=4, dt=del_t, block_size=3, var=0.13, order_by_dim=True)
         # solves for a N+1 solution and places it in filter.x
-        self.filter.predict(dt=delt)
+        self.filter.predict(dt=del_t)
         
     # [x', x'', y', y'', z', z'']
     def getVA(self):
-        x_vel = self.filter.x[1]
-        x_acc = self.filter.x[2]
-        y_vel = self.filter.x[5]
-        y_acc = self.filter.x[6]
-        z_vel = self.filter.x[9]
-        z_acc = self.filter.x[10]
+        # x_vel = self.filter.x[1]
+        # x_acc = self.filter.x[2]
+        # y_vel = self.filter.x[5]
+        # y_acc = self.filter.x[6]
+        # z_vel = self.filter.x[9]
+        # z_acc = self.filter.x[10]
+
+        vel_acc = {
+            "x_vel":self.filter.x[1],
+            "x_acc":self.filter.x[2],
+            "y_vel":self.filter.x[5],
+            "y_acc":self.filter.x[6],
+            "z_vel":self.filter.x[9],
+            "z_acc":self.filter.x[10],
+        }
         
         #return [self.filter.x[1], self.filter.x[2], self.filter.x[5], self.filter.x[6], self.filter.x[9], self.filter.x[10]]
-        return [x_vel, x_acc, y_vel, y_acc, z_vel, z_acc]
+        return vel_acc
 
     # [x, y, z]
     def getPredictedPos(self):
-        x_pos = self.filter.x[0]
-        y_pos = self.filter.x[4]
-        z_pos = self.filter.x[8]
-        return [x_pos, y_pos, z_pos]
+
+        position = {
+            "x_pos": self.filter.x[0],
+            "y_pos": self.filter.x[4],
+            "z_pos": self.filter.x[8]
+        }
+        return position
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
+    #pos - np.ndarray(x,y,z) position
     def kinematicUpdate(self, pos):
         self.filter.update(pos)
 

@@ -24,7 +24,7 @@ def run_forever():
 			,xVel = np.float32(0.0),yVel = np.float32(0.0), zVel = np.float32(0.0),
 			xAcc = np.float32(0.0), yAcc = np.float32(0.0), zAcc = np.float32(0.0),
 			hasTarget=False)
-			boundingbox_list.clear()
+			# boundingbox_list.clear()
 			continue
 
 		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
@@ -36,7 +36,7 @@ def run_forever():
 			xAcc = np.float32(0.0), yAcc = np.float32(0.0), zAcc = np.float32(0.0),
 			hasTarget=True)
 		
-		boundingbox_list.clear()
+		# boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
 		# cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
