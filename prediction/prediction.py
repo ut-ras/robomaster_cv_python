@@ -23,7 +23,10 @@ class Prediction(object):
 
         # gets (x, y, z) position measurements from state matrix x
         def hx(x):
-            return np.array([x[0], x[4], x[8]])
+            x_pos = x[0]
+            y_pos = x[4]
+            z_pos = x[8]
+            return np.array([x_pos, y_pos, z_pos])
     
         points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9)
         # dim_x - number of Kalman filter state variables (position, velocity, acceleration, jerk in x, y, z directions = 12)
@@ -50,11 +53,22 @@ class Prediction(object):
         
     # [x', x'', y', y'', z', z'']
     def getVA(self):
-        return [self.filter.x[1], self.filter.x[2], self.filter.x[5], self.filter.x[6], self.filter.x[9], self.filter.x[10]]
+        x_vel = self.filter.x[1]
+        x_acc = self.filter.x[2]
+        y_vel = self.filter.x[5]
+        y_acc = self.filter.x[6]
+        z_vel = self.filter.x[9]
+        z_acc = self.filter.x[10]
+        
+        #return [self.filter.x[1], self.filter.x[2], self.filter.x[5], self.filter.x[6], self.filter.x[9], self.filter.x[10]]
+        return [x_vel, x_acc, y_vel, y_acc, z_vel, z_acc]
 
     # [x, y, z]
     def getPredictedPos(self):
-        return [self.filter.x[0], self.filter.x[4], self.filter.x[8]]
+        x_pos = self.filter.x[0]
+        y_pos = self.filter.x[4]
+        z_pos = self.filter.x[8]
+        return [x_pos, y_pos, z_pos]
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
     def kinematicUpdate(self, pos):
