@@ -46,16 +46,25 @@ def send_message(data, data_format, message_type):
 TurretDataFormat = struct.Struct("<fffffffff?")
 FrameHeaderFormat = struct.Struct("<BHB")
 
-crc8 = crc.Calculator(crc.Crc8.MAXIM_DOW)
+crc8config = crc.Configuration(
+    width=8,
+    polynomial=0x31,
+    init_value=0xFF,
+    final_xor_value=0x00,
+    reverse_input=True,
+    reverse_output=True,
+)
 
 crc16config = crc.Configuration(
     width=16,
     polynomial=0x1021,
-    init_value=0x0000,
+    init_value=0xFFFF,
     final_xor_value=0x0000,
     reverse_input=True,
     reverse_output=True,
 )
+
+crc8 = crc.Calculator(crc8config)
 
 crc16 = crc.Calculator(crc16config)
 
