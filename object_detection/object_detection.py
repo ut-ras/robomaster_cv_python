@@ -1,6 +1,7 @@
 import onnxruntime as ort
 import numpy as np
 import cv2
+import time
 from bounding_box import bounding_box as bb
 
 model_path = '/home/debian/robomaster_CV/object_detection/last_with_shapes.onnx'
@@ -94,6 +95,7 @@ class object_detector:
 			bounding_box.set_y_value(y1, y2)
 			bounding_box.calculate_height()
 			bounding_box.calculate_width()
+			bounding_box.set_time(time.time())
 			boundingbox_list.append(bounding_box)
 		
 
