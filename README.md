@@ -1,12 +1,12 @@
 # UT RoboMaster CV - Stampede
 
-2023 Fleet: ![Fleet_Render_1x1](https://github.com/ut-ras/robomaster_CV/assets/77861652/fdf0df6e-e5ee-45f9-aae2-001c07c516e6)
-
 UT Stampede RoboMaster CV Repository
 
 Code is written for BeagleBone AI-64
 
 For questions about the BeagleBone AI-64, our code, history of development on the BeagleBone AI-64 for a full RoboMaster CV system, and tips on getting started, documentation, etc. please contact Paul Han (email: pauljhan@utexas.edu Discord: @bornhater)
+
+## Code Organization
 
 Our CV system is organized into subsystems that cover various tasks necessary for a full RoboMaster CV system
 
