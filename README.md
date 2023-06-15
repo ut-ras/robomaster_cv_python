@@ -1,4 +1,4 @@
-# robomaster_CV
+# UT RoboMaster CV - Stampede
 
 2023 Fleet: ![Fleet_Render_1x1](https://github.com/ut-ras/robomaster_CV/assets/77861652/fdf0df6e-e5ee-45f9-aae2-001c07c516e6)
 
