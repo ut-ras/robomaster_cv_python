@@ -8,8 +8,10 @@ Powered using RoboMaster battery
 For questions about the BeagleBone AI-64, our code, history of development on the BeagleBone AI-64 for a full RoboMaster CV system, and tips on getting started, documentation, etc. please contact Paul Han (email: pauljhan@utexas.edu Discord: @bornhater)
 
 Our CV system is organized into subsystems that cover various tasks necessary for a full RoboMaster CV system
+
 Subsystems are listed below, in order of being called in *main.py* which is a continuous loop, running our system:
-(**NOTE**: Almost none of these tasks are performed inside main.py. These functions abstract out the tasks at hand and are merely called in main.py, making debugging and development significantly easier.)
+
+(**NOTE**: Almost none of these tasks are performed inside main.py. These functions abstract out the tasks at hand and are merely called in main.py, making debugging and development significantly easier. Unit tests will be added in the future)
 
 **Image and Depth System** - Retrieving images and depth values (how far away is the armor plate in meters) from RealSense camera through Python wrapper
 
