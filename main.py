@@ -9,8 +9,7 @@ import time
 #for saving images
 import os
 
-#Index number for frames for file saving
-frameIndex = 0
+
 
 #begin initialization
 def run_forever():
@@ -21,21 +20,32 @@ def run_forever():
 	boundingbox_list = []
 	intrinsics = dp.get_intrinsics()
 
+	#Index number for frames for file saving
+	frameIndex = 0
+	
+	#previous image variable (to ensure that we do not record duplicate frames)
+	prevImage = None
+
 	while True:
 		# start_time = time.time()
 		color_image, depth_image = dp.get_color_depth_image()
 		#detector.run_object_detections(color_image, boundingbox_list)
 
-		#save frames into file
-		frameIndex += 1
-		file_path = ""  #insert file path here if desired
-		file_name = "video"
+		if prevImage is None or prevImage != color_image:	#Checks to see if there is a difference between the frames
+			try:
+				#save frames into file
+				frameIndex += 1
+				file_path = ""  #insert file path here if desired
+				file_name = "video"
 
 
-		cv2.imwrite(file_name + str(frameIndex) + ".png",color_image)
-        #below version includes saving it to a specific place in the file path
-        # cv2.imwrite(os.path.join(file_path,file_name + str(frameIndex)+ ".png"),color_image)
+				cv2.imwrite(file_name + str(frameIndex) + ".png",color_image)
+				#below version includes saving it to a specific place in the file path
+				# cv2.imwrite(os.path.join(file_path,file_name + str(frameIndex)+ ".png"),color_image)
 
+			except:	#In case of running out of memory
+				print("Ran out of mem")
+		prevImage = color_image
 		
 		# Commented out for sole purpose is to collect and save frame
 
