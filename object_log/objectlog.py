@@ -1,27 +1,18 @@
 import numpy as np
-import sys
-sys.path.append('../robomaster_CV')
 from object_log import armorplate as ap
 
 #TODO figure out correct values for this
 #these are the constants used to calculate if a predicted position is out of bounds
 #these should be updated with the actual values
-MAX_X = 150
-MAX_Y = 150
-MAX_Z = 50
-MIN_X = -1
-MIN_Y = -1
-MIN_Z = -1
-
-#TODO figure out smallest allowed order
-MIN_AREA = 10
+# MAX_X = 150
+# MAX_Y = 150
+# MAX_Z = 50
+# MIN_X = -1
+# MIN_Y = -1
+# MIN_Z = -1
 
 #TODO margin of error used in 
 margin_of_err = 0 # this is some random number, we need to finetune this later
-
-#TODO kill_threshold used for when we know something hasn't been seen for a 
-# while and needs to be kicked out
-kill_threshold = -1 # need to replace with an actual val
 
 """
 Object Log:
@@ -37,7 +28,6 @@ Primary functions in pipeline:
 """
 class objectlog:
 
-
     """
     Initialize function
     Runs in init() in main loop
@@ -45,7 +35,10 @@ class objectlog:
     """
     def __init__(self):
         self.plates = []
-        self.idAssign = 0
+        for i in range(4):
+            armor_plate = ap.ArmorPlate()
+            armor_plate.set_id(i)
+            self.plates.append(armor_plate)
         
         #Python automatically creates the file with this name if it does not exist
         # self.objectLogOutput = open("ObjectLog.txt",'w')
@@ -59,20 +52,9 @@ class objectlog:
     the plates unless the closest distance is greater than some margin of error
     """
     def boxesInput(self, boxList, currentTime: float):
-        # add all bounding boxes to plates if plates is empty
-        if boxList == None:
-            return -1
         if len(self.plates) == 0:
             for i in range(len(boxList)):
-                #check size of bounding box, if too small pass this iteration
-                if not self.size_check(boxList[i]):
-                    continue
-
-                #error check the bounding box parameters
-                if((boxList[i].get_x_value() < 0) or (boxList[i].get_y_value() < 0) or (boxList[i].get_depth() < 0) or (boxList[i].get_height() < 0) or (boxList[i].get_width() < 0)):
-                    #bounding box is invalid
-                    return -1
-
+                
                 newPlate = ap.ArmorPlate(boxList[i], self.idAssign)
                 newPlate.addArmorPlate(newPlate, currentTime)
 

@@ -32,7 +32,7 @@ class ArmorPlate:
         self.acceleration = None
         self.boundingbox = None # bounding box object
         self.id = None
-        self.armor_plate_active = True
+        self.armor_plate_active = False
         # self.time_buffer = 0
         self.next_position = None
         self.last_time = None
