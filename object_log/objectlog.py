@@ -48,7 +48,7 @@ class objectlog:
         self.idAssign = 0
         
         #Python automatically creates the file with this name if it does not exist
-        self.objectLogOutput = open("ObjectLog.txt",'w')
+        # self.objectLogOutput = open("ObjectLog.txt",'w')
 
 
     """

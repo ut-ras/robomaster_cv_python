@@ -60,17 +60,20 @@ class Prediction(object):
         # z_vel = self.filter.x[9]
         # z_acc = self.filter.x[10]
 
-        vel_acc = {
+        vel = {
             "x_vel":self.filter.x[1],
             "x_acc":self.filter.x[2],
             "y_vel":self.filter.x[5],
-            "y_acc":self.filter.x[6],
+        }
+
+        acc = {
+                        "y_acc":self.filter.x[6],
             "z_vel":self.filter.x[9],
             "z_acc":self.filter.x[10],
         }
         
         #return [self.filter.x[1], self.filter.x[2], self.filter.x[5], self.filter.x[6], self.filter.x[9], self.filter.x[10]]
-        return vel_acc
+        return vel, acc
 
     # [x, y, z]
     def getPredictedPos(self):
