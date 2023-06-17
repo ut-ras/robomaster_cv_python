@@ -128,7 +128,7 @@ class ArmorPlate:
     this method is subject to change depending on how PVA is implemented (currently assumed to be world positions)
     assumes that time is being kept track of in per second units while velocity/acceleration are per millisecond units.
     """
-    def predictPosition(self, currentTime: float):
+    def predict_position(self, currentTime: float):
         delta_t = currentTime - self.get_last_time()
         self.set_next_position(self.get_next_position() + (np.multiply(self.get_velocity(), delta_t)) + (np.multiply(self.get_acceleration(), np.exp(delta_t, 2) / 2))) # kinematics :D  
 
