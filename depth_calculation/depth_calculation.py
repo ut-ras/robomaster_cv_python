@@ -9,11 +9,17 @@ import pyrealsense2.pyrealsense2 as rs
 import numpy as np
 import cv2
 
+#For recording
+import os
+
 # Set up pipeline
 pipeline = rs.pipeline()
 
 # Configure depth and color streams
 config = rs.config()
+
+#Index number for frames for file saving
+frameIndex = 0
 
 #the depth image resolution is set to 1280 x 720p, USB 3.0 required to access 1280 by 720 otherwise, crashes
 def initialize_real_sense():
@@ -60,6 +66,16 @@ def get_color_depth_image():
         #convert frames to images
         color_image = np.asanyarray(color_frame.get_data(), dtype=np.uint8)
         depth_image = np.asanyarray(depth_frame.get_data(), dtype=np.uint16)
+
+        #Saving frames
+        frameIndex += 1
+        file_path = ""  #insert file path here if desired
+        file_name = "vid1"
+
+
+        cv2.imwrite(file_name + str(frameIndex)+ ".png",color_image)
+        #below version includes saving it to a specific place in the file path
+        # cv2.imwrite(os.path.join(file_path,file_name + str(frameIndex)+ ".png"),color_image)
 
         return color_image, depth_image
         
