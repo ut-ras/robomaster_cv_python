@@ -9,13 +9,14 @@ class BoundingBox:
 		self.__x_center__ = 0
 		self.__y_center__ = 0
 		self.__depth_value__ = 0
-		self.__x_coord__ = 0	# In meters
-		self.__y_coord__ = 0	# In meters
-		self.__z_coord__ = 0	# In meters
+		self.__coord__ = None
+		# self.__x_coord__ = 0	# In meters
+		# self.__y_coord__ = 0	# In meters
+		# self.__z_coord__ = 0	# In meters
 		self.__height__ = 0
 		self.__width__ = 0
 		self.__time__ = 0
-
+	
 	def set_x_value(self,x1, x2):
 		self.__x1__ = x1
 		self.__x2__ = x2
@@ -33,14 +34,21 @@ class BoundingBox:
 	def set_depth(self, depth):
 		self.__depth_value__ = depth
 
-	def set_x_coord(self, x_coord):
-		self.__x_coord__ = x_coord
+	def set_coord(self, x, y, z):
+		self.__coord__ = {
+			"x_pos":x,
+			"y_pos":y,
+			"z_pos":z
+		}
 
-	def set_y_coord(self, y_coord):
-		self.__y_coord__ = y_coord
+	# def set_x_coord(self, x_coord):
+	# 	self.__x_coord__ = x_coord
 
-	def set_z_coord(self, z_coord):
-		self.__z_coord__ = z_coord
+	# def set_y_coord(self, y_coord):
+	# 	self.__y_coord__ = y_coord
+
+	# def set_z_coord(self, z_coord):
+	# 	self.__z_coord__ = z_coord
 	
 	def calculate_height(self):
 		self.__height__ = self.__y2__ - self.__y1__
@@ -68,14 +76,17 @@ class BoundingBox:
 	def get_depth(self):
 		return self.__depth_value__
 	
-	def get_x_coord(self):
-		return self.__x_coord__
+	def get_coord(self):
+		return self.__coord__
+	
+	# def get_x_coord(self):
+	# 	return self.__x_coord__
 
-	def get_y_coord(self):
-		return self.__y_coord__
+	# def get_y_coord(self):
+	# 	return self.__y_coord__
 
-	def get_z_coord(self):
-		return self.__z_coord__
+	# def get_z_coord(self):
+	# 	return self.__z_coord__
 	
 	def get_height(self):
 		return self.__height__
