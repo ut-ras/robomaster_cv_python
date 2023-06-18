@@ -148,15 +148,16 @@ class ArmorPlate:
         self.set_next_position(self.get_next_position() + (np.multiply(self.get_velocity(), delta_t)) + (np.multiply(self.get_acceleration(), np.exp(delta_t, 2) / 2))) # kinematics :D
         self.set_seen_iter(False)
 
-    """"
-    getNextPosition returns the predicted next position of the armor plate in an array of 
-    [xcenter, ycenter, depth].
     """
-    def getNextPosition(self):
-        return self.nextPosition
+    updateBox takes in a boundingBox and updates all the status variables involved
+    """
+    def updateBox(self, boundingBox: bb):
+        self.set_boundingbox(bb)
+        self.set_armor_plate_active(True)
+        self.set_seen_iter(True)
+        self.set_last_time(bb.get_time())
 
-    
-
+        #TODO: Run kalman filter here to get pva?
     
     # """
     # Given an armorplate we have associated in objectlog, 
