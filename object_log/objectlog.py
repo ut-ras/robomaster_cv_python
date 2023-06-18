@@ -51,8 +51,11 @@ class objectlog:
     def input_boxes(self, boundingbox_list):
         self.update_predicted_positions()
         for i in range(len(boundingbox_list)):
-            assoc = self.assign_plate(boundingbox_list[i], self.plates) #index of matching plate
-            return
+            plate_index = self.assign_plate(boundingbox_list[i], self.plates) #index of matching plate
+            if plate_index == -1: #if there is no association error handling
+                print("could not find space for plate")
+            self.plates[i].update_box(boundingbox_list[i])
+        return
     
     #using kinematics, predict where the enemy robot would be between the last time it was seen and now
     def update_predicted_positions(self):

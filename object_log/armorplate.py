@@ -151,14 +151,23 @@ class ArmorPlate:
     """
     updateBox takes in a boundingBox and updates all the status variables involved
     """
-    def updateBox(self, boundingBox: bb):
-        self.set_boundingbox(bb)
+    def update_box(self, newBox: bb):
+        self.set_boundingbox(newBox)
+        self.set_position(newBox.get_position())
         self.set_armor_plate_active(True)
         self.set_seen_iter(True)
-        self.set_last_time(bb.get_time())
+        delta_t = newBox.get_time() - self.get_last_time()
+        self.set_last_time(newBox.get_time())
 
         #TODO: Run kalman filter here to get pva?
-    
+        self.kf.kinematicPredict(delta_t)
+        position_array = np.array([newBox.get_position().get("x_pos"),
+                                   newBox.get_position().get("y_pos"),
+                                   newBox.get_position().get("z_pos"),])
+        self.kf.kinematicUpdate(position_array)
+        self.update_VA()
+
+
     # """
     # Given an armorplate we have associated in objectlog, 
     # add to a list of associated armor plates.
