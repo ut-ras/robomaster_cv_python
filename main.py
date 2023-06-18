@@ -18,6 +18,21 @@ def run_forever():
 	boundingbox_list = []
 	intrinsics = dp.get_intrinsics()
 	object = objectlog.objectlog()
+	no_data_pos = {
+		'x_pos':np.float32(0),
+		'y_pos':np.float32(0),
+		'z_pos':np.float32(0)
+	}
+	no_data_vel = {
+		'x_vel':np.float32(0),
+		'y_vel':np.float32(0),
+		'z_vel':np.float32(0)
+	}
+	no_data_acc = {
+		'x_acc':np.float32(0),
+		'y_acc':np.float32(0),
+		'z_acc':np.float32(0)
+	}
 	# pred = prediction.Prediction()
 	# pred.kinematicPredict(1.0)
 
@@ -28,10 +43,7 @@ def run_forever():
 		detector.run_object_detections(color_image, boundingbox_list)
 		armor_plate_list.extend(boundingbox_list)
 		if(len(boundingbox_list)==0):
-			com.send_turret_data(xPos = np.float32(0.0), yPos = np.float32(0.0), zPos = np.float32(0.0)
-			,xVel = np.float32(0.0),yVel = np.float32(0.0), zVel = np.float32(0.0),
-			xAcc = np.float32(0.0), yAcc = np.float32(0.0), zAcc = np.float32(0.0),
-			hasTarget=False)
+			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
 			boundingbox_list.clear()
 			continue
 
@@ -42,23 +54,7 @@ def run_forever():
 		object.assoc_boxes(boundingbox_list)
 		pos, vel, acc = object.select_target()
 
-
-
-		# pos = np.ndarray([boundingbox_list[-1].get_x_coord(),boundingbox_list[-1].get_y_coord(),boundingbox_list[-1].get_z_coord()])
-		# pred.kinematicUpdate(pos)
-		# del_t = armor_plate_list[-1].get_time() - armor_plate_list[-2].get_time()
-		# pred.kinematicPredict(del_t)
-		# pos = pred.getPredictedPos()
-		# vel_acc = pred.getVA()
-		
-		# assert isinstance(pos["x_pos"],np.float32) is True & isinstance(pos["y_pos"],np.float32) is True & isinstance(pos["z_pos"],np.float32) is True
-		# assert isinstance(vel_acc["x_vel"],np.float32) is True & isinstance(vel_acc["y_vel"],np.float32) is True & isinstance(vel_acc["z_vel"],np.float32) is True
-		# assert isinstance(vel_acc["x_acc"],np.float32) is True & isinstance(vel_acc["y_acc"],np.float32) is True & isinstance(vel_acc["z_acc"],np.float32) is True
-
-		com.send_turret_data(xPos = pos["x_pos"], yPos = pos["y_pos"], zPos = pos["z_pos"],
-			xVel = vel["x_vel"],yVel = vel["y_vel"], zVel = vel["z_vel"],
-			xAcc = acc["x_acc"], yAcc = acc["y_acc"], zAcc = acc["z_acc"],
-			hasTarget=True)
+		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		
 		boundingbox_list.clear()
 
