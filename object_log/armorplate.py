@@ -33,12 +33,16 @@ class ArmorPlate:
         self.boundingbox = None # bounding box object
         self.id = None
         self.armor_plate_active = False
+        self.plate_seen_this_iter = False
         # self.time_buffer = 0
         self.next_position = None
         self.last_time = None
         self.assoc_boxes = [] # used for history
         self.kf = pred.Prediction()
     
+    ##
+    ## Getters
+    ##
 
     # {"x_pos":0,
     #  "y_pos":0,
@@ -82,6 +86,13 @@ class ArmorPlate:
     def get_assoc_boxes(self):
         return self.assoc_boxes
     
+    def get_seen_this_iter(self):
+        return self.plate_seen_this_iter
+    
+    ##
+    ## Setters
+    ##
+
     def set_position(self, position):
         self.position = position
 
@@ -106,8 +117,12 @@ class ArmorPlate:
     def set_last_time(self, last_time):
         self.last_time = last_time
 
+    def set_seen_iter(self, status: bool):
+        self.plate_seen_this_iter = status
+
     def add_assoc_boxes(self, box):
         self.assoc_boxes.append(box)
+
     # Velocity and acceleration are sets of three values.
 # """
 # Input from Armorplate
@@ -130,7 +145,8 @@ class ArmorPlate:
     """
     def predict_position(self, currentTime: float):
         delta_t = currentTime - self.get_last_time()
-        self.set_next_position(self.get_next_position() + (np.multiply(self.get_velocity(), delta_t)) + (np.multiply(self.get_acceleration(), np.exp(delta_t, 2) / 2))) # kinematics :D  
+        self.set_next_position(self.get_next_position() + (np.multiply(self.get_velocity(), delta_t)) + (np.multiply(self.get_acceleration(), np.exp(delta_t, 2) / 2))) # kinematics :D
+        self.set_seen_iter(False)
 
     """"
     getNextPosition returns the predicted next position of the armor plate in an array of 
@@ -158,7 +174,7 @@ class ArmorPlate:
 
     """
     # writeToHistory writes the ID, position, activity, and lastTime variables to a text file in a
-    # formatted manner.
+    # formatted manner. This function is currently not in use for testing purposes
     # """
     # def writeToHistory(self, historyFile):
     #     # historyFile = open("pathhere",'a')

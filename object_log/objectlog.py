@@ -32,7 +32,7 @@ class objectlog:
     """
     Initialize function
     Runs in init() in main loop
-    instantiates plates, ID var, and the timestamp variable. Opens output doc
+    instantiates plates, ID var, and sets those values to 0
     """
     def __init__(self):
         self.plates = []
@@ -68,19 +68,31 @@ class objectlog:
     def assign_plate(self, box) -> int:
         lowest_index = -1
         least_dist = float('inf')
+        firstEmptyIndex = -1
+
         for i in range(len(self.plates)):
+            if firstEmptyIndex == -1 and self.plates[i].get_active_status():     #gets first not active index. Useful to do it here to avoid an extra for loop later
+                firstEmptyIndex = i
+                continue
+            if not self.plates[i].get_seen_this_iter():     #if we have already associated this plate with a prior bounding box this frame don't overwrite that association
+                continue
             #calculate distance between plate predicted and box
             box_coord = box.get_coord()
             plate_coords = self.plates[i].get_next_position()
-            diff_dist = abs(plate_coords['x_pos']-box_coord['x_pos'])
-            + abs(plate_coords['y_pos']-box_coord['y_pos'])
-            + abs(plate_coords['z_pos']-box_coord['z_pos'])
+            diff_dist = np.power(np.abs(plate_coords['x_pos']-box_coord['x_pos']),2)
+            + np.power(np.abs(plate_coords['y_pos']-box_coord['y_pos']),2)
+            + np.power(np.abs(plate_coords['z_pos']-box_coord['z_pos']),2)
             
             #find lowest one
-            if(diff_dist < least_dist):
+            if diff_dist < np.power(margin_of_err,2) and diff_dist < least_dist: 
                 least_dist = diff_dist
                 lowest_index = i
             
+        #if none of them are close enough, go return an inactive plate
+        if lowest_index == -1:  #no currently active plates to bound to, return first empty index if any (returns -1 if no available plate which we can handle elsewhere ig)
+            return firstEmptyIndex
+        return lowest_index
+
         
             
 
