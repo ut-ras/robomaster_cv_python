@@ -29,11 +29,6 @@ Primary functions in pipeline:
 """
 class objectlog:
 
-    """
-    Initialize function
-    Runs in init() in main loop
-    instantiates plates, ID var, and sets those values to 0
-    """
     def __init__(self):
         self.plates = []
         for i in range(4):
@@ -43,19 +38,30 @@ class objectlog:
 
     def get_plates(self):
         return self.plates
-    """
-    Input from depth
-    Input: 
-    the plates unless the closest distance is greater than some margin of error
-    """
-    def input_boxes(self, boundingbox_list):
+    
+    def select_target(self):
+        closest_target_dist = float('inf')
+        total_dist = 0.0
+        closest_target_idx = 0
+        for i in range(4):
+            pos = self.plates[i].get_position()
+            total_dist = np.square(pos['x_pos']) + np.square(pos['y_pos']) + np.square(pos['z_pos'])
+            if(total_dist < closest_target_dist):
+                closest_target_dist = total_dist
+                closest_target_idx = i
+            
+        return self.plates[closest_target_idx].get_position(), self.plates[closest_target_idx].get_velocity, self.plates[closest_target_idx].get_acceleration
+
+
+    #associate boxes with armor plates
+    def assoc_boxes(self, boundingbox_list):
         self.update_predicted_positions()
         for i in range(len(boundingbox_list)):
             plate_index = self.assign_plate(boundingbox_list[i], self.plates) #index of matching plate
-            if plate_index == -1: #if there is no association error handling
-                print("could not find space for plate")
-            self.plates[i].update_box(boundingbox_list[i])
-        return
+            # if plate_index == -1: #if there is no association error handling
+            #     print("could not find space for plate")
+            self.plates[plate_index].update_box(boundingbox_list[i])
+        
     
     #using kinematics, predict where the enemy robot would be between the last time it was seen and now
     def update_predicted_positions(self):
@@ -71,14 +77,14 @@ class objectlog:
     def assign_plate(self, box) -> int:
         lowest_index = -1
         least_dist = float('inf')
-        firstEmptyIndex = -1
+        # firstEmptyIndex = -1
 
         for i in range(len(self.plates)):
-            if firstEmptyIndex == -1 and self.plates[i].get_active_status():     #gets first not active index. Useful to do it here to avoid an extra for loop later
-                firstEmptyIndex = i
-                continue
-            if not self.plates[i].get_seen_this_iter():     #if we have already associated this plate with a prior bounding box this frame don't overwrite that association
-                continue
+            # if firstEmptyIndex == -1 and not self.plates[i].get_active_status():     #gets first not active index. Useful to do it here to avoid an extra for loop later
+            #     firstEmptyIndex = i
+            #     continue
+            # if not self.plates[i].get_seen_this_iter():     #if we have already associated this plate with a prior bounding box this frame don't overwrite that association
+            #     continue
             #calculate distance between plate predicted and box
             box_coord = box.get_coord()
             plate_coords = self.plates[i].get_next_position()
@@ -87,13 +93,14 @@ class objectlog:
             + np.power(np.abs(plate_coords['z_pos']-box_coord['z_pos']),2)
             
             #find lowest one
-            if diff_dist < np.power(margin_of_err,2) and diff_dist < least_dist: 
+            # if diff_dist < np.power(margin_of_err,2) and diff_dist < least_dist: 
+            if diff_dist < least_dist:
                 least_dist = diff_dist
                 lowest_index = i
             
         #if none of them are close enough, go return an inactive plate
-        if lowest_index == -1:  #no currently active plates to bound to, return first empty index if any (returns -1 if no available plate which we can handle elsewhere ig)
-            return firstEmptyIndex
+        # if lowest_index == -1:  #no currently active plates to bound to, return first empty index if any (returns -1 if no available plate which we can handle elsewhere ig)
+        #     return firstEmptyIndex
         return lowest_index
 
         

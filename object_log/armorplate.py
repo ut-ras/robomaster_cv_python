@@ -133,8 +133,10 @@ class ArmorPlate:
 #     - Predicated Velocity vector of armor plate
 #     - Predicted Acceration vector of armor plate
 # """
-    def update_VA(self):
+    def update_position_vel_acc(self):
+        pos_dict = self.kf.getPredictedPos()
         vel_dict, acc_dict = self.kf.getVA()
+        self.set_position(pos_dict)
         self.set_vel(vel_dict)
         self.set_acc(acc_dict)
 
@@ -149,45 +151,19 @@ class ArmorPlate:
         self.set_seen_iter(False)
 
     """
-    updateBox takes in a boundingBox and updates all the status variables involved
+    update_box takes in a boundingBox and updates all the status variables involved
     """
-    def update_box(self, newBox: bb):
-        self.set_boundingbox(newBox)
-        self.set_position(newBox.get_position())
+    def update_box(self, new_box: bb):
+        self.set_boundingbox(new_box)
+        self.set_position(new_box.get_position())
         self.set_armor_plate_active(True)
         self.set_seen_iter(True)
-        delta_t = newBox.get_time() - self.get_last_time()
-        self.set_last_time(newBox.get_time())
+        delta_t = new_box.get_time() - self.get_last_time()
+        self.set_last_time(new_box.get_time())
 
-        #TODO: Run kalman filter here to get pva?
         self.kf.kinematicPredict(delta_t)
-        position_array = np.array([newBox.get_position().get("x_pos"),
-                                   newBox.get_position().get("y_pos"),
-                                   newBox.get_position().get("z_pos"),])
+        position_array = np.array([new_box.get_position().get("x_pos"),
+                                   new_box.get_position().get("y_pos"),
+                                   new_box.get_position().get("z_pos"),])
         self.kf.kinematicUpdate(position_array)
-        self.update_VA()
-
-
-    # """
-    # Given an armorplate we have associated in objectlog, 
-    # add to a list of associated armor plates.
-    # """
-    # def addArmorPlate(self, new_plate: bb, currentTime: float):
-    #     #add to data structure
-    #     if len(self.assoc_plates) == self.max_assoc_plates:
-    #         self.assoc_plates.pop()
-    #     self.assoc_plates.insert(0,new_plate)
-    #     self.kf.kinematicUpdate(new_plate.getPosition())
-    #     self.lastTime = currentTime
-
-    #     return
-
-    """
-    # writeToHistory writes the ID, position, activity, and lastTime variables to a text file in a
-    # formatted manner. This function is currently not in use for testing purposes
-    # """
-    # def writeToHistory(self, historyFile):
-    #     # historyFile = open("pathhere",'a')
-    #     historyFile.write("ID: {} Position: {} Activity: {} LastTime: {}\n"\
-    #                       .format(self.id, self.position, self.activity, self.lastTime))
-    #     # historyFile.close()
+        self.update_position_vel_acc()

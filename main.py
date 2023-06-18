@@ -3,6 +3,7 @@ from object_detection import object_detection as od
 from communication import communication as com
 from pixel_to_point import pixel_to_point as ptp
 from prediction import prediction
+from object_log import objectlog
 import cv2
 import numpy as np
 import time
@@ -16,8 +17,9 @@ def run_forever():
 	armor_plate_list = []
 	boundingbox_list = []
 	intrinsics = dp.get_intrinsics()
-	pred = prediction.Prediction()
-	pred.kinematicPredict(1.0)
+	object = objectlog.objectlog()
+	# pred = prediction.Prediction()
+	# pred.kinematicPredict(1.0)
 
 	while True:
 		# start_time = time.time()
@@ -37,20 +39,25 @@ def run_forever():
 
 		ptp.set_point_coords(boundingbox_list,intrinsics)
 
-		pos = np.ndarray([boundingbox_list[-1].get_x_coord(),boundingbox_list[-1].get_y_coord(),boundingbox_list[-1].get_z_coord()])
-		pred.kinematicUpdate(pos)
-		del_t = armor_plate_list[-1].get_time() - armor_plate_list[-2].get_time()
-		pred.kinematicPredict(del_t)
-		pos = pred.getPredictedPos()
-		vel_acc = pred.getVA()
+		object.assoc_boxes(boundingbox_list)
+		pos, vel, acc = object.select_target()
+
+
+
+		# pos = np.ndarray([boundingbox_list[-1].get_x_coord(),boundingbox_list[-1].get_y_coord(),boundingbox_list[-1].get_z_coord()])
+		# pred.kinematicUpdate(pos)
+		# del_t = armor_plate_list[-1].get_time() - armor_plate_list[-2].get_time()
+		# pred.kinematicPredict(del_t)
+		# pos = pred.getPredictedPos()
+		# vel_acc = pred.getVA()
 		
-		assert isinstance(pos["x_pos"],np.float32) is True & isinstance(pos["y_pos"],np.float32) is True & isinstance(pos["z_pos"],np.float32) is True
-		assert isinstance(vel_acc["x_vel"],np.float32) is True & isinstance(vel_acc["y_vel"],np.float32) is True & isinstance(vel_acc["z_vel"],np.float32) is True
-		assert isinstance(vel_acc["x_acc"],np.float32) is True & isinstance(vel_acc["y_acc"],np.float32) is True & isinstance(vel_acc["z_acc"],np.float32) is True
+		# assert isinstance(pos["x_pos"],np.float32) is True & isinstance(pos["y_pos"],np.float32) is True & isinstance(pos["z_pos"],np.float32) is True
+		# assert isinstance(vel_acc["x_vel"],np.float32) is True & isinstance(vel_acc["y_vel"],np.float32) is True & isinstance(vel_acc["z_vel"],np.float32) is True
+		# assert isinstance(vel_acc["x_acc"],np.float32) is True & isinstance(vel_acc["y_acc"],np.float32) is True & isinstance(vel_acc["z_acc"],np.float32) is True
 
 		com.send_turret_data(xPos = pos["x_pos"], yPos = pos["y_pos"], zPos = pos["z_pos"],
-			xVel = vel_acc["x_vel"],yVel = vel_acc["y_vel"], zVel = vel_acc["z_vel"],
-			xAcc = vel_acc["x_acc"], yAcc = vel_acc["y_acc"], zAcc = vel_acc["z_acc"],
+			xVel = vel["x_vel"],yVel = vel["y_vel"], zVel = vel["z_vel"],
+			xAcc = acc["x_acc"], yAcc = acc["y_acc"], zAcc = acc["z_acc"],
 			hasTarget=True)
 		
 		boundingbox_list.clear()
