@@ -62,13 +62,13 @@ class Prediction(object):
 
         vel = {
             "x_vel":self.filter.x[1],
-            "x_acc":self.filter.x[2],
-            "y_vel":self.filter.x[5],
+            "y_vel":self.filter.x[2],
+            "z_vel":self.filter.x[5],
         }
 
         acc = {
-                        "y_acc":self.filter.x[6],
-            "z_vel":self.filter.x[9],
+            "x_acc":self.filter.x[6],
+            "y_acc":self.filter.x[9],
             "z_acc":self.filter.x[10],
         }
         
