@@ -5,6 +5,7 @@ if __name__ == "__main__":
 import numpy as np
 from prediction import prediction as pred
 from bounding_box import bounding_box as bb
+import time
 
 class ArmorPlate:
     MAX_ASSOC_PLATES = 5
@@ -36,7 +37,7 @@ class ArmorPlate:
         self.plate_seen_this_iter = False
         # self.time_buffer = 0
         self.next_position = None
-        self.last_time = None
+        self.last_time = time.time()
         self.assoc_boxes = [] # used for history
         self.kf = pred.Prediction()
     
