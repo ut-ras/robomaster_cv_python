@@ -33,12 +33,9 @@ def run_forever():
 		'y_acc':np.float32(0),
 		'z_acc':np.float32(0)
 	}
-	# pred = prediction.Prediction()
-	# pred.kinematicPredict(1.0)
 
 	while True:
-		# start_time = time.time()
-
+		start_time = time.time()
 		color_image, depth_image = dp.get_color_depth_image()
 		detector.run_object_detections(color_image, boundingbox_list)
 		armor_plate_list.extend(boundingbox_list)
@@ -53,7 +50,11 @@ def run_forever():
 
 		object.assoc_boxes(boundingbox_list)
 		pos, vel, acc = object.select_target()
-
+		end_time = time.time()
+		print("Position values",pos)
+		print("Velocity values", vel)
+		print("Acceleration", acc)
+		print("total time for system to run", end_time - start_time)
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		
 		boundingbox_list.clear()

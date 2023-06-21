@@ -30,37 +30,39 @@ Primary functions in pipeline:
 class objectlog:
 
     def __init__(self):
-        self.plates = []
-        for i in range(4):
-            armor_plate = ap.ArmorPlate()
-            armor_plate.set_id(i)
-            self.plates.append(armor_plate)
+        self.plates = ap.ArmorPlate()
+        self.plates.set_id(0)
+        # for i in range(4):
+        #     armor_plate = ap.ArmorPlate()
+        #     armor_plate.set_id(i)
+        #     self.plates.append(armor_plate)
 
     def get_plates(self):
         return self.plates
     
     def select_target(self):
-        closest_target_dist = float('inf')
-        total_dist = 0.0
-        closest_target_idx = 0
-        for i in range(4):
-            pos = self.plates[i].get_position()
-            total_dist = np.square(pos['x_pos']) + np.square(pos['y_pos']) + np.square(pos['z_pos'])
-            if(total_dist < closest_target_dist):
-                closest_target_dist = total_dist
-                closest_target_idx = i
+        # closest_target_dist = float('inf')
+        # total_dist = 0.0
+        # closest_target_idx = 0
+        # for i in range(4):
+        #     pos = self.plates[i].get_position()
+        #     total_dist = np.square(pos['x_pos']) + np.square(pos['y_pos']) + np.square(pos['z_pos'])
+        #     if(total_dist < closest_target_dist):
+        #         closest_target_dist = total_dist
+        #         closest_target_idx = i
             
-        return self.plates[closest_target_idx].get_position(), self.plates[closest_target_idx].get_velocity, self.plates[closest_target_idx].get_acceleration
+        return self.plates.get_position(), self.plates.get_velocity(), self.plates.get_acceleration()
 
 
     #associate boxes with armor plates
     def assoc_boxes(self, boundingbox_list):
-        self.update_predicted_positions()
-        for i in range(len(boundingbox_list)):
-            plate_index = self.assign_plate(boundingbox_list[i], self.plates) #index of matching plate
-            # if plate_index == -1: #if there is no association error handling
-            #     print("could not find space for plate")
-            self.plates[plate_index].update_box(boundingbox_list[i])
+        self.plates.update_box(boundingbox_list[0])
+        # self.update_predicted_positions()
+        # for i in range(len(boundingbox_list)):
+        #     plate_index = self.assign_plate(boundingbox_list[i], self.plates) #index of matching plate
+        #     # if plate_index == -1: #if there is no association error handling
+        #     #     print("could not find space for plate")
+        #     self.plates[plate_index].update_box(boundingbox_list[i])
         
     
     #using kinematics, predict where the enemy robot would be between the last time it was seen and now

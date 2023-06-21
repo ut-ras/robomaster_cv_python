@@ -67,11 +67,11 @@ class object_detector:
 			if y1 < 0:
 				y1 = 0.0
 				
-			print("x1 ", x1)
-			print("y1 ", y1)
-			print("x2 ", x2)
-			print("y2 ", y2)
-			print("confidence ", confidence)
+			# print("x1 ", x1)
+			# print("y1 ", y1)
+			# print("x2 ", x2)
+			# print("y2 ", y2)
+			# print("confidence ", confidence)
 			print("class_idx_float ", class_idx_float)
 
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
@@ -80,6 +80,7 @@ class object_detector:
 			y2 = int(round(y2 / self.__height__ * image.shape[0]))
 
 			# Yes, TI outputs the class index as a float...
+			#0. as red, 1. as blue
 			class_draw_color = {
 				# Colors for boxes of each class, in (R, G, B) order.
 				0.: (255, 50, 50),
