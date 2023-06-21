@@ -96,7 +96,7 @@ class object_detector:
 			bounding_box.set_y_value(y1, y2)
 			bounding_box.calculate_height()
 			bounding_box.calculate_width()
-			bounding_box.set_time(time.time())
+			bounding_box.set_time()
 			boundingbox_list.append(bounding_box)
 		
 

@@ -76,7 +76,7 @@ class BoundingBox:
 	def get_depth(self):
 		return self.__depth_value__
 	
-	def get_coord(self):
+	def get_position(self):
 		return self.__coord__
 	
 	# def get_x_coord(self):
