@@ -80,11 +80,11 @@ class object_detector:
 			y2 = int(round(y2 / self.__height__ * image.shape[0]))
 
 			# Yes, TI outputs the class index as a float...
-			#0. as red, 1. as blue
+			#0. as blue, 1. as red
 			class_draw_color = {
 				# Colors for boxes of each class, in (R, G, B) order.
-				0.: (255, 50, 50),
-				1.: (50, 50, 255),
+				0.: (50, 50, 255),
+				1.: (255, 50, 50),
 				# TODO: if using more than two classes, pick some more colors...
 			}[class_idx_float]
 
@@ -100,10 +100,10 @@ class object_detector:
 			boundingbox_list.append(bounding_box)
 		
 
-	def run_object_detections(self, image, boundingbox_list):
+	def run_object_detections(self, RealSense, boundingbox_list):
 		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
 		# Model trained with RGB channel order but OpenCV loads in BGR order, so reverse channels.
-		input_data = cv2.resize(image, (self.__width__, self.__height__)).transpose((2, 0, 1))[::-1, :, :] / 255
+		input_data = cv2.resize(RealSense.get_color_image(), (self.__width__, self.__height__)).transpose((2, 0, 1))[::-1, :, :] / 255
 
 		input_data = input_data.astype(np.float32)
 		input_data = np.expand_dims(input_data, 0)
@@ -111,7 +111,7 @@ class object_detector:
 		detections, = self.__sess__.run(None, {self.__input_name__: input_data})
 
 		#for testing purposes
-		detected_target = self.render_boxes(image, detections[0, :, :, :], boundingbox_list)
+		detected_target = self.render_boxes(RealSense.get_color_image(), detections[0, :, :, :], boundingbox_list)
 		return detected_target
 	
 	

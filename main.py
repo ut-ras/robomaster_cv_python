@@ -9,7 +9,7 @@ import numpy as np
 import time
 #begin initialization
 def run_forever():
-	dp.initialize_real_sense()
+	RealSense = dp.RealSense()
 	detector = od.object_detector()
 	detector.initialize_object_detections()
 	com.initialize_communication()
@@ -35,16 +35,18 @@ def run_forever():
 	}
 
 	while True:
+		
 		start_time = time.time()
-		color_image, depth_image = dp.get_color_depth_image()
-		detector.run_object_detections(color_image, boundingbox_list)
+		RealSense.get_color_depth_image()
+		detector.run_object_detections(RealSense, boundingbox_list)
 		armor_plate_list.extend(boundingbox_list)
+
 		if(len(boundingbox_list)==0):
 			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
 			boundingbox_list.clear()
 			continue
 
-		dp.set_all_bounding_box_depth_values(depth_image, boundingbox_list)
+		RealSense.set_all_bounding_box_depth_values(boundingbox_list)
 
 		ptp.set_point_coords(boundingbox_list,intrinsics)
 
