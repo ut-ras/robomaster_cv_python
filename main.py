@@ -37,12 +37,16 @@ def run_forever():
 
 	while True:
 		
-		start_time = time.time()
+		
 		RealSense.get_color_depth_image()
+		start_time = time.time()
 		detector.run_object_detections(RealSense, boundingbox_list)
-		armor_plate_list.extend(boundingbox_list)
 		end_time = time.time()
+		print("Detection time: ", end_time - start_time)
+		armor_plate_list.extend(boundingbox_list)
+
 		if(len(boundingbox_list)==0):
+
 			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
 			boundingbox_list.clear()
 			continue
@@ -53,10 +57,7 @@ def run_forever():
 
 		object.assoc_boxes(boundingbox_list)
 		pos, vel, acc = object.select_target()
-		end_time = time.time()
-		print("Position values",pos)
-		print("Velocity values", vel)
-		print("Acceleration", acc)
+
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		
 		boundingbox_list.clear()
