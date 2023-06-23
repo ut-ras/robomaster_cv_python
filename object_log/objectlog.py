@@ -43,7 +43,7 @@ class objectlog:
         lowest_distance_idx = -1
         lowest_depth = float('inf')
         for i in range(len(boundingbox_list)):
-            current_depth = boundingbox_list[i]
+            current_depth = boundingbox_list[i].get_depth()
             if(current_depth < lowest_depth):
                 lowest_depth = current_depth
                 lowest_distance_idx = i
