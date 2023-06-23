@@ -14,8 +14,6 @@ def run_forever():
 	detector = od.object_detector()
 	detector.initialize_object_detections()
 	com.initialize_communication()
-	#list of all bounding boxes ever
-
 	boundingbox_list = []
 	intrinsics = RealSense.get_intrinsics()
 	object = objectlog.objectlog()
@@ -53,7 +51,6 @@ def run_forever():
 		ptp.set_point_coords(boundingbox_list,intrinsics)
 
 		pos, vel, acc = object.select_target(boundingbox_list)
-		
 
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		

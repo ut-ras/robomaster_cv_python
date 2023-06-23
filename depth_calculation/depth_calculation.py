@@ -47,12 +47,12 @@ class RealSense:
             print("The demo requires Depth camera with Color sensor")
             exit(0)
         # Configure depth and color streams
-        self.__config__.enable_stream(rs.stream.depth, 320, 320, rs.format.z16, 45)
+        self.__config__.enable_stream(rs.stream.depth, 424, 240, rs.format.z16, 30)
 
         if device_product_line == 'D435i':
-            self.__config__.enable_stream(rs.stream.color, 320, 320, rs.format.bgr8, 45)
+            self.__config__.enable_stream(rs.stream.color, 424, 240, rs.format.bgr8, 30)
         else:
-            self.__config__.enable_stream(rs.stream.color, 320, 320, rs.format.bgr8, 45)
+            self.__config__.enable_stream(rs.stream.color, 424, 240, rs.format.bgr8, 30)
 
         # Start streaming
         self.__pipeline__.start(self.__config__)

@@ -49,7 +49,7 @@ class objectlog:
                 lowest_distance_idx = i
         
         self.plates.update_box(boundingbox_list[lowest_distance_idx])
-        return 
+        return self.plates.get_position(), self.plates.get_velocity(), self.plates.get_acceleration()
 
 
     #associate boxes with armor plates
