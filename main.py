@@ -35,7 +35,6 @@ def run_forever():
 
 	while True:
 		
-		
 		RealSense.get_color_depth_image()
 
 		detector.run_object_detections(RealSense, boundingbox_list)
@@ -57,9 +56,9 @@ def run_forever():
 		boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
-		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-		cv2.imshow('RealSense', RealSense.get_color_image())
-		cv2.waitKey(1)
+		# cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+		# cv2.imshow('RealSense', RealSense.get_color_image())
+		# cv2.waitKey(1)
 
 
 

@@ -89,7 +89,7 @@ class object_detector:
 			}[class_idx_float]
 
 			#print bounding box onto image, for debugging purposes
-			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
+			# cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
 			
 			bounding_box = bb.BoundingBox()
 			bounding_box.set_x_value(x1, x2)
