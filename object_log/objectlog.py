@@ -31,7 +31,6 @@ class objectlog:
 
     def __init__(self):
         self.plates = ap.ArmorPlate()
-        self.plates.set_id(0)
         # for i in range(4):
         #     armor_plate = ap.ArmorPlate()
         #     armor_plate.set_id(i)
@@ -40,18 +39,17 @@ class objectlog:
     def get_plates(self):
         return self.plates
     
-    def select_target(self):
-        # closest_target_dist = float('inf')
-        # total_dist = 0.0
-        # closest_target_idx = 0
-        # for i in range(4):
-        #     pos = self.plates[i].get_position()
-        #     total_dist = np.square(pos['x_pos']) + np.square(pos['y_pos']) + np.square(pos['z_pos'])
-        #     if(total_dist < closest_target_dist):
-        #         closest_target_dist = total_dist
-        #         closest_target_idx = i
-            
-        return self.plates.get_position(), self.plates.get_velocity(), self.plates.get_acceleration()
+    def select_target(self, boundingbox_list):
+        lowest_distance_idx = -1
+        lowest_depth = float('inf')
+        for i in range(len(boundingbox_list)):
+            current_depth = boundingbox_list[i]
+            if(current_depth < lowest_depth):
+                lowest_depth = current_depth
+                lowest_distance_idx = i
+        
+        self.plates.update_box(boundingbox_list[lowest_distance_idx])
+        return 
 
 
     #associate boxes with armor plates

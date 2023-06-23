@@ -15,7 +15,7 @@ def run_forever():
 	detector.initialize_object_detections()
 	com.initialize_communication()
 	#list of all bounding boxes ever
-	armor_plate_list = []
+
 	boundingbox_list = []
 	intrinsics = RealSense.get_intrinsics()
 	object = objectlog.objectlog()
@@ -39,11 +39,8 @@ def run_forever():
 		
 		
 		RealSense.get_color_depth_image()
-		start_time = time.time()
+
 		detector.run_object_detections(RealSense, boundingbox_list)
-		end_time = time.time()
-		print("Detection time: ", end_time - start_time)
-		armor_plate_list.extend(boundingbox_list)
 
 		if(len(boundingbox_list)==0):
 
@@ -55,8 +52,8 @@ def run_forever():
 
 		ptp.set_point_coords(boundingbox_list,intrinsics)
 
-		object.assoc_boxes(boundingbox_list)
-		pos, vel, acc = object.select_target()
+		pos, vel, acc = object.select_target(boundingbox_list)
+		
 
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		
