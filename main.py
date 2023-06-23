@@ -41,6 +41,10 @@ def run_forever():
 
 		if(len(boundingbox_list)==0):
 
+			cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+			cv2.imshow('RealSense', RealSense.get_color_image())
+			cv2.waitKey(1)
+			
 			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
 			boundingbox_list.clear()
 			continue
@@ -56,9 +60,9 @@ def run_forever():
 		boundingbox_list.clear()
 
 		# Show images, calculate time elapsed, debugging
-		# cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-		# cv2.imshow('RealSense', RealSense.get_color_image())
-		# cv2.waitKey(1)
+		cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+		cv2.imshow('RealSense', RealSense.get_color_image())
+		cv2.waitKey(1)
 
 
 
