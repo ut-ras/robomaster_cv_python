@@ -40,9 +40,9 @@ class Prediction(object):
                                   [0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
                                   [0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.]])
         # R - measurement noise covariance matrix
-        self.filter.R *= .5
+        self.filter.R *= .1
         # P - Covariance Matrix
-        self.filter.P *= 10
+        self.filter.P *= 10 # was 19
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
     def kinematicPredict(self, del_t):

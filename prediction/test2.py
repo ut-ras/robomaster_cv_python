@@ -6,12 +6,9 @@ import matplotlib.pyplot as plt
 import math
 
 SAMPLE_SIZE = 100
-#30 samples
-
 
 def genSinFunction(amp:int,endVal):
     return amp * np.sin(np.linspace(0,endVal,SAMPLE_SIZE))
-freq = 1
 sample = {
     "sinX": genSinFunction(1000,4*np.pi),
     "sinY": genSinFunction(400,np.pi),
@@ -20,7 +17,9 @@ sample = {
 }
 
 
-
+"""
+testKalman filter takes three arrays of values in x, y, and z which indicates position over time
+"""
 def testKalmanFilter(xValues,yValues,zValues):
     #variance of randomness
     m = 0.1
@@ -29,7 +28,7 @@ def testKalmanFilter(xValues,yValues,zValues):
     ym = yValues + np.random.normal(0,abs(m*yValues))
     zm = zValues + np.random.normal(0,abs(m*zValues))
     #Time Step
-    delt = 0.1
+    delt = 1/30     #assumes 30 fps
     #Create Prediction Object
     f = prediction.Prediction()
 
@@ -53,7 +52,7 @@ def testKalmanFilter(xValues,yValues,zValues):
         
 
         #Updates matricies with new noisy measurement
-        f.kinematicUpdate([xValues[i], yValues[i], zValues[i]])
+        f.kinematicUpdate([xm[i], ym[i], zm[i]])
         #Iteration
         i += 1
     t = [i for i in range(0,SAMPLE_SIZE)]
@@ -63,6 +62,8 @@ def testKalmanFilter(xValues,yValues,zValues):
     plt.plot(t,predVals_x, label = 'predicted')
     plt.plot(t,xm, label = 'noisy data')
     plt.legend()
+    plt.xlabel("timesteps (assuming 30 fps)")
+    plt.ylabel("position")
     plt.title("X-values predicted versus actual data")
 
 
@@ -72,15 +73,18 @@ def testKalmanFilter(xValues,yValues,zValues):
     plt.plot(t,ym, label = 'noisy data')
     plt.title("Y-values predicted versus actual data")
     plt.legend()
+    plt.xlabel("timesteps (assuming 30 fps)")
+    plt.ylabel("position")
 
     fig3 = plt.figure("Z-values")
     plt.plot(t, zValues, label = 'noiseless data')
     plt.plot(t,predVals_z, label = 'predicted')
     plt.plot(t,zm, label = 'noisy data')
+    plt.xlabel("timesteps (assuming 30 fps)")
+    plt.ylabel("position")
     plt.title("Z-values predicted versus actual data")
     plt.legend()
     plt.show()
 
 
-print(sample['sinX'])
 testKalmanFilter(sample['sinX'],sample["sinY"],sample["sinZ"])
