@@ -14,13 +14,13 @@ testFreq3 = 2
 
 #Don't touch these
 SAMPLE_SIZE = stopTime*fps
-def genSinFunction(amp:int, freq):
-    return amp * np.sin(freq*np.linspace(0,stopTime,SAMPLE_SIZE))
+def genSinFunction(amp:int, freq, offset):
+    return amp * np.sin(freq*np.linspace(0,stopTime,SAMPLE_SIZE)) + offset
 sample = {
-    "sinX": genSinFunction(10000000, testFreq1),
-    "sinY": genSinFunction(1, testFreq2),
-    "sinZ": genSinFunction(0.000001, testFreq3),
-    "sine": genSinFunction(1, 0.5)
+    "sinX": genSinFunction(1, testFreq1, 2),
+    "sinY": genSinFunction(2, testFreq2, 3),
+    "sinZ": genSinFunction(0.5, testFreq3, 6),
+    "sine": genSinFunction(1, 0.5, 0)
 }
 
 
@@ -29,7 +29,7 @@ testKalman filter takes three arrays of values in x, y, and z which indicates po
 """
 def testKalmanFilter(xValues,yValues,zValues):
     #variance of randomness
-    m = 0.5
+    m = 0.15
     #Noisy Data
     xm = xValues + np.random.normal(0,abs(m*xValues))
     ym = yValues + np.random.normal(0,abs(m*yValues))
