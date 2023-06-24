@@ -17,9 +17,9 @@ SAMPLE_SIZE = stopTime*fps
 def genSinFunction(amp:int, freq):
     return amp * np.sin(freq*np.linspace(0,stopTime,SAMPLE_SIZE))
 sample = {
-    "sinX": genSinFunction(1000, testFreq1),
-    "sinY": genSinFunction(400, testFreq2),
-    "sinZ": genSinFunction(200, testFreq3),
+    "sinX": genSinFunction(10000000, testFreq1),
+    "sinY": genSinFunction(1, testFreq2),
+    "sinZ": genSinFunction(0.000001, testFreq3),
     "sine": genSinFunction(1, 0.5)
 }
 
