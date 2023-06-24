@@ -4,16 +4,23 @@ from filterpy.common import Q_discrete_white_noise
 import prediction
 import matplotlib.pyplot as plt
 import math
+#Touch these
+stopTime = 10
+fps = 30
+testFreq1 = 0.5
+testFreq2 = 1
+testFreq3 = 2
 
-SAMPLE_SIZE = 100
 
-def genSinFunction(amp:int,endVal):
-    return amp * np.sin(np.linspace(0,endVal,SAMPLE_SIZE))
+#Don't touch these
+SAMPLE_SIZE = stopTime*fps
+def genSinFunction(amp:int, freq):
+    return amp * np.sin(freq*np.linspace(0,stopTime,SAMPLE_SIZE))
 sample = {
-    "sinX": genSinFunction(1000,4*np.pi),
-    "sinY": genSinFunction(400,np.pi),
-    "sinZ": genSinFunction(200,6*np.pi),
-    "sine": genSinFunction(1,2*np.pi)
+    "sinX": genSinFunction(1000, testFreq1),
+    "sinY": genSinFunction(400, testFreq2),
+    "sinZ": genSinFunction(200, testFreq3),
+    "sine": genSinFunction(1, 0.5)
 }
 
 
@@ -22,13 +29,13 @@ testKalman filter takes three arrays of values in x, y, and z which indicates po
 """
 def testKalmanFilter(xValues,yValues,zValues):
     #variance of randomness
-    m = 0.1
+    m = 0.5
     #Noisy Data
     xm = xValues + np.random.normal(0,abs(m*xValues))
     ym = yValues + np.random.normal(0,abs(m*yValues))
     zm = zValues + np.random.normal(0,abs(m*zValues))
     #Time Step
-    delt = 1/30     #assumes 30 fps
+    delt = 1/fps     #assumes 30 fps
     #Create Prediction Object
     f = prediction.Prediction()
 
@@ -49,7 +56,6 @@ def testKalmanFilter(xValues,yValues,zValues):
         predVals_x.append(pos["x_pos"])
         predVals_y.append(pos["y_pos"])
         predVals_z.append(pos["z_pos"])
-        
 
         #Updates matricies with new noisy measurement
         f.kinematicUpdate([xm[i], ym[i], zm[i]])

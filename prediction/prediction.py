@@ -27,7 +27,6 @@ class Prediction(object):
             y_pos = x[4]
             z_pos = x[8]
             return np.array([x_pos, y_pos, z_pos])
-    
         points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9)
         # dim_x - number of Kalman filter state variables (position, velocity, acceleration, jerk in x, y, z directions = 12)
         # dim_z - number of measurement inputs (x, y, z = 3)
@@ -40,9 +39,9 @@ class Prediction(object):
                                   [0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
                                   [0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.]])
         # R - measurement noise covariance matrix
-        self.filter.R *= .1
+        self.filter.R *= 0.25
         # P - Covariance Matrix
-        self.filter.P *= 10 # was 19
+        self.filter.P *= 0.1 # was 19
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
     def kinematicPredict(self, del_t):
@@ -62,13 +61,13 @@ class Prediction(object):
 
         vel = {
             "x_vel":self.filter.x[1],
-            "y_vel":self.filter.x[2],
-            "z_vel":self.filter.x[5],
+            "y_vel":self.filter.x[5],
+            "z_vel":self.filter.x[9],
         }
 
         acc = {
-            "x_acc":self.filter.x[6],
-            "y_acc":self.filter.x[9],
+            "x_acc":self.filter.x[2],
+            "y_acc":self.filter.x[6],
             "z_acc":self.filter.x[10],
         }
         
