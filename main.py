@@ -34,7 +34,8 @@ def run_forever():
 	}
 
 	while True:
-		
+		is_depth_invalid = False
+
 		RealSense.get_color_depth_image()
 
 		detector.run_object_detections(RealSense, boundingbox_list)
@@ -45,7 +46,12 @@ def run_forever():
 			boundingbox_list.clear()
 			continue
 
-		RealSense.set_all_bounding_box_depth_values(boundingbox_list)
+		is_depth_invalid = RealSense.set_all_bounding_box_depth_values(boundingbox_list)
+
+		if(is_depth_invalid):
+			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
+			boundingbox_list.clear()
+			continue
 
 		ptp.set_point_coords(boundingbox_list,intrinsics)
 

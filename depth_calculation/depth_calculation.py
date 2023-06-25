@@ -79,8 +79,15 @@ class RealSense:
         if box_list == None or len(box_list) == 0:
             return
         else:
+            invalid_depth_value = False
             for i in range(len(box_list)):
                 depth_value = self.get_depth_value_from_bounding_box(box_list[i])
+
+                #check for invalid depth values
+                if(np.isnan(depth_value)):
+                    invalid_depth_value = True
+                    return invalid_depth_value
+
                 box_list[i].set_depth(depth_value)    
 
 #index into depth image using coordinates from bounding box
@@ -122,6 +129,7 @@ class RealSense:
         depth_box = self.__depth_image__[y1:y2, x1:x2]
 
         #not using nanmean as nan is not returned for integer data types
+
         depth_value = np.mean(depth_box[np.nonzero(depth_box)])
 
         #To convert to meters, also casts depth value to np.float32
