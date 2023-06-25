@@ -17,21 +17,6 @@ def run_forever():
 	boundingbox_list = []
 	intrinsics = RealSense.get_intrinsics()
 	object = objectlog.objectlog()
-	no_data_pos = {
-		'x_pos':np.float32(0),
-		'y_pos':np.float32(0),
-		'z_pos':np.float32(0)
-	}
-	no_data_vel = {
-		'x_vel':np.float32(0),
-		'y_vel':np.float32(0),
-		'z_vel':np.float32(0)
-	}
-	no_data_acc = {
-		'x_acc':np.float32(0),
-		'y_acc':np.float32(0),
-		'z_acc':np.float32(0)
-	}
 
 	while True:
 		is_depth_invalid = False
