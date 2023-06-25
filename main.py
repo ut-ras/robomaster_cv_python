@@ -42,14 +42,15 @@ def run_forever():
 
 		if(len(boundingbox_list)==0):
 			
-			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
+			com.send_no_data()
 			boundingbox_list.clear()
 			continue
 
 		is_depth_invalid = RealSense.set_all_bounding_box_depth_values(boundingbox_list)
 
 		if(is_depth_invalid):
-			com.send_turret_data(no_data_pos, no_data_vel, no_data_acc, hasTarget=False)
+
+			com.send_no_data()
 			boundingbox_list.clear()
 			continue
 

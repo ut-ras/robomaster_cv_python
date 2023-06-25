@@ -87,3 +87,16 @@ def send_turret_data(pos, vel, acc,
     yAcc = acc['y_acc']
     zAcc = acc['z_acc']
     send_message(TurretDataFormat.pack(xPos, yPos, zPos, xVel, yVel, zVel, xAcc, yAcc, zAcc, hasTarget), TurretDataFormat, MessageType.CMD_Turret_Aim)
+
+def send_no_data():
+    yPos = 0.0
+    xPos = 0.0
+    zPos = 0.0
+    xVel = 0.0
+    yVel = 0.0
+    zVel = 0.0
+    xAcc = 0.0
+    yAcc = 0.0
+    zAcc = 0.0
+    hasTarget = False
+    send_message(TurretDataFormat.pack(xPos, yPos, zPos, xVel, yVel, zVel, xAcc, yAcc, zAcc, hasTarget), TurretDataFormat, MessageType.CMD_Turret_Aim)
