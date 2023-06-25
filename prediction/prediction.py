@@ -39,7 +39,7 @@ class Prediction(object):
                                   [0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
                                   [0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.]])
         # R - measurement noise covariance matrix
-        self.filter.R *= 0.25
+        self.filter.R *= 0.01
         # P - Covariance Matrix
         self.filter.P *= 0.1 # was 19
 

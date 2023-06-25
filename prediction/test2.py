@@ -14,13 +14,13 @@ testFreq3 = 2
 
 #Don't touch these
 SAMPLE_SIZE = stopTime*fps
-def genSinFunction(amp:int, freq):
-    return amp * np.sin(freq*np.linspace(0,stopTime,SAMPLE_SIZE))
+def genSinFunction(amp:int, freq, offset):
+    return amp * np.sin(freq*np.linspace(0,stopTime,SAMPLE_SIZE)) + offset
 sample = {
-    "sinX": genSinFunction(10000000, testFreq1),
-    "sinY": genSinFunction(1, testFreq2),
-    "sinZ": genSinFunction(0.000001, testFreq3),
-    "sine": genSinFunction(1, 0.5)
+    "sinX": genSinFunction(1, testFreq1, 2),
+    "sinY": genSinFunction(2, testFreq2, 3),
+    "sinZ": genSinFunction(0.5, testFreq3, 6),
+    "sine": genSinFunction(1, 0.5, 0)
 }
 
 
@@ -29,11 +29,12 @@ testKalman filter takes three arrays of values in x, y, and z which indicates po
 """
 def testKalmanFilter(xValues,yValues,zValues):
     #variance of randomness
-    m = 0.5
+    m = 0.1
     #Noisy Data
-    xm = xValues + np.random.normal(0,abs(m*xValues))
-    ym = yValues + np.random.normal(0,abs(m*yValues))
-    zm = zValues + np.random.normal(0,abs(m*zValues))
+    print(len(xValues))
+    xm = xValues + m*np.random.randn(SAMPLE_SIZE)
+    ym = yValues + m*np.random.randn(SAMPLE_SIZE)
+    zm = zValues + m*np.random.randn(SAMPLE_SIZE)
     #Time Step
     delt = 1/fps     #assumes 30 fps
     #Create Prediction Object
@@ -65,8 +66,8 @@ def testKalmanFilter(xValues,yValues,zValues):
 
     fig1 = plt.figure("X-values")
     plt.plot(t, xValues, label = 'noiseless data')
-    plt.plot(t,predVals_x, label = 'predicted')
     plt.plot(t,xm, label = 'noisy data')
+    plt.plot(t,predVals_x, label = 'predicted')
     plt.legend()
     plt.xlabel("timesteps (assuming 30 fps)")
     plt.ylabel("position")
@@ -75,8 +76,8 @@ def testKalmanFilter(xValues,yValues,zValues):
 
     fig2 = plt.figure("Y-values")
     plt.plot(t, yValues, label = 'noiseless data')
-    plt.plot(t,predVals_y, label = 'predicted')
     plt.plot(t,ym, label = 'noisy data')
+    plt.plot(t,predVals_y, label = 'predicted')
     plt.title("Y-values predicted versus actual data")
     plt.legend()
     plt.xlabel("timesteps (assuming 30 fps)")
@@ -84,8 +85,8 @@ def testKalmanFilter(xValues,yValues,zValues):
 
     fig3 = plt.figure("Z-values")
     plt.plot(t, zValues, label = 'noiseless data')
-    plt.plot(t,predVals_z, label = 'predicted')
     plt.plot(t,zm, label = 'noisy data')
+    plt.plot(t,predVals_z, label = 'predicted')
     plt.xlabel("timesteps (assuming 30 fps)")
     plt.ylabel("position")
     plt.title("Z-values predicted versus actual data")
