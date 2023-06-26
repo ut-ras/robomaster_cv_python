@@ -4,7 +4,7 @@ import cv2
 import time
 from bounding_box import bounding_box as bb
 
-model_path = '/home/debian/robomaster_CV/object_detection/last_with_shapes.onnx'
+model_path = '/home/debian/robomaster_CV/object_detection/best_with_shapes.onnx'
 artifacts_dir = '/home/debian/robomaster_CV/object_detection/tidl_output'
 class object_detector:
 
