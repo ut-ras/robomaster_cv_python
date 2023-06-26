@@ -3,6 +3,8 @@ import struct
 import crc
 import sys
 from enum import IntEnum
+import logging
+import time
 
 """
 Communication.py is aimed to send information to the beaglebone. The way of doing so is to utilize UART
@@ -86,6 +88,7 @@ def send_turret_data(pos, vel, acc,
     xAcc = acc['x_acc']
     yAcc = acc['y_acc']
     zAcc = acc['z_acc']
+    logging.debug("Sending UART data at: ", time.localtime(time.time()))
     send_message(TurretDataFormat.pack(xPos, yPos, zPos, xVel, yVel, zVel, xAcc, yAcc, zAcc, hasTarget), TurretDataFormat, MessageType.CMD_Turret_Aim)
 
 def send_no_data():

@@ -46,6 +46,7 @@ def run_forever():
 
 		pos, vel, acc = object.select_target(boundingbox_list)
 
+		logging.debug("pos, vel, acc: ", pos, vel, acc)
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 		
 		boundingbox_list.clear()
