@@ -1,0 +1,7 @@
+numGraphNodes=293
+0:subGraphName=detections
+0:numInputs=1
+0:numOutputs=1
+0:inputIdx=0
+0:inDataNames=images
+0:outDataNames=detections
