@@ -8,6 +8,7 @@
 import pyrealsense2.pyrealsense2 as rs
 import numpy as np
 import cv2
+import logging
 
 class RealSense:
     def __init__(self):
@@ -79,8 +80,16 @@ class RealSense:
         if box_list == None or len(box_list) == 0:
             return
         else:
+            invalid_depth_value = False
             for i in range(len(box_list)):
                 depth_value = self.get_depth_value_from_bounding_box(box_list[i])
+
+                #check for invalid depth values
+                if(np.isnan(depth_value)):
+                    logging.warning("Invalid depth value")
+                    invalid_depth_value = True
+                    return invalid_depth_value
+
                 box_list[i].set_depth(depth_value)    
 
 #index into depth image using coordinates from bounding box
@@ -120,12 +129,15 @@ class RealSense:
         #Why is this array sometimes empty?
         #Either ignore NaNs or catch edge cases for when NaNs occur
         depth_box = self.__depth_image__[y1:y2, x1:x2]
-
+        logging.debug("x1, y1, x2, y2", x1, y1, x2, y2)
+        logging.debug("Depth box: ", depth_box)
         #not using nanmean as nan is not returned for integer data types
+
         depth_value = np.mean(depth_box[np.nonzero(depth_box)])
 
         #To convert to meters, also casts depth value to np.float32
         depth_value = depth_value/np.float32(1000)
+        logging.debug("Depth value: ", depth_value)
 
         return depth_value 
 
