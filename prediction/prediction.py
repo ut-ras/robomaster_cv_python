@@ -2,6 +2,9 @@ from filterpy.kalman import UnscentedKalmanFilter
 from filterpy.kalman import MerweScaledSigmaPoints
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
+import logging
+
+
 
 class Prediction(object):  
     def __init__(self):
@@ -27,7 +30,8 @@ class Prediction(object):
             y_pos = x[4]
             z_pos = x[8]
             return np.array([x_pos, y_pos, z_pos])
-        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9)
+        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9, sqrt_method=self.sqrt_func)
+
         # dim_x - number of Kalman filter state variables (position, velocity, acceleration, jerk in x, y, z directions = 12)
         # dim_z - number of measurement inputs (x, y, z = 3)
         # dt is overridden ever time we make a prediction, so 0.1 value is arbitrary
@@ -42,6 +46,16 @@ class Prediction(object):
         self.filter.R *= 0.01
         # P - Covariance Matrix
         self.filter.P *= 0.1 # was 19
+
+    def sqrt_func(self, x):
+        try:
+            result = np.linalg.cholesky(x)
+        except np.linalg.LinAlgError:
+            logging.warn("Nth Leading Minor not positive")
+            x = (x + x.T)/2
+            result = np.linalg.cholesky(x)
+        finally:
+            return result
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
     def kinematicPredict(self, del_t):
