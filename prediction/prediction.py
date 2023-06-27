@@ -3,6 +3,14 @@ from filterpy.kalman import MerweScaledSigmaPoints
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
 
+def sqrt_func(x):
+    try:
+        result = np.linalg.cholesky(x)
+    except np.linalg.LinAlgError:
+        x = (x + x.T)/2
+        result = np.linalg.cholesky(x)
+    return result
+
 class Prediction(object):  
     def __init__(self):
         # returns the state matrix x transformed by the state transition function
@@ -27,7 +35,8 @@ class Prediction(object):
             y_pos = x[4]
             z_pos = x[8]
             return np.array([x_pos, y_pos, z_pos])
-        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9)
+        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9, sqrt_method=sqrt_func)
+
         # dim_x - number of Kalman filter state variables (position, velocity, acceleration, jerk in x, y, z directions = 12)
         # dim_z - number of measurement inputs (x, y, z = 3)
         # dt is overridden ever time we make a prediction, so 0.1 value is arbitrary
