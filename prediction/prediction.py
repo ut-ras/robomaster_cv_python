@@ -30,7 +30,7 @@ class Prediction(object):
             y_pos = x[4]
             z_pos = x[8]
             return np.array([x_pos, y_pos, z_pos])
-        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9, sqrt_method=self.sqrt_func())
+        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9, sqrt_method=self.sqrt_func)
 
         # dim_x - number of Kalman filter state variables (position, velocity, acceleration, jerk in x, y, z directions = 12)
         # dim_z - number of measurement inputs (x, y, z = 3)

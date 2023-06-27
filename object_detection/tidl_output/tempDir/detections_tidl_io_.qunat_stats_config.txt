@@ -1,0 +1,13 @@
+inFileFormat    = 1
+numFrames   = 21
+postProcType   = 0
+postProcDataId   = 0
+quantRangeUpdateFactor   = -1.000000
+inData   = /model_out/tidl_output/tempDir/detections_calib_raw_data.bin
+outData   = "/model_out/tidl_output/tempDir/detections_tidl_io__stats_tool_out.bin"
+netBinFile     = /model_out/tidl_output/tempDir/detections_tidl_net.bin
+ioConfigFile        = /model_out/tidl_output/tempDir/detections_tidl_io_1.bin
+flowCtrl        = 3
+writeTraceLevel        = 0
+debugTraceLevel        = 0
+traceDumpBaseName        = "/model_out/tidl_output/tempDir/detections_tidl_io_
