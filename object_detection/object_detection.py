@@ -4,7 +4,7 @@ import cv2
 import time
 from bounding_box import bounding_box as bb
 
-model_path = '/home/debian/robomaster_CV/object_detection/last_with_shapes.onnx'
+model_path = '/home/debian/robomaster_CV/object_detection/best_with_shapes.onnx'
 artifacts_dir = '/home/debian/robomaster_CV/object_detection/tidl_output'
 class object_detector:
 
@@ -46,7 +46,7 @@ class object_detector:
 		print(f'Input "{self.__input_name__}": {input_type}')
 
 	def render_boxes(self, image, output, boundingbox_list):
-		CONFIDENCE_THRESHOLD = 0.2
+		CONFIDENCE_THRESHOLD = 0.15
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
 
@@ -83,8 +83,8 @@ class object_detector:
 			#0. as blue, 1. as red
 			class_draw_color = {
 				# Colors for boxes of each class, in (R, G, B) order.
-				0.: (50, 50, 255),
-				1.: (255, 50, 50),
+				0.: (255, 50, 50),
+				1.: (50, 50, 255),
 				# TODO: if using more than two classes, pick some more colors...
 			}[class_idx_float]
 
@@ -103,6 +103,8 @@ class object_detector:
 	def run_object_detections(self, RealSense, boundingbox_list):
 		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
 		# Model trained with RGB channel order but OpenCV loads in BGR order, so reverse channels.
+
+		#TODO figure out a faster way to resize
 		input_data = cv2.resize(RealSense.get_color_image(), (self.__width__, self.__height__)).transpose((2, 0, 1))[::-1, :, :] / 255
 
 		input_data = input_data.astype(np.float32)
