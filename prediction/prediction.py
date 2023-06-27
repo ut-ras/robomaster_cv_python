@@ -3,13 +3,7 @@ from filterpy.kalman import MerweScaledSigmaPoints
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
 
-def sqrt_func(x):
-    try:
-        result = np.linalg.cholesky(x)
-    except np.linalg.LinAlgError:
-        x = (x + x.T)/2
-        result = np.linalg.cholesky(x)
-    return result
+
 
 class Prediction(object):  
     def __init__(self):
@@ -30,7 +24,7 @@ class Prediction(object):
             return np.dot(F, x)
 
         # gets (x, y, z) position measurements from state matrix x
-        def hx(x):
+        def hx(self, x):
             x_pos = x[0]
             y_pos = x[4]
             z_pos = x[8]
@@ -51,6 +45,15 @@ class Prediction(object):
         self.filter.R *= 0.01
         # P - Covariance Matrix
         self.filter.P *= 0.1 # was 19
+
+    def sqrt_func(self, x):
+        try:
+            result = np.linalg.cholesky(x)
+        except np.linalg.LinAlgError:
+            x = (x + x.T)/2
+            result = np.linalg.cholesky(x)
+        finally:
+            return result
 
     # usage note - MUST call kinematicPredict() at least once before calling kinematicUpdate()
     def kinematicPredict(self, del_t):
