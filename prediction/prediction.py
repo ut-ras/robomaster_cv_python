@@ -2,6 +2,7 @@ from filterpy.kalman import UnscentedKalmanFilter
 from filterpy.kalman import MerweScaledSigmaPoints
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
+import logging
 
 
 
@@ -24,12 +25,12 @@ class Prediction(object):
             return np.dot(F, x)
 
         # gets (x, y, z) position measurements from state matrix x
-        def hx(self, x):
+        def hx(x):
             x_pos = x[0]
             y_pos = x[4]
             z_pos = x[8]
             return np.array([x_pos, y_pos, z_pos])
-        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9, sqrt_method=sqrt_func)
+        points = MerweScaledSigmaPoints(12, alpha=1e-3, beta=2., kappa=-9, sqrt_method=self.sqrt_func())
 
         # dim_x - number of Kalman filter state variables (position, velocity, acceleration, jerk in x, y, z directions = 12)
         # dim_z - number of measurement inputs (x, y, z = 3)
@@ -50,6 +51,7 @@ class Prediction(object):
         try:
             result = np.linalg.cholesky(x)
         except np.linalg.LinAlgError:
+            logging.warn("Nth Leading Minor not positive")
             x = (x + x.T)/2
             result = np.linalg.cholesky(x)
         finally:
