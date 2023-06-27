@@ -11,7 +11,7 @@ import numpy as np
 import time
 #begin initialization
 def run_forever():
-	logging.basicConfig(filename='error_logs_'+time.localtime(time.time()), encoding='utf-8', level=logging.DEBUG)
+	logging.basicConfig(filename='error_logs_'+str(time.localtime(time.time())), encoding='utf-8', level=logging.DEBUG)
 	RealSense = dp.RealSense()
 	RealSense.initialize_real_sense()
 	detector = od.object_detector()
