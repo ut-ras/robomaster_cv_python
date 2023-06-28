@@ -105,7 +105,7 @@ class object_detector:
 		# Model trained with RGB channel order but OpenCV loads in BGR order, so reverse channels.
 
 		#TODO figure out a faster way to resize
-		input_data = cv2.resize(RealSense.get_color_image(), (self.__width__, self.__height__)).transpose((2, 0, 1))[::-1, :, :] / 255
+		input_data = cv2.resize(RealSense.get_color_image(), (self.__width__, self.__height__), interpolation=cv2.INTER_NEAREST).transpose((2, 0, 1))[::-1, :, :] / 255
 
 		input_data = input_data.astype(np.float32)
 		input_data = np.expand_dims(input_data, 0)
