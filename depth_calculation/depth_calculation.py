@@ -86,7 +86,7 @@ class RealSense:
 
                 #check for invalid depth values
                 if(np.isnan(depth_value)):
-                    logging.warning("Invalid depth value")
+                    # logging.warning("Invalid depth value")
                     invalid_depth_value = True
                     return invalid_depth_value
 
@@ -129,15 +129,15 @@ class RealSense:
         #Why is this array sometimes empty?
         #Either ignore NaNs or catch edge cases for when NaNs occur
         depth_box = self.__depth_image__[y1:y2, x1:x2]
-        logging.debug("x1, y1, x2, y2", str(x1, y1, x2, y2))
-        logging.debug("Depth box: ", str(depth_box))
+        # logging.debug("x1, y1, x2, y2", str(x1, y1, x2, y2))
+        # logging.debug("Depth box: ", str(depth_box))
         #not using nanmean as nan is not returned for integer data types
 
         depth_value = np.mean(depth_box[np.nonzero(depth_box)])
 
         #To convert to meters, also casts depth value to np.float32
         depth_value = depth_value/np.float32(1000)
-        logging.debug("Depth value: ", str(depth_value))
+        # logging.debug("Depth value: ", str(depth_value))
 
         return depth_value 
 

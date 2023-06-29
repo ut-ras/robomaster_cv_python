@@ -53,11 +53,11 @@ class Prediction(object):
             result = np.linalg.cholesky(x)
         except np.linalg.LinAlgError:
             try:
-                logging.warn("Nth Leading Minor not positive")
+                # logging.warn("Nth Leading Minor not positive")
                 x = (x + x.T)/2
                 result = np.linalg.cholesky(x)
             except np.linalg.LinAlgError:
-                logging.warn("Nth Leading Minor still not positive")
+                # logging.warn("Nth Leading Minor still not positive")
                 x = posdef.nearestPD(x)
         finally:
             return result
