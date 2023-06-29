@@ -3,8 +3,9 @@ Description=On boot, begin running CV system
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python /home/debian/robomaster_CV/main.py
-Restart=Always
+ExecStart=/home/debian/robomaster_CV/main.py
+Restart=on-failure
+
 User=root
 Group=root
 Type=simple

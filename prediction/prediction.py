@@ -3,7 +3,7 @@ from filterpy.kalman import MerweScaledSigmaPoints
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
 import logging
-
+from . import posdef
 
 
 class Prediction(object):  
@@ -48,12 +48,17 @@ class Prediction(object):
         self.filter.P *= 0.1 # was 19
 
     def sqrt_func(self, x):
+        
         try:
             result = np.linalg.cholesky(x)
         except np.linalg.LinAlgError:
-            logging.warn("Nth Leading Minor not positive")
-            x = (x + x.T)/2
-            result = np.linalg.cholesky(x)
+            try:
+                # logging.warn("Nth Leading Minor not positive")
+                x = (x + x.T)/2
+                result = np.linalg.cholesky(x)
+            except np.linalg.LinAlgError:
+                # logging.warn("Nth Leading Minor still not positive")
+                x = posdef.nearestPD(x)
         finally:
             return result
 
