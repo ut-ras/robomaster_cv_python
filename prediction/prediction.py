@@ -3,7 +3,7 @@ from filterpy.kalman import MerweScaledSigmaPoints
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
 import logging
-from posdef import nearestPD
+from . import posdef
 
 
 class Prediction(object):  
@@ -58,7 +58,7 @@ class Prediction(object):
                 result = np.linalg.cholesky(x)
             except np.linalg.LinAlgError:
                 logging.warn("Nth Leading Minor still not positive")
-                x = nearestPD(x)
+                x = posdef.nearestPD(x)
         finally:
             return result
 
