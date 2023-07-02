@@ -11,7 +11,7 @@ import numpy as np
 import time
 #begin initialization
 def run_forever():
-	# logging.basicConfig(filename='error_logs_'+str(time.localtime(time.time())), encoding='utf-8', level=logging.DEBUG)
+	logging.basicConfig(filename='logging/error_logs', encoding='utf-8', level=logging.DEBUG)
 	RealSense = dp.RealSense()
 	RealSense.initialize_real_sense()
 	detector = od.object_detector()
@@ -29,7 +29,7 @@ def run_forever():
 		detector.run_object_detections(RealSense, boundingbox_list)
 
 		if(len(boundingbox_list)==0):
-			# logging.debug("No detections, skipping frame", str(time.localtime(time.time())))
+			logging.debug("No detections, skipping frame")
 			com.send_no_data()
 			boundingbox_list.clear()
 			continue

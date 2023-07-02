@@ -14,6 +14,7 @@ class RealSense:
     def __init__(self):
         # Set up pipeline
         self.__pipeline__ = rs.pipeline()
+        self.__color_sensor__ = None
         self.__config__ = rs.config()
         self.__color_frame__ = None
         self.__depth_frame__ = None
@@ -37,6 +38,9 @@ class RealSense:
         pipeline_wrapper = rs.pipeline_wrapper(self.__pipeline__)
         self.__pipeline_profile__ = self.__config__.resolve(pipeline_wrapper)
         self.__device__ = self.__pipeline_profile__.get_device()
+        self.__color_sensor__ = self.__device__.query_sensors()[1]
+        self.__color_sensor__.set_option(rs.option.enable_auto_exposure, False)
+        self.__color_sensor__.set_option(rs.option.exposure, 1000.0)
         device_product_line = str(self.__device__.get_info(rs.camera_info.product_line))
 
         found_rgb = False
