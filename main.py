@@ -31,7 +31,7 @@ def run_forever():
 
 		if(len(boundingbox_list)==0):
 			end_time = time.time()
-			logging.debug('No detections, skipping frame: ' + str(end_time - start_time) + ' ms')
+			logging.debug('No detections, skipping frame: ' + str(end_time - start_time) + ' seconds')
 			com.send_no_data()
 			boundingbox_list.clear()
 			continue
@@ -40,7 +40,7 @@ def run_forever():
 
 		if(is_depth_invalid):
 			end_time = time.time()
-			logging.debug('No valid depth data, skipping frame: ' + str(end_time - start_time) + ' ms')
+			logging.debug('No valid depth data, skipping frame: ' + str(end_time - start_time) + ' seconds')
 			com.send_no_data()
 			boundingbox_list.clear()
 			continue
@@ -52,7 +52,7 @@ def run_forever():
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 
 		end_time = time.time()
-		logging.debug('Sending data to MCB: '+str(end_time-start_time) + ' ms')
+		logging.debug('Sending data to MCB: '+str(end_time-start_time) + ' seconds')
 
 		boundingbox_list.clear()
 
