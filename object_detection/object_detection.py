@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import time
 from bounding_box import bounding_box as bb
+import logging
 
 model_path = '/home/debian/robomaster_CV/object_detection/best_with_shapes.onnx'
 artifacts_dir = '/home/debian/robomaster_CV/object_detection/tidl_output'
@@ -70,9 +71,9 @@ class object_detector:
 			# print("x1 ", x1)
 			# print("y1 ", y1)
 			# print("x2 ", x2)
-			# print("y2 ", y2)
-			print("confidence ", confidence)
-			print("class_idx_float ", class_idx_float)
+			# # print("y2 ", y2)
+			# logging.debug("Confidence: " + str(confidence))
+			# logging.debug("Class of plate: " + str(class_idx_float))
 
 			x1 = int(round(x1 / self.__width__ * image.shape[1]))
 			y1 = int(round(y1 / self.__height__ * image.shape[0]))
@@ -89,7 +90,7 @@ class object_detector:
 			}[class_idx_float]
 
 			#print bounding box onto image, for debugging purposes
-			cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
+			# cv2.rectangle(image, (x1, y1), (x2, y2), class_draw_color, 3)
 			
 			bounding_box = bb.BoundingBox()
 			bounding_box.set_x_value(x1, x2)

@@ -50,14 +50,15 @@ class Prediction(object):
     def sqrt_func(self, x):
         
         try:
+            logging.debug('Matrix is positive-definite')
             result = np.linalg.cholesky(x)
         except np.linalg.LinAlgError:
             try:
-                # logging.warn("Nth Leading Minor not positive")
+                logging.error('Matrix is not positive-definite, attempt to fix with averaging')
                 x = (x + x.T)/2
                 result = np.linalg.cholesky(x)
             except np.linalg.LinAlgError:
-                # logging.warn("Nth Leading Minor still not positive")
+                logging.critical('Matrix averaging unsuccessful, force matrix to be positive-definite')
                 x = posdef.nearestPD(x)
         finally:
             return result
