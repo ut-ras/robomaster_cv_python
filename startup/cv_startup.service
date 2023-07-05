@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/home/debian/robomaster_CV/main.py
-Restart=on-failure
+Restart=Always
 
 User=root
 Group=root
