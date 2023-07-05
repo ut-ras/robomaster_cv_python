@@ -1,0 +1,75 @@
+confidence  0.36909086
+class_idx_float  0.0
+Time to send message:  0.003603219985961914
+confidence  0.29401532
+class_idx_float  0.0
+Time to send message:  0.004235029220581055
+confidence  0.31385234
+class_idx_float  1.0
+Time to send message:  0.0033359527587890625
+confidence  0.34983367
+class_idx_float  1.0
+confidence  0.29517502
+class_idx_float  1.0
+Time to send message:  0.0036661624908447266
+confidence  0.36796167
+class_idx_float  1.0
+confidence  0.32374036
+class_idx_float  1.0
+Traceback (most recent call last):
+  File "/home/debian/robomaster_CV/prediction/prediction.py", line 52, in sqrt_func
+    result = np.linalg.cholesky(x)
+  File "<__array_function__ internals>", line 5, in cholesky
+  File "/usr/lib/python3/dist-packages/numpy/linalg/linalg.py", line 764, in cholesky
+    r = gufunc(a, signature=signature, extobj=extobj)
+  File "/usr/lib/python3/dist-packages/numpy/linalg/linalg.py", line 91, in _raise_linalgerror_nonposdef
+    raise LinAlgError("Matrix is not positive definite")
+numpy.linalg.LinAlgError: Matrix is not positive definite
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/debian/robomaster_CV/prediction/prediction.py", line 56, in sqrt_func
+    result = np.linalg.cholesky(x)
+  File "<__array_function__ internals>", line 5, in cholesky
+  File "/usr/lib/python3/dist-packages/numpy/linalg/linalg.py", line 764, in cholesky
+    r = gufunc(a, signature=signature, extobj=extobj)
+  File "/usr/lib/python3/dist-packages/numpy/linalg/linalg.py", line 91, in _raise_linalgerror_nonposdef
+    raise LinAlgError("Matrix is not positive definite")
+numpy.linalg.LinAlgError: Matrix is not positive definite
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/debian/robomaster_CV/main.py", line 67, in <module>
+    run_forever()
+  File "/home/debian/robomaster_CV/main.py", line 51, in run_forever
+    pos, vel, acc = object.select_target(boundingbox_list)
+  File "/home/debian/robomaster_CV/object_log/objectlog.py", line 51, in select_target
+    self.plates.update_box(boundingbox_list[lowest_distance_idx])
+  File "/home/debian/robomaster_CV/object_log/armorplate.py", line 165, in update_box
+    self.kf.kinematicPredict(delta_t)
+  File "/home/debian/robomaster_CV/prediction/prediction.py", line 65, in kinematicPredict
+    self.filter.predict(dt=del_t)
+  File "/usr/local/lib/python3.9/dist-packages/filterpy/kalman/UKF.py", line 388, in predict
+    self.compute_process_sigmas(dt, fx, **fx_args)
+  File "/usr/local/lib/python3.9/dist-packages/filterpy/kalman/UKF.py", line 500, in compute_process_sigmas
+    sigmas = self.points_fn.sigma_points(self.x, self.P)
+  File "/usr/local/lib/python3.9/dist-packages/filterpy/kalman/sigma_points.py", line 168, in sigma_points
+    U = self.sqrt((lambda_ + n)*P)
+  File "/home/debian/robomaster_CV/prediction/prediction.py", line 58, in sqrt_func
+    return result
+UnboundLocalError: local variable 'result' referenced before assignment
+  8585.146595 s:  VX_ZONE_INIT:[tivxHostDeInitLocal:100] De-Initialization Done for HOST !!!
+  8585.150154 s:  VX_ZONE_INIT:[tivxDeInitLocal:193] De-Initialization Done !!!
+APP: Deinit ... !!!
+REMOTE_SERVICE: Deinit ... !!!
+REMOTE_SERVICE: Deinit ... Done !!!
+IPC: Deinit ... !!!
+IPC: DeInit ... Done !!!
+MEM: Deinit ... !!!
+MEM: Alloc's: 7 alloc's of 14532597 bytes 
+MEM: Free's : 7 free's  of 14532597 bytes 
+MEM: Open's : 0 allocs  of 0 bytes 
+MEM: Deinit ... Done !!!
+APP: Deinit ... Done !!!
