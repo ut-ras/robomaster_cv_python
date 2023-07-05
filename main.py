@@ -22,16 +22,22 @@ def run_forever():
 	object = objectlog.objectlog()
 
 	while True:
-		start_time = time.time()
+		system_begin_time = time.time()
 		is_depth_invalid = False
 
+		start_time = time.time()
 		RealSense.get_color_depth_image()
+		end_time = time.time()
+		logging.debug("Obtaining frame: " + str(end_time - start_time) + ' seconds')
 
+		start_time = time.time()
 		detector.run_object_detections(RealSense, boundingbox_list)
+		end_time = time.time()
+		logging.debug("Running detections: " + str(end_time - start_time) + ' seconds')
 
 		if(len(boundingbox_list)==0):
 			end_time = time.time()
-			logging.debug('No detections, skipping frame: ' + str(end_time - start_time) + ' seconds')
+			logging.debug('No detections, skipping frame: ' + str(end_time - system_begin_time) + ' seconds')
 			com.send_no_data()
 			boundingbox_list.clear()
 			continue
@@ -39,9 +45,12 @@ def run_forever():
 		is_depth_invalid = RealSense.set_all_bounding_box_depth_values(boundingbox_list)
 
 		if(is_depth_invalid):
-			end_time = time.time()
-			logging.debug('No valid depth data, skipping frame: ' + str(end_time - start_time) + ' seconds')
+			
 			com.send_no_data()
+
+			end_time = time.time()
+			logging.debug('No valid depth data, skipping frame: ' + str(end_time - system_begin_time) + ' seconds')
+
 			boundingbox_list.clear()
 			continue
 
@@ -50,11 +59,14 @@ def run_forever():
 		pos, vel, acc = object.select_target(boundingbox_list)
 
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
-
-		cv2.imwrite('images/' + str(time.time()) + '.jpg',RealSense.get_color_image())
-
 		end_time = time.time()
 		logging.debug('Sending data to MCB: '+str(end_time-start_time) + ' seconds')
+
+		start_time = time.time()
+		cv2.imwrite('images/' + str(time.time()) + '.jpg',RealSense.get_color_image())
+		end_time = time.time()
+		logging.debug('Writing images to disk: ' + str(end_time - start_time) + ' seconds')
+		logging.debug('System ran correctly: ' + str(end_time - system_begin_time) + ' seconds')
 
 		boundingbox_list.clear()
 
