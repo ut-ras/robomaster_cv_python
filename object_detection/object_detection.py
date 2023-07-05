@@ -46,7 +46,7 @@ class object_detector:
 		print(f'Input "{self.__input_name__}": {input_type}')
 
 	def render_boxes(self, image, output, boundingbox_list):
-		CONFIDENCE_THRESHOLD = 0.15
+		CONFIDENCE_THRESHOLD = 0.65
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
 
