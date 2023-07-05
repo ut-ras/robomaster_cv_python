@@ -52,7 +52,7 @@ def run_forever():
 		com.send_turret_data(pos, vel, acc, hasTarget=True)
 
 		end_time = time.time()
-		logging.debug('Sending data to MCB: '+str(end_time-start_time) + ' seconds')
+		logging.debug('System finished: '+str(end_time-start_time) + ' seconds')
 
 		boundingbox_list.clear()
 
