@@ -89,7 +89,7 @@ class RealSense:
 
                 #check for invalid depth values
                 if(np.isnan(depth_value)):
-                    # logging.warning("Invalid depth value")
+
                     invalid_depth_value = True
                     return invalid_depth_value
 
