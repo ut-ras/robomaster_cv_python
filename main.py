@@ -22,6 +22,7 @@ def run_forever():
 	object = objectlog.objectlog()
 
 	while True:
+		start_time = time.time()
 		is_depth_invalid = False
 
 		RealSense.get_color_depth_image()
@@ -29,7 +30,8 @@ def run_forever():
 		detector.run_object_detections(RealSense, boundingbox_list)
 
 		if(len(boundingbox_list)==0):
-
+			end_time = time.time()
+			logging.debug('No detections, skipping frame: ' + str(end_time - start_time) + ' ms')
 			com.send_no_data()
 			boundingbox_list.clear()
 			continue
@@ -37,6 +39,8 @@ def run_forever():
 		is_depth_invalid = RealSense.set_all_bounding_box_depth_values(boundingbox_list)
 
 		if(is_depth_invalid):
+			end_time = time.time()
+			logging.debug('No valid depth data, skipping frame: ' + str(end_time - start_time) + ' ms')
 			com.send_no_data()
 			boundingbox_list.clear()
 			continue
