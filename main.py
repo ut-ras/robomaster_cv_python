@@ -11,7 +11,7 @@ import numpy as np
 import time
 #begin initialization
 def run_forever():
-	logging.basicConfig(filename='logging/log'+str(time.time())+'.log',encoding='utf-8',level=logging.DEBUG)
+	logging.basicConfig(filename='/home/debian/robomaster_CV/logging/log'+str(time.time())+'.log',encoding='utf-8',level=logging.DEBUG)
 	RealSense = dp.RealSense()
 	RealSense.initialize_real_sense()
 	detector = od.object_detector()
