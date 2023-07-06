@@ -22,7 +22,7 @@ def initialize_communication():
     ser.baudrate = 115200
     ser.open()
 
-color_data_size = 20
+color_data_size = 12
 
 #  * Structure of a Serial Message:
 #  * \rst
@@ -56,26 +56,23 @@ color_data_size = 20
 #  * \endrst
 #  */
 def read_message():
-    idx = 0
     while True:
         message = ser.read(color_data_size)
-        for idx in range(len(message)):
-            if(message[idx] != 0xA5):
-                continue
-            frame_head_byte = message[idx]
-            frame_data_length = message[idx+1:idx+3]
-            frame_sequence_number = message[idx+4]
-            frame_8checksum = message[idx+5]
+        if (message[0] == b'0xA5'):
+            frame_head_byte = message[0]
+            frame_data_length = message[1:3]
+            frame_sequence_number = message[3]
+            frame_8checksum = message[4]&b'0x0F'
             frame_header = FrameHeaderFormat.pack(frame_head_byte, frame_data_length, frame_sequence_number)
             compare_8checksum = crc8.checksum(frame_header)
             if(compare_8checksum != frame_8checksum):
                 continue
-            frame_message_type = message[idx+6:idx+8]
-            color_data = message[idx+9]
+            frame_message_type = message[5:7]
+            color_data = message[7]
             MessageNoCRC16Format = struct.Struct('<{}sBH{}s'.format(FrameHeaderFormat.size, frame_data_length))
             message_no_crc16 = MessageNoCRC16Format.pack(frame_header, frame_8checksum, frame_message_type, color_data)
             crc16_checksum = crc16.checksum(message_no_crc16)
-            frame_16checksum = message[idx+10:idx+12]
+            frame_16checksum = message[8:10]
             if(frame_16checksum != crc16_checksum):
                 continue
             return color_data
