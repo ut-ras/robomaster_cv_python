@@ -50,6 +50,7 @@ class object_detector:
 		CONFIDENCE_THRESHOLD = 0.15
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
+		out_of_bounds = 0.0
 
 		for i in range(output_count):
 			#x1, y1 coordinates for upper left corner of bounding box
@@ -58,14 +59,14 @@ class object_detector:
 			#use these to also determine average depth measurements of bounding box
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
 
-			if confidence < CONFIDENCE_THRESHOLD:
+			if confidence < CONFIDENCE_THRESHOLD or class_idx_float == 0.0:
 				continue
 			
 			# if part of an armor plate is detected, detection coordinates
 			# are returned as a negative value. To fix, set values to 0 to avoid issues further on.
-			if x1 < 0:
+			if x1 < out_of_bounds:
 				x1 = 0.0
-			if y1 < 0:
+			if y1 < out_of_bounds:
 				y1 = 0.0
 				
 			# print("x1 ", x1)

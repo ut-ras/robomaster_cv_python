@@ -16,10 +16,20 @@ def run_forever():
 	RealSense.initialize_real_sense()
 	detector = od.object_detector()
 	detector.initialize_object_detections()
-	com.initialize_communication()
-	boundingbox_list = []
 	intrinsics = RealSense.get_intrinsics()
 	object = objectlog.objectlog()
+	com.initialize_communication()
+	
+	receive_color_data = -1
+	while(receive_color_data == -1):
+		receive_color_data = com.read_message()
+
+	
+
+
+
+	boundingbox_list = []
+
 
 	while True:
 		start_time = time.time()

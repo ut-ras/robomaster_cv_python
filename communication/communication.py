@@ -13,18 +13,51 @@ Communication.py is aimed to send information to the beaglebone. The way of doin
 # Serial communication
 ser = serial.Serial()
 
+
 """
 Initialize_communication initializes the communication port. Tentatively, the COM port is /dev/bone/ttyS4 with a baud rate of 115200 and a timeout of 0.5
 """
 def initialize_communication():
     ser.port = '/dev/ttyS4'
     ser.baudrate = 115200
-    ser.timeout = 0.5
     ser.open()
 
+color_data_size = 20
 
+#  * Structure of a Serial Message:
+#  * \rst
+#  * +-----------------+------------------------------------------------------------+
+#  * | Byte Number     | Byte Description                                           |
+#  * +=================+============================================================+
+#  * | Frame Header                                                                 |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 0               | Frame Head Byte (0xA5)                                     |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 1               | Frame Data Length, LSB                                     |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 2               | Frame Data Length, MSB                                     |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 3               | Frame Sequence Number                                      |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 4               | CRC8 of the frame, (bytes 0 - 3)                           |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 5               | Message Type, LSB                                          |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 6               | Message Type, MSB                                          |
+#  * +-----------------+------------------------------------------------------------+
+#  * | Body - Data Length bytes                                                     |
+#  * +-----------------+------------------------------------------------------------+
+#  * | Message CRC                                                                  |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 7 + Data Length | CRC16 of header and frame, LSB (bytes 0 - 6 + Data Length) |
+#  * +-----------------+------------------------------------------------------------+
+#  * | 8 + Data Length | CRC16 of header and frame, MSB                             |
+#  * +-----------------+------------------------------------------------------------+
+#  * \endrst
+#  */
 def read_message():
-    message = ser.readline()
+    message = ser.read(color_data_size)
+
     return message
 
 def send_message(data, data_format, message_type):
@@ -47,6 +80,7 @@ def send_message(data, data_format, message_type):
 # https://docs.python.org/3/library/struct.html#format-strings
 TurretDataFormat = struct.Struct("<fffffffff?")
 FrameHeaderFormat = struct.Struct("<BHB")
+ColorDataFormat = struct.Struct("<BHB")
 
 crc8config = crc.Configuration(
     width=8,
