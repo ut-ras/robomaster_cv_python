@@ -19,15 +19,7 @@ def run_forever():
 	intrinsics = RealSense.get_intrinsics()
 	object = objectlog.objectlog()
 	com.initialize_communication()
-	
-	receive_color_data = -1
-	while(receive_color_data == -1):
-		receive_color_data = com.read_message()
-
-	
-
-
-
+	color_data = com.read_message()
 	boundingbox_list = []
 
 
@@ -37,7 +29,7 @@ def run_forever():
 
 		RealSense.get_color_depth_image()
 
-		detector.run_object_detections(RealSense, boundingbox_list)
+		detector.run_object_detections(RealSense, boundingbox_list, color_data)
 
 		if(len(boundingbox_list)==0):
 			end_time = time.time()

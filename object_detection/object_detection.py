@@ -46,11 +46,12 @@ class object_detector:
 
 		print(f'Input "{self.__input_name__}": {input_type}')
 
-	def render_boxes(self, image, output, boundingbox_list):
+	def render_boxes(self, image, output, boundingbox_list, color_data):
 		CONFIDENCE_THRESHOLD = 0.15
 		assert len(output.shape) == 3
 		output_count = output.shape[1]
 		out_of_bounds = 0.0
+		color_data = float(color_data)
 
 		for i in range(output_count):
 			#x1, y1 coordinates for upper left corner of bounding box
@@ -59,7 +60,7 @@ class object_detector:
 			#use these to also determine average depth measurements of bounding box
 			x1, y1, x2, y2, confidence, class_idx_float = output[0, i, :]
 
-			if confidence < CONFIDENCE_THRESHOLD or class_idx_float == 0.0:
+			if confidence < CONFIDENCE_THRESHOLD or class_idx_float == color_data:
 				continue
 			
 			# if part of an armor plate is detected, detection coordinates
@@ -102,7 +103,7 @@ class object_detector:
 			boundingbox_list.append(bounding_box)
 		
 
-	def run_object_detections(self, RealSense, boundingbox_list):
+	def run_object_detections(self, RealSense, boundingbox_list, color_data):
 		# YOLOv5 normalizes RGB 8-bit-depth [0, 255] into [0, 1]
 		# Model trained with RGB channel order but OpenCV loads in BGR order, so reverse channels.
 
@@ -115,7 +116,7 @@ class object_detector:
 		detections, = self.__sess__.run(None, {self.__input_name__: input_data})
 
 		#for testing purposes
-		detected_target = self.render_boxes(RealSense.get_color_image(), detections[0, :, :, :], boundingbox_list)
+		detected_target = self.render_boxes(RealSense.get_color_image(), detections[0, :, :, :], boundingbox_list, color_data)
 		return detected_target
 	
 	
